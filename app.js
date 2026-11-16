@@ -3017,6 +3017,20 @@
       setHtml('.hero-copy .lead', '3rd-year Electrical &amp; Computer Engineering student and President of the INSTI Art, Design &amp; Gaming Club, I build embedded and interactive systems.<br />Passionate about game dev, game design, and everything interactive, I also dedicate time to 3D modeling in Blender.');
       setText('.hero-cta-row a.btn-primary', 'Explore electronics & demos');
       setText('#heroCvBtn', 'Generate Resume');
+      const godotBtn = document.getElementById('bougieGodotToggleBtn');
+      if (godotBtn) {
+        const isGodotOpen = document.getElementById('bougieGodotView') && !document.getElementById('bougieGodotView').classList.contains('hidden');
+        godotBtn.textContent = lang === 'en'
+          ? (isGodotOpen ? 'Back to 2.5D mini-game' : 'Play Godot 3D Game')
+          : (isGodotOpen ? 'Revenir au mini-jeu 2.5D' : 'Jouer au jeu Godot 3D');
+      }
+      const runnerGodotBtn = document.getElementById('runnerGodotToggleBtn');
+      if (runnerGodotBtn) {
+        const isRunnerOpen = document.getElementById('runnerGodotView') && !document.getElementById('runnerGodotView').classList.contains('hidden');
+        runnerGodotBtn.textContent = lang === 'en'
+          ? (isRunnerOpen ? 'Back to JS Runner' : 'Play Ninja Run (Godot)')
+          : (isRunnerOpen ? 'Revenir au mini-jeu Runner' : 'Jouer à Ninja Run (Godot)');
+      }
 
       setText('#projets .section-head-line h2', 'Projects and digital twins');
       setList('.filter-bar .filter-btn', ['All (5)', 'Electronics & IoT', 'Games & Godot', '3D Modeling']);
@@ -3100,9 +3114,79 @@
     });
   }
 
+  function wireGodotEmbed(cfg) {
+    const toggleBtn = document.getElementById(cfg.toggleBtnId);
+    const godotView = document.getElementById(cfg.viewId);
+    const arena = document.getElementById(cfg.arenaId);
+    const frame = document.getElementById(cfg.frameId);
+    const fsBtn = document.getElementById(cfg.fsBtnId);
+    if (!toggleBtn || !godotView || !arena || !frame) return;
+
+    let loaded = false;
+    toggleBtn.addEventListener('click', () => {
+      const opening = godotView.classList.contains('hidden');
+      godotView.classList.toggle('hidden', !opening);
+      arena.classList.toggle('hidden', opening);
+      const isEn = document.documentElement.lang === 'en';
+      toggleBtn.textContent = opening
+        ? (isEn ? cfg.closeEn : cfg.closeFr)
+        : (isEn ? cfg.openEn : cfg.openFr);
+      if (opening && !loaded) {
+        frame.src = encodeURI(cfg.path);
+        loaded = true;
+        showToast(isEn ? cfg.toastEn : cfg.toastFr);
+      } else if (!opening) {
+        frame.src = 'about:blank';
+        loaded = false;
+      }
+    });
+
+    if (fsBtn) {
+      fsBtn.addEventListener('click', () => {
+        if (document.fullscreenElement === frame) {
+          document.exitFullscreen().catch(() => {});
+        } else if (typeof frame.requestFullscreen === 'function') {
+          frame.requestFullscreen().catch(() => {});
+        }
+      });
+    }
+  }
+
+  function initBougieGodotEmbed() {
+    wireGodotEmbed({
+      toggleBtnId: 'bougieGodotToggleBtn',
+      viewId: 'bougieGodotView',
+      arenaId: 'heroArena',
+      frameId: 'bougieGodotFrame',
+      fsBtnId: 'bougieGodotFsBtn',
+      path: 'games/bougie/la_dernière_bougie.html',
+      openFr: 'Jouer au jeu Godot 3D',
+      openEn: 'Play Godot 3D Game',
+      closeFr: 'Revenir au mini-jeu 2.5D',
+      closeEn: 'Back to 2.5D mini-game',
+      toastFr: 'Chargement du jeu Godot 3D...',
+      toastEn: 'Loading Godot 3D Web build...'
+    });
+    wireGodotEmbed({
+      toggleBtnId: 'runnerGodotToggleBtn',
+      viewId: 'runnerGodotView',
+      arenaId: 'runnerJsArena',
+      frameId: 'runnerGodotFrame',
+      fsBtnId: 'runnerGodotFsBtn',
+      path: 'games/ninja run/ninja run.html',
+      openFr: 'Jouer à Ninja Run (Godot)',
+      openEn: 'Play Ninja Run (Godot)',
+      closeFr: 'Revenir au mini-jeu Runner',
+      closeEn: 'Back to JS Runner',
+      toastFr: 'Chargement de Ninja Run (Godot)...',
+      toastEn: 'Loading Ninja Run (Godot)...'
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const toolbarCtrl = initToolbarControls();
     initLanguageSwitcher();
+    initBougieGodotEmbed();
     initArenaWiring(toolbarCtrl);
     initHeroCanvas();
     initProjectFilters();
