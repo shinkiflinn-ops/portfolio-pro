@@ -1,519 +1,680 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Portfolio de John AYIVI - Game Developer & Tech Game Designer. Spécialisé en conception système Godot, Unity, C++, C#.">
-    <meta name="keywords"
-        content="développeur, game developer, tech game designer, game engine, godot, unity, C++, C#, portfolio">
-    <meta name="author" content="John AYIVI">
-    <title>John AYIVI | Game Developer & Tech Game Designer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John-Mary AYIVI : Systèmes embarqués, 3D et Godot</title>
+  <meta name="description" content="Portfolio de John-Mary AYIVI, étudiant en Licence 3 Génie Électrique et Informatique à Cotonou et Abomey-Calavi. Projets ESP32, domotique Blynk, Godot Engine et Blender 3D." />
+  <meta property="og:title" content="John-Mary AYIVI : Embarqué, Godot et Blender 3D" />
+  <meta property="og:description" content="Conception matérielle ESP32, télécommande et jeux sous Godot, modélisation 3D Blender." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@200;400&family=Barlow:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" async></script>
 </head>
-
 <body>
+  <!-- BARRE DE NAVIGATION PLEINE LARGEUR -->
+  <header class="navbar" id="top">
+    <div class="container nav-inner">
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#projets">Projets</a>
+        <a href="#lab3d">Atelier 3D</a>
+        <a href="#piliers">Compétences</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#projects" class="nav-link" data-en="Projects" data-fr="Projets">Projets</a>
-            <a href="#technical-breakdown" class="nav-link" data-en="Engineering" data-fr="Ingénierie">Ingénierie</a>
-            <a href="#skills" class="nav-link" data-en="Skills" data-fr="Compétences">Compétences</a>
-            <a href="#about" class="nav-link" data-en="Vision" data-fr="Vision">Vision</a>
-            <a href="#experience" class="nav-link" data-en="Experience" data-fr="Expérience">Expérience</a>
-            <a href="cv/cv.html" class="nav-link" data-en="CV" data-fr="Mon CV" target="_blank">Mon CV</a>
-            <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
-            <button id="lang-toggle" class="ui-btn lang-btn nav-lang-btn">EN / FR</button>
+      <div class="nav-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="langToggleBtn" aria-pressed="false" title="Changer la langue FR / EN">EN</button>
+        <button type="button" class="btn btn-outline btn-sm" id="soundToggleBtn" aria-pressed="false">Son : Off</button>
+        <button type="button" class="btn btn-outline btn-sm" id="debugToggleBtn" aria-pressed="false" title="Afficher le HUD technique (F3)">F3 HUD</button>
+        <span class="quest-hud num" id="questCounterBadge">Missions : 0 sur 5</span>
+        <button type="button" class="btn btn-outline btn-sm" id="openCvBtn">Aperçu CV</button>
+        <button type="button" class="btn btn-outline btn-sm" id="openCmdBtn" title="Palette rapide (Ctrl + K)">Commandes</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. HERO BANNER PLEINE LARGEUR (SANS COLONNES) -->
+    <section class="hero-band">
+      <div class="container hero-stack">
+        <div class="hero-copy">
+          <div class="availability-badge num"><span class="avail-dot" aria-hidden="true"></span>Disponible — stages · projets · opportunités</div>
+          <p class="hero-name">John-Mary AYIVI</p>
+          <h1>Électronique embarquée, robotique et game dev</h1>
+          <p class="lead">
+            Étudiant en Licence 3 Génie Électrique et Informatique et Président du Club Art, Design &amp; Gaming de l’INSTI, je conçois des systèmes embarqués et interactifs.<br />
+            Passionné de game dev, de game design et de tout ce qui touche aux expériences interactives, je m’adonne aussi à la modélisation 3D sous Blender.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#projets" class="btn btn-primary">Explorer l’électronique et les démos</a>
+            <button type="button" class="btn btn-outline" id="heroCvBtn">Générer mon CV</button>
+            <button type="button" class="btn btn-link" id="heroCopyEmailBtn" data-email="kemerdyjohn@gmail.com">
+              kemerdyjohn@gmail.com
+            </button>
+          </div>
         </div>
-    </nav>
-
-    <header>
-        <div class="header-container">
-            <div class="hero-banner">
-                <img src="image de profil.png" alt="John AYIVI Profile" class="hero-char">
-            </div>
-            <div class="header-content">
-                <h1 data-en="John AYIVI" data-fr="John AYIVI">John AYIVI</h1>
-                <h2 class="role-title" data-en="Game Developer & Tech Game Designer <small>(Systems Engineer)</small>"
-                    data-fr="Game Developer & Tech Game Designer <small>(Systems Engineer)</small>">Game Developer & Tech Game Designer <small>(Systems Engineer)</small></h2>
-                <p class="subtitle"
-                    data-en="Electrical and Computer Engineering student exploring the intersection of low-level architecture and interactive creation. My work in (Godot, C++, C#, GDScript) is driven by performance, conceptual modularity, and gameplay fluidity."
-                    data-fr="Étudiant en Génie Électrique et Informatique, j'explore l'intersection entre l'architecture bas niveau et la création interactive. Mes développements sur Godot (C++, C#, GDScript) sont orientés performance, modularité conceptuelle et fluidité de gameplay.">
-                    Étudiant en Génie Électrique et Informatique, j'explore l'intersection entre l'architecture bas
-                    niveau et la création interactive. Mes développements sur (Godot ,C++, C#, GDScript) sont orientés
-                    performance, modularité conceptuelle et fluidité de gameplay.
-                </p>
-
-                <div class="header-actions">
-                    <a href="#projects" class="ui-btn primary-btn" data-en="Discover My Approach"
-                        data-fr="Découvrir mon approche logicielle">Découvrir mon approche logicielle</a>
-                    <a href="cv/cv.html" class="ui-btn cv-btn" data-en="DOWNLOAD CV" data-fr="TÉLÉCHARGER CV"
-                        target="_blank">TÉLÉCHARGER CV</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <section id="projects">
-        <h2 class="section-title" data-en="Featured Projects" data-fr="Projets Phares">Projets Phares</h2>
-        <div class="projects-grid">
-
-            <div class="project-card case-study">
-                <div class="project-header">
-                    <h3 data-en="Flinninja: Shadow Oath" data-fr="Flinninja: Shadow Oath">Flinninja: Shadow Oath</h3>
-                    <span class="project-role" data-en="First Mobile Game (Solo Dev)"
-                        data-fr="Premier Jeu Mobile (Solo Dev)">Premier Jeu Mobile (Solo Dev)</span>
-                </div>
-
-                <div class="project-carousel">
-                    <img src="FlinninjaGame.png" alt="Flinninja Hero Image" loading="lazy">
-                    <img src="Flinninja.png" alt="Flinninja Screenshot" loading="lazy">
-                </div>
-
-                <div class="project-stack">
-                    <span class="tech-badge">Godot 4</span>
-                    <span class="tech-badge">Mobile Game</span>
-                    <span class="tech-badge">UI/UX</span>
-                </div>
-
-                <p class="project-pitch"
-                    data-en="My very first mobile game project. An action game featuring a ninja in a dark and immersive world, focused on mobile gameplay optimization, level design, and tactile feedback."
-                    data-fr="Mon tout premier jeu mobile. Un jeu d'action mettant en scène un ninja dans un univers sombre et immersif, pensé pour l'ergonomie des contrôles tactiles et l'optimisation mobile.">
-                    Mon tout premier jeu mobile. Un jeu d'action mettant en scène un ninja dans un univers sombre et immersif, pensé pour l'ergonomie des contrôles tactiles et l'optimisation mobile.</p>
-
-                <div class="project-details-list">
-                    <h4 data-en="Technical Highlights:" data-fr="Points Techniques :">Points Techniques :</h4>
-                    <ul>
-                        <li data-en="<strong>Mobile Optimization:</strong> Complex UI and UX scaling for diverse screen sizes (including 21:9 support) with responsive safe areas."
-                            data-fr="<strong>Optimisation Mobile :</strong> Mise à l'échelle complexe de l'UI/UX pour divers ratios d'écran (support 21:9) avec protection des safe areas sur mobile.">
-                            <strong>Optimisation Mobile :</strong> Mise à l'échelle complexe de l'UI/UX pour divers ratios d'écran (support 21:9) avec protection des safe areas sur mobile.
-                        </li>
-                        <li data-en="<strong>Responsive Integration:</strong> Proper texture background optimization with 'Full Rect' and 'Keep Aspect Covered' handling."
-                            data-fr="<strong>Intégration Responsive :</strong> Optimisation des textures d'arrière-plan avec la gestion stricte du 'Full Rect' et 'Keep Aspect Covered'.">
-                            <strong>Intégration Responsive :</strong> Optimisation des textures d'arrière-plan avec la gestion stricte du 'Full Rect' et 'Keep Aspect Covered'.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="project-links">
-                    <a href="https://kemerdyjohn.itch.io/flinninja" target="_blank" class="ui-btn itch-btn"
-                        data-en="Play on Itch.io" data-fr="Jouer sur Itch.io"><i class="fab fa-itch-io"></i> Jouer sur Itch.io</a>
-                </div>
-            </div>
-
-            <div class="project-card case-study">
-                <div class="project-header">
-                    <h3 data-en="First 2D Platformer" data-fr="Premier Platformer 2D">Premier Platformer 2D</h3>
-                    <span class="project-role" data-en="Solo Game Dev & Engine Logic"
-                        data-fr="Solo Game Dev & Engine Logic">Solo Game Dev & Engine Logic</span>
-                </div>
-
-                <img src="premier_platformer.png" alt="Capture d'écran du Platformer 2D" class="project-hero-img">
-
-                <div class="project-stack">
-                    <span class="tech-badge">Godot 4</span>
-                    <span class="tech-badge">GDScript</span>
-                    <span class="tech-badge">Vector Math</span>
-                </div>
-
-                <p class="project-pitch"
-                    data-en="My first 2D platformer. Focused on movement fluidity and learning core engine logic (collisions, state management)."
-                    data-fr="Mon premier platformer 2D. Focus sur la fluidité des mouvements et l'apprentissage de la logique moteur (collisions, gestion des états).">
-                    Mon premier platformer 2D. Focus sur la fluidité des mouvements et l'apprentissage de la logique
-                    moteur (collisions, gestion des états).</p>
-
-                <div class="project-details-list">
-                    <h4 data-en="Technical Highlights:" data-fr="Points Techniques :">Points Techniques :</h4>
-                    <ul>
-                        <li data-en="<strong>Dynamic Collisions:</strong> Custom 2D collision logic for smooth platforming interactions."
-                            data-fr="<strong>Collisions Dynamiques :</strong> Logique de collision 2D customisée pour des interactions fluides avec la plateforme.">
-                            <strong>Collisions Dynamiques :</strong> Logique de collision 2D customisée pour des
-                            interactions fluides avec la plateforme.
-                        </li>
-                        <li data-en="<strong>Resource Pooling:</strong> Implemented object pulling for projectiles to maintain stable memory."
-                            data-fr="<strong>Resource Pooling :</strong> Implémentation du pooling d'objets pour les projectiles afin de stabiliser la mémoire durant l'action.">
-                            <strong>Resource Pooling :</strong> Implémentation du pooling d'objets pour les projectiles
-                            afin de stabiliser la mémoire durant l'action.
-                        </li>
-                        <li data-en="<strong>Vector Math:</strong> Normalized vectors ensuring constant unit movement speed."
-                            data-fr="<strong>Vecteurs Mathématiques :</strong> Normalisation des vecteurs garantissant une vitesse de déplacement constante peu importe la vélocité directionnelle.">
-                            <strong>Vecteurs Mathématiques :</strong> Normalisation des vecteurs garantissant une
-                            vitesse de déplacement constante peu importe la vélocité directionnelle.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="project-links">
-                    <a href="https://itch.io/embed-upload/17107603?color=333333" target="_blank" class="ui-btn itch-btn"
-                        data-en="Play Build" data-fr="Jouer le Build"><i class="fab fa-itch-io"></i> Jouer le Build</a>
-                </div>
-            </div>
-
-            <div class="project-card case-study">
-                <div class="project-header">
-                    <h3 data-en="Valdoria: Echoes of Betrayal" data-fr="Valdoria: Echoes of Betrayal">Valdoria: Echoes
-                        of Betrayal</h3>
-                    <span class="project-role" data-en="Game Concept & Technical Design"
-                        data-fr="Concept & Architecture Technique">Concept & Architecture Technique</span>
-                </div>
-
-                <!-- Vidéo Preview -->
-                <div class="video-container">
-                    <video class="project-video" autoplay loop muted playsinline controls>
-                        <source src="Valdoria.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la lecture de vidéos.
-                    </video>
-                </div>
-
-                <!-- Visuels Intégrés -->
-                <div class="project-carousel">
-                    <img src="perso principal male.jpg" alt="Perso Principal Male" loading="lazy">
-                    <img src="perso principal female.png" alt="Perso Principal Female" loading="lazy">
-                    <img src="Viktor, le Maréchal d'Acier.png" alt="Viktor, le Maréchal d'Acier" loading="lazy">
-                    <img src="Iyalodé-Lyra, la Reine des Ombres.png" alt="Iyalodé-Lyra, la Reine des Ombres" loading="lazy">
-                    <img src="Mère Kalthia, la Zélatrice d'Or.png" alt="Mère Kalthia, la Zélatrice d'Or" loading="lazy">
-                    <img src="Malakor, warden of trapped souls.png" alt="Malakor, le Geôlier des Âmes" loading="lazy">
-                </div>
-
-                <div class="project-stack">
-                    <span class="tech-badge">Concept Art</span>
-                    <span class="tech-badge">Game Design</span>
-                    <span class="tech-badge">Systems Planning</span>
-                </div>
-
-                <p class="project-pitch"
-                    data-en="[CONCEPT] Ambitious 3D Action-RPG currently in the conceptualization and system design phase. Focuses on planning tactical engagement mechanics."
-                    data-fr="[CONCEPT] Action-RPG en 3D ambitieux actuellement au stade de concept et de Game Design. Le projet sert pour l'élaboration théorique des systèmes avant le développement actif.">
-                    <strong>[PROJET CONCEPTUEL]</strong> Action-RPG en 3D ambitieux actuellement au stade de concept et de Game Design. 
-                    Le but de ce projet est de planifier théoriquement tous les systèmes (combats, IA, architecture d'état) avant d'entamer la production active sur moteur.</p>
-
-                <div class="project-details-list">
-                    <h4 data-en="Planned Technical Architecture:" data-fr="Architecture Technique Planifiée :">Architecture Technique Planifiée :</h4>
-                    <ul>
-                        <li data-en="<strong>State Machine Architecture:</strong> Total separation of concerns between player state controller and animation controller (FSM Pattern)."
-                            data-fr="<strong>Architecture State Machine :</strong> Séparation totale des responsabilités entre contrôleur d'état du joueur et contrôleur d'animations (Pattern FSM).">
-                            <strong>Architecture State Machine :</strong> Séparation totale des responsabilités entre
-                            contrôleur d'état du joueur et contrôleur d'animations (Pattern FSM).
-                        </li>
-                        <li data-en="<strong>Combat & Data:</strong> Dynamic hitboxes tied to actual animation frames rather than timers for absolute precision. Persistent inventory exported externally via Dictionaries/JSON."
-                            data-fr="<strong>Combat & Data :</strong> Gestion des hitboxes dynamiques liées aux frames réelles de l'animation plutôt qu'au timer pur, offrant plus de précision. Inventaire persistant externalisé en dict/JSON.">
-                            <strong>Combat & Data :</strong> Gestion des hitboxes dynamiques liées aux frames réelles de
-                            l'animation plutôt qu'au timer pur, offrant plus de précision. Inventaire persistant
-                            externalisé en dict/JSON.
-                        </li>
-                        <li data-en="<strong>Modular AI:</strong> Programming asynchronous 'Behavior Nodes' for bosses (Patrol > Distance Analysis > Action Selection)."
-                            data-fr="<strong>IA Modulaire :</strong> Programmation de comportement Node asynchrone pour les boss (Patrouille > Analyse distance > Choix d'action).">
-                            <strong>IA Modulaire :</strong> Programmation de comportement Node asynchrone pour les boss
-                            (Patrouille > Analyse distance > Choix d'action).
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="project-links">
-                    <span class="ui-btn pending-build" style="background:#555; cursor:pointer;" data-en="In Conceptual Phase"
-                        data-fr="En phase de conception"><i class="fas fa-pencil-ruler"></i> En phase de conception</span>
-                </div>
-            </div>
-
-            <div class="project-card case-study">
-                <div class="project-header">
-                    <h3 data-en="2D Fighter Demo" data-fr="Démo Jeu de Combat 2D">Démo Jeu de Combat 2D</h3>
-                    <span class="project-role" data-en="Solo Game Dev & Engine Logic"
-                        data-fr="Solo Game Dev & Engine Logic">Solo Game Dev & Engine Logic</span>
-                </div>
-
-                <div class="project-carousel">
-                    <img src="Screenshot_2026-04-24_13-10-09.png" alt="Gameplay Combat 2D" loading="lazy">
-                    <img src="Screenshot_2026-04-24_13-00-39.png" alt="Ecran de sélection de personnage" loading="lazy">
-                </div>
-
-                <div class="project-stack">
-                    <span class="tech-badge">Godot 4</span>
-                    <span class="tech-badge">GDScript</span>
-                    <span class="tech-badge">Collision & Hitboxes</span>
-                </div>
-
-                <p class="project-pitch"
-                    data-en="A highly technical 2D fighting game prototype with a 4-character selection roster. The core focus and main programming challenge of this project was engineering a reliable and pixel-perfect collision and dynamic hitbox system."
-                    data-fr="Prototype technique d'un jeu de combat 2D intégrant un écran de sélection de 4 personnages. Le cœur de ce projet (et sa plus grande difficulté) fut l'ingénierie intégrale d'un système de collisions et de hitboxes dynamiques précis à la frame près.">
-                    Prototype technique d'un jeu de combat 2D intégrant un écran de sélection de 4 personnages. Le cœur de ce projet (et sa plus grande difficulté) fut l'ingénierie intégrale d'un système de collisions et de hitboxes dynamiques précis à la frame près.</p>
-
-                <div class="project-details-list">
-                    <h4 data-en="Technical Highlights:" data-fr="Points Techniques :">Points Techniques :</h4>
-                    <ul>
-                        <li data-en="<strong>Dynamic Hitboxes:</strong> Designed precise overlapping hurtboxes and hitboxes keyed directly to animations to prevent latency and unfair hits."
-                            data-fr="<strong>Hitboxes Dynamiques :</strong> Conception et synchronisation de hitboxes/hurtboxes calées sur chaque frame d'animation pour un calcul des impacts sans déchet visuel.">
-                            <strong>Hitboxes Dynamiques :</strong> Conception et synchronisation de hitboxes/hurtboxes calées sur chaque frame d'animation pour un calcul des impacts sans déchet visuel.
-                        </li>
-                        <li data-en="<strong>State Machine & Inputs:</strong> Advanced state management modeling seamless fighting controls and fluid player actions."
-                            data-fr="<strong>State Machine & Inputs :</strong> Architecture poussée du contrôleur du joueur garantissant la fluidité parfaite des mouvements et attaques.">
-                            <strong>State Machine & Inputs :</strong> Architecture poussée du contrôleur du joueur garantissant la fluidité parfaite des mouvements et attaques.
-                        </li>
-                        <li data-en="<strong>Character Select Roster:</strong> Global state manager tracking persistent data seamlessly from the 4-choice UI straight to the arena initialization."
-                            data-fr="<strong>Gestion de Roster :</strong> Utilisation de globales (Singletons) pour passer les données sélectionnées du menu à l'instanciation des scènes de personnages.">
-                            <strong>Gestion de Roster :</strong> Utilisation de globales (Singletons) pour passer les données sélectionnées du menu à l'instanciation des scènes de personnages.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="project-links">
-                    <span class="ui-btn pending-build" style="background:#555; cursor:pointer;" data-en="Recent Prototype"
-                        data-fr="Prototype de Gameplay"><i class="fas fa-gamepad"></i> Prototype de Gameplay</span>
-                </div>
-            </div>
-
-            <!-- Projets annexes -->
-            <div class="project-card">
-                <h3 data-en="C# Advanced Calculator" data-fr="Calculatrice Avancée C#">Calculatrice Avancée C#</h3>
-                <p data-en="Developed a robust console logic application handling operation precedence, error management, and numeric base conversions. Demonstrates clean OOP structure."
-                    data-fr="Développement d'une application console robuste gérant la précédence des opérations, la gestion des erreurs et les conversions de bases numériques. Démontre une structure orientée objet propre.">
-                    Développement d'une application console robuste gérant la précédence des opérations, la gestion des
-                    erreurs et les conversions de bases numériques. Démontre une structure orientée objet propre.</p>
-                <div class="project-stack small">
-                    <span class="tech-badge">C#</span>
-                    <span class="tech-badge">System Logic</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3 data-en="YouTube Content Management" data-fr="Création de contenu YouTube">Création de contenu
-                    YouTube</h3>
-                <p data-en="Managing an entertainment channel. Analyzed retention statistics, applied algorithmic optimization, and directed short-form content. Data-driven approach to audience engagement."
-                    data-fr="Gestion d'une chaîne de divertissement. Analyse des statistiques de rétention, optimisation algorithmique et direction de contenu court. Approche pilotée par la donnée pour l'engagement d'audience.">
-                    Gestion d'une chaîne de divertissement. Analyse des statistiques de rétention, optimisation
-                    algorithmique et direction de contenu court. Approche pilotée par la donnée pour l'engagement
-                    d'audience.</p>
-                <div class="project-stack small">
-                    <span class="tech-badge">Content Creation</span>
-                    <span class="tech-badge">Video Editing</span>
-                </div>
-            </div>
-
-
-
-        </div>
+      </div>
     </section>
 
-    <!-- SECTION: TECHNICAL BREAKDOWN -->
-    <section id="technical-breakdown">
-        <div class="section-header">
-            <i class="fas fa-code tech-icon"></i>
-            <h2 class="section-title" data-en="Technical Deep-Dive" data-fr="Analyse Technique du Code">Analyse
-                Technique du Code</h2>
-        </div>
-        <div class="tech-card">
-            <h3 data-en="8-Direction Aiming Vector Logic (Godot 4)"
-                data-fr="Logique Vectorielle : Visée 8-Directions (Godot 4)">Logique Vectorielle : Visée 8-Directions
-                (Godot 4)</h3>
-            <p data-en="Conceived and implemented a responsive aiming system. The logic relies on normalized vectors to ensure precise control mapping without exceeding standard velocity bounds."
-                data-fr="Conception et implémentation d'un système de visée ultra-réactif. La logique se base sur des vecteurs normalisés pour garantir un contrôle de précision sans excéder les limites de vélocité standards.">
-                Conception et implémentation d'un système de visée ultra-réactif. La logique se base sur des vecteurs
-                normalisés pour garantir un contrôle de précision sans excéder les limites de vélocité standards.</p>
-            <div class="code-container">
-                <pre><code>
-func _update_aim_direction() -> void:
-    var input_dir = Vector2.ZERO
-    input_dir.x = Input.get_axis("ui_left", "ui_right")
-    input_dir.y = Input.get_axis("ui_up", "ui_down")
-    
-    if input_dir == Vector2.ZERO:
-        # Fallback to the character's facing direction
-        input_dir.x = -1 if animated_sprite.flip_h else 1
-    
-    # Normalizing enforces maximum unit length of 1
-    aim_direction = input_dir.normalized()
-    gun_tip.rotation = aim_direction.angle()
-                </code></pre>
-            </div>
-            <p class="tech-note"
-                data-en="Design Note: <code>normalized()</code> prevents the common diagonal speed exploit by maintaining uniform output vector length, showcasing attention to engine mathematical constraints."
-                data-fr="Note Conceptuelle : `normalized()` empêche l'exploit classique de vitesse diagonale en unifiant le vecteur, prouvant une attention stricte aux contraintes mathématiques du moteur.">
-                <strong>Note Conceptuelle :</strong> <code>normalized()</code> empêche l'exploit classique de vitesse
-                diagonale en unifiant le vecteur, prouvant une attention stricte aux contraintes mathématiques du
-                moteur.
-            </p>
-        </div>
-    </section>
-
-    <!-- SECTION: HARDWARE & LOW-LEVEL -->
-    <section id="hardware">
-        <div class="section-header">
-            <i class="fas fa-microchip tech-icon"></i>
-            <h2 class="section-title" data-en="Hardware Architecture" data-fr="Architecture Matérielle">Architecture
-                Matérielle</h2>
-        </div>
-        <div class="hardware-grid">
-            <div class="hardware-item">
-                <i class="fas fa-memory"></i>
-                <h3 data-en="Embedded Systems & Circuits" data-fr="Systèmes Embarqués & Circuits">Systèmes Embarqués &
-                    Circuits</h3>
-                <p data-en="Built functional automation circuits for smart climate/lighting control on breadboards. Programmed Arduino logic and integrated 74LS series gates."
-                    data-fr="Conception de circuits d'automatisation fonctionnels pour le contrôle du climat/lumière sur breadboards. Programmation logique Arduino et intégration de la série 74LS.">
-                    Conception de circuits d'automatisation fonctionnels pour le contrôle du climat/lumière sur
-                    breadboards. Programmation logique Arduino et intégration de la série 74LS.</p>
-            </div>
-            <div class="hardware-item">
-                <i class="fas fa-wave-square"></i>
-                <h3 data-en="Analog Logic Engineering" data-fr="Ingénierie Analogique">Ingénierie Analogique</h3>
-                <p data-en="Designed square wave signal generators explicitly using NE555 analog timers mapped for digital synchronization (74LS90/47 display loops)."
-                    data-fr="Design de générateurs de signaux carrés utilisant explicitement des horloges NE555 synchronisées avec des boucles d'affichage numériques (74LS90/47).">
-                    Design de générateurs de signaux carrés utilisant explicitement des horloges NE555 synchronisées
-                    avec des boucles d'affichage numériques (74LS90/47).</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2 class="section-title" data-en="Technical Stack" data-fr="Stack Technologique">Stack Technologique</h2>
-        <div class="skills-grid">
-            <div class="skill-category">
-                <h3 data-en="Languages" data-fr="Langages">Langages</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">GDScript</span>
-                    <span class="skill-tag">JavaScript / HTML5</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3 data-en="Engines & Tools" data-fr="Moteurs & Outils">Moteurs & Outils</h3>
-                <div style="margin-bottom: 15px; font-size: 0.85em; color: #a1a1aa; line-height: 1.4;">
-                    <div style="margin-bottom: 6px;" data-en="<strong style='color: var(--accent-color);'>Main Engine:</strong> Godot (Expertise in GDExtension / C++ optimization)." data-fr="<strong style='color: var(--accent-color);'>Main Engine:</strong> Godot (Expertise in GDExtension / C++ optimization)."><strong style="color: var(--accent-color);">Main Engine:</strong> Godot (Expertise in GDExtension / C++ optimization).</div>
-                    <div data-en="<strong style='color: var(--accent-color);'>Industry Standard:</strong> Unity (C# Gameplay programming)." data-fr="<strong style='color: var(--accent-color);'>Industry Standard:</strong> Unity (C# Gameplay programming)."><strong style="color: var(--accent-color);">Industry Standard:</strong> Unity (C# Gameplay programming).</div>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Godot 4</span>
-                    <span class="skill-tag">Unity</span>
-                    <span class="skill-tag">Git / GitHub</span>
-                    <span class="skill-tag">Blender</span>
-                    <span class="skill-tag">DaVinci Resolve</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3 data-en="Environment & Hardware" data-fr="Environnement & Hardware">Environnement & Hardware</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Linux / Pop!_OS</span>
-                    <span class="skill-tag">Arduino Integration</span>
-                    <span class="skill-tag">Analog Circuits</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="alt-bg">
-        <h2 class="section-title" data-en="My Vision & Academic Mission" data-fr="Ma Démarche & Mon Projet">Ma Démarche
-            & Mon Projet</h2>
-        <div class="about-card">
-            <blockquote class="vision-quote"
-                data-en="&ldquo;I don't just see a game mechanic; I design the systemic CPU flow and inter-system pipeline it dictates.&rdquo;"
-                data-fr="&ldquo;Je ne vois pas seulement une mécanique de jeu ; je conçois le flux systémique CPU et le pipeline inter-systèmes qu'elle dicte.&rdquo;">
-                &ldquo;Je ne vois pas seulement une mécanique de jeu ; je conçois le flux systémique CPU et le pipeline
-                inter-systèmes qu'elle dicte.&rdquo;
-            </blockquote>
-
-            <div class="intent-content">
-                <p data-en="My understanding of Game Development is twofold: it is born from physical engineering (analog and digital circuit architecture) and transitions into algorithmic aesthetics within the engine. Managing logic gates directly translates into efficient, decoupled code structures in C++ and Godot."
-                    data-fr="Ma compréhension du Game Development est double : elle naît de l'ingénierie physique (architecture analogique et numérique sur circuits électroniques) et se transpose vers l'algorithmie et l'esthétique in-engine. Gérer des portes logiques matérielles se traduit directement par des structures de code performantes et découplées en C++ et Godot.">
-                    Ma compréhension du Game Development est double : elle naît de l'ingénierie physique (architecture
-                    analogique et numérique sur circuits électroniques) et se transpose vers l'algorithmie et
-                    l'esthétique in-engine. Gérer des portes logiques matérielles se traduit directement par des
-                    structures de code performantes et découplées en C++ et Godot.
-                </p>
-                <div class="intent-highlight">
-                    <h4 data-en="The Master's Objective" data-fr="L'Objectif de Master">L'Objectif de Master</h4>
-                    <p data-en="My immediate academic goal is to join a specialized Master’s program in Game Development to master global industry standards. This academic achievement is the foundation of a clear ambition: to acquire elite technical expertise and subsequently implant these standards back into the West African technological ecosystem by establishing an innovative development and incubation studio in Benin."
-                        data-fr="Mon objectif universitaire de court-terme est d'intégrer un Master spécialisé en Game Development au sein d'une filière sélective à dimension internationale. Mon ambition à moyen et long-terme est claire : transférer et implanter ces standards d'excellence au cœur de l'écosystème technologique ouest-africain, par la fondation d'un studio indépendant et incubateur technique au Bénin.">
-                        Mon objectif universitaire de court-terme est d'intégrer un Master spécialisé en Game
-                        Development au sein d'une filière sélective à dimension internationale. Mon ambition à moyen et
-                        long-terme est claire : transférer et implanter ces standards d'excellence au cœur de
-                        l'écosystème technologique ouest-africain, par la fondation d'un studio indépendant et
-                        incubateur technique au Bénin.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience">
-        <h2 class="section-title" data-en="Timeline" data-fr="Chronologie Cursus">Chronologie Cursus</h2>
-        <div class="experience-grid">
-            <div class="experience-item">
-                <div class="exp-date">2024 - 2026</div>
-                <h3 data-en="Electrical & Computer Engineering (L2)" data-fr="Licence Génie Électrique et Informatique">
-                    Licence Génie Électrique et Informatique</h3>
-                <h4 class="exp-org" data-en="INSTI (Benin)" data-fr="INSTI (Bénin)">INSTI (Bénin)</h4>
-                <p data-en="Studies in electrotechnics, electronics, logic design, and embedded systems architecture."
-                    data-fr="Études en électrotechnique, électronique de puissance, conception logique et architecture embarquée.">
-                    Études en électrotechnique, électronique de puissance, conception logique et architecture embarquée.
-                </p>
-            </div>
-            <div class="experience-item">
-                <div class="exp-date" data-en="2025 - Present" data-fr="2025 - Présent">2025 - Présent</div>
-                <h3 data-en="Independent Game Developer" data-fr="Game Developer Indépendant">Game Developer Indépendant
-                </h3>
-                <h4 class="exp-org" data-en="Freelance / Studio Research" data-fr="Indépendant / Itch.io">Indépendant /
-                    Itch.io</h4>
-                <p data-en="Spearheading solo development of 2D & 3D projects using Godot 4. Engineering robust game loops and system design architectures."
-                    data-fr="Développement en solo de projets 2D & 3D sous Godot 4. Ingénierie de boucles de jeu robustes et conception de systèmes isolés.">
-                    Développement en solo de projets 2D & 3D sous Godot 4. Ingénierie de boucles de jeu robustes et
-                    conception de systèmes isolés.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact-section">
-        <div class="contact-container">
-            <h2 class="section-title" data-en="Ready for the Next Challenge." data-fr="Échangeons sur l'avenir.">
-                Échangeons sur l'avenir.</h2>
-            <p class="contact-pitch"
-                data-en="I am actively preparing for the upcoming academic year and highly open to professional integration opportunities (studio or collaborations) in Tech Game Design and Gameplay Programming."
-                data-fr="Je suis activement en phase de préparation pour la rentrée académique prochaine et ouvert aux opportunités d'intégration professionnelle en Tech Game Design et Programmation Gameplay. Les discussions techniques ou académiques sont les bienvenues.">
-                Je suis activement en phase de préparation pour la rentrée académique prochaine et ouvert aux
-                opportunités d'intégration professionnelle en Tech Game Design et Programmation Gameplay. Les discussions
-                techniques ou académiques sont les bienvenues.</p>
-
-            <div class="contact-links">
-                <div class="contact-method"
-                    onclick="navigator.clipboard.writeText('kemerdyjohn@gmail.com'); alert('Email copié dans le presse-papier !');">
-                    <i class="fas fa-envelope"></i>
-                    <span class="contact-detail">kemerdyjohn@gmail.com</span>
-                    <span class="copy-hint" data-en="(Click to copy)" data-fr="(Cliquer pour copier)">(Cliquer pour
-                        copier)</span>
-                </div>
-                <a href="https://www.linkedin.com/in/john-dev88" target="_blank" class="contact-method link">
-                    <i class="fab fa-linkedin"></i>
-                    <span class="contact-detail">LinkedIn Profile</span>
-                </a>
-                <a href="https://github.com/shinkiflinn-ops" target="_blank" class="contact-method link">
-                    <i class="fab fa-github"></i>
-                    <span class="contact-detail">GitHub Profile</span>
-                </a>
-            </div>
-            <p style="margin-top:20px; font-size:14px; color:#888;" data-en="Let's build the future."
-                data-fr="Construisons le futur.">Construisons le futur.</p>
-        </div>
-    </section>
-
-    <footer>
-        <p data-en="&copy; 2026 John AYIVI. Game &amp; Embedded Systems Developer — Where code, hardware, and 3D meet."
-            data-fr="&copy; 2026 John AYIVI. Développeur Jeux Vidéo &amp; Systèmes Embarqués — Entre code, matériel et création 3D.">
-            &copy; 2026 John AYIVI. Développeur Jeux Vidéo &amp; Systèmes Embarqués — Entre code, matériel et création 3D.
-        </p>
-    </footer>
-
-    <!-- Image Expansion Modal (Maintained for Screenshots) -->
-    <div id="image-modal" class="modal">
-        <span class="close-img">&times;</span>
-        <img class="img-modal-content" id="expanded-img">
-        <div id="img-caption"></div>
+    <!-- BANDEAU DÉFILANT TECHNIQUE -->
+    <div class="tech-ticker num" aria-label="Spécialités techniques">
+      <div class="tech-ticker-track">
+        <span>ESP32 &amp; EMBARQUÉ · ROBOTIQUE GPS · IOT BLYNK · GODOT ENGINE · GDSCRIPT · BLENDER 3D · SYSTÈMES INTERACTIFS · PROTOTYPAGE · </span>
+        <span aria-hidden="true">ESP32 &amp; EMBARQUÉ · ROBOTIQUE GPS · IOT BLYNK · GODOT ENGINE · GDSCRIPT · BLENDER 3D · SYSTÈMES INTERACTIFS · PROTOTYPAGE · </span>
+      </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <!-- 2. PROJETS ET SIMULATEURS PLEINE LARGEUR (WORKBENCH SANS COLONNES) -->
+    <section class="section-band section-well grained" id="projets">
+      <div class="container">
+        <div class="section-head-line">
+          <h2>Projets et jumeaux numériques</h2>
+          <div class="filter-bar" role="group" aria-label="Filtrer les réalisations">
+            <button type="button" class="filter-btn active" data-filter="all">Tous (5)</button>
+            <button type="button" class="filter-btn" data-filter="iot">Électronique et IoT</button>
+            <button type="button" class="filter-btn" data-filter="gamedev">Jeux et Godot</button>
+            <button type="button" class="filter-btn" data-filter="3d">Modélisation 3D</button>
+          </div>
+        </div>
 
+        <div class="projects-stack">
+          <!-- PROJET 1 : ROBOT VOITURE GPS + TÉLÉCOMMANDE GODOT -->
+          <article class="project-card" data-categories="iot gamedev">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>Robot voiture GPS et télécommande Godot</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Piloter un robot mobile à distance tout en gérant les obstacles et la position GPS en temps réel.</li>
+                  <li><strong>Solution :</strong> Châssis ESP32 avec suivi de coordonnées GPS, évitement autonome par ultrasons et télécommande dédiée sous Godot Engine.</li>
+                  <li><strong>Rôle :</strong> Électronique embarquée, logique d’évitement et interface de contrôle Godot.</li>
+                </ul>
+              </div>
+              <dl class="project-specs num">
+                <div><dt>Matériel</dt><dd>ESP32, GPS, Ultrasons</dd></div>
+                <div><dt>Interface</dt><dd>Godot Engine</dd></div>
+                <div><dt>Comportement</dt><dd>Suivi GPS et évitement</dd></div>
+              </dl>
+            </div>
+
+            <div class="project-sim" data-arena="rover">
+              <div class="sim-header">
+                <div class="sim-mode-group">
+                  <button type="button" class="rover-mode-btn active" data-rover-mode="manual">Télécommande Godot</button>
+                  <button type="button" class="rover-mode-btn" data-rover-mode="gps">Suivi GPS</button>
+                  <button type="button" class="rover-mode-btn" data-rover-mode="auto">Évitement autonome</button>
+                </div>
+                <span class="sim-status num" id="roverStateBadge">Mode : Manuel Godot (ZQSD / Flèches)</span>
+              </div>
+
+              <canvas id="roverCanvas" tabindex="0" width="1160" height="300" aria-label="Simulateur radar du robot voiture ESP32 pilotable au clavier"></canvas>
+
+              <div class="sim-footer-bar">
+                <div class="rover-dpad" aria-label="Commandes manuelles du robot">
+                  <button type="button" class="dpad-btn" data-rover-dir="up">Avancer</button>
+                  <button type="button" class="dpad-btn" data-rover-dir="left">Gauche</button>
+                  <button type="button" class="dpad-btn dpad-stop" data-rover-dir="stop">Stop</button>
+                  <button type="button" class="dpad-btn" data-rover-dir="right">Droite</button>
+                  <button type="button" class="dpad-btn" data-rover-dir="down">Reculer</button>
+                </div>
+
+                <span class="sim-rule num">Clavier : ZQSD ou Flèches, Espace stop, clic piste pour cible GPS</span>
+
+                <div class="telemetry-strip num">
+                  <div><span>Latitude</span><strong id="roverLat">6.41840° N</strong></div>
+                  <div><span>Longitude</span><strong id="roverLon">2.34120° E</strong></div>
+                  <div><span>Ultrasons</span><strong id="roverUltrasonic">142 cm</strong></div>
+                  <div><span>Moteurs PWM</span><strong id="roverPwm">G:0% D:0%</strong></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 2 : MAISON INTELLIGENTE ESP32 + BLYNK -->
+          <article class="project-card" data-categories="iot">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>Maison intelligente connectée sous Blynk</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Automatiser et superviser à distance la température, l’éclairage et les accès d’un habitat.</li>
+                  <li><strong>Solution :</strong> Nœud ESP32 couplant capteurs (température, mouvement), actionneurs (servomoteur, relais, LED), écran LCD local et supervision Blynk.</li>
+                  <li><strong>Rôle :</strong> Câblage matériel, automatismes locaux et tableau de bord Blynk.</li>
+                </ul>
+              </div>
+              <dl class="project-specs num">
+                <div><dt>Contrôleur</dt><dd>ESP32 et Blynk</dd></div>
+                <div><dt>Capteurs</dt><dd>Température, mouvement</dd></div>
+                <div><dt>Actionneurs</dt><dd>Servomoteur, relais, LED, LCD</dd></div>
+              </dl>
+            </div>
+
+            <div class="project-sim" data-arena="home">
+              <div class="sim-header">
+                <label class="auto-check">
+                  <input type="checkbox" id="autoModeToggle" checked />
+                  <span>Automatisme actif (relais dès 30°C, LED sur détection de mouvement)</span>
+                </label>
+                <span class="sim-status num" id="blynkStatusBadge">Blynk connecté</span>
+              </div>
+
+              <div class="smarthome-strip">
+                <canvas id="homeCanvas" tabindex="0" width="1160" height="220" aria-label="Synoptique matériel ESP32, capteur mouvement, servomoteur et relais Blynk"></canvas>
+
+                <div class="lcd-screen num" aria-label="Afficheur LCD 16 par 2 simulé">
+                  <div class="lcd-line" id="lcdLine1">T:26C  MOV:NON  </div>
+                  <div class="lcd-line" id="lcdLine2">SRV:0  REL:OFF  </div>
+                </div>
+
+                <div class="home-slider-box">
+                  <label class="control-label" for="tempSlider">
+                    <span>Capteur température</span>
+                    <strong class="num" id="tempValue">26°C</strong>
+                  </label>
+                  <input type="range" id="tempSlider" min="18" max="42" value="26" />
+                </div>
+
+                <div class="home-switches-row">
+                  <button type="button" class="hw-btn" id="pirTriggerBtn">
+                    <span class="hw-name">Mouvement (M)</span>
+                    <span class="hw-state num" id="pirStatus">Aucun</span>
+                  </button>
+                  <button type="button" class="hw-btn" id="servoToggleBtn">
+                    <span class="hw-name">Servo (V)</span>
+                    <span class="hw-state num" id="servoAngle">0° (Fermé)</span>
+                  </button>
+                  <button type="button" class="hw-btn" id="relayToggleBtn">
+                    <span class="hw-name">Relais (R)</span>
+                    <span class="hw-state num" id="relayState">Éteint</span>
+                  </button>
+                  <button type="button" class="hw-btn" id="ledToggleBtn">
+                    <span class="hw-name">LED (L)</span>
+                    <span class="hw-state num" id="ledState">Éteinte</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 3 : LA DERNIÈRE BOUGIE (GDD + FSM + AUDIO 3 PHASES) -->
+          <article class="project-card" data-categories="gamedev 3d">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>La Dernière Bougie : survival 2.5D</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Concevoir un survival court mais tendu où l’ambiance sonore et visuelle reflète directement le danger.</li>
+                  <li><strong>Solution :</strong> Pipeline 2.5D avec bougies joueur/ennemies animées sous Blender (.glb), machine à états asynchrone et audio en 3 phases.</li>
+                  <li><strong>Rôle :</strong> Game Design Document, modélisation/animation 3D et prototypage interactif.</li>
+                </ul>
+              </div>
+              <div class="project-action-group">
+                <button type="button" class="btn btn-outline btn-sm" id="openGddModalBtn">Lire le GDD complet</button>
+                <a href="#lab3d" class="btn btn-link btn-sm">Inspecter le modèle 3D</a>
+              </div>
+            </div>
+
+            <div class="project-sim is-keyboard-active" id="heroArena" data-arena="hero">
+              <div class="stage-toolbar">
+                <div class="stage-tabs" role="tablist" aria-label="Modes d’affichage de la scène">
+                  <button type="button" class="hero-mode-btn active" data-hero-mode="flame" role="tab" aria-selected="true">Scène 2.5D</button>
+                  <button type="button" class="hero-mode-btn" data-hero-mode="telemetry" role="tab" aria-selected="false">Bus ESP32</button>
+                  <button type="button" class="hero-mode-btn" data-hero-mode="wireframe" role="tab" aria-selected="false">Maillage 3D</button>
+                </div>
+                <div class="stage-readout num">
+                  <span id="heroExpressionLabel">État joueur : Sécurité</span>
+                  <span id="heroTelemetryText">ZQSD ou Flèches pour esquiver, Espace pour sauter</span>
+                </div>
+              </div>
+
+              <canvas id="heroCanvas" tabindex="0" width="1280" height="380" aria-label="Scène jouable de La Dernière Bougie : Q et D ou Flèches pour bouger, Espace pour sauter et raviver"></canvas>
+
+              <div class="sim-footer-bar">
+                <div class="fsm-actions">
+                  <button type="button" class="btn btn-outline btn-sm" id="heroChallengeBtn">Défi survie 30s</button>
+                  <span class="sim-rule num" id="heroScoreLabel">Esquives : 0</span>
+                </div>
+                <span class="sim-rule num">Clavier : Q/D ou Flèches, Espace sauter et raviver</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 4 : RUNNER PROCÉDURAL -->
+          <article class="project-card" data-categories="gamedev">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>Runner à obstacles procéduraux</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Maintenir un défi constant sans niveaux figés ni pics de difficulté injouables.</li>
+                  <li><strong>Solution :</strong> Génération aléatoire d’obstacles sous Godot (GDScript) dont la fréquence et l’espacement s’indexent sur la vitesse.</li>
+                  <li><strong>Rôle :</strong> Game Design de la courbe de difficulté et programmation GDScript.</li>
+                </ul>
+              </div>
+              <dl class="project-specs num">
+                <div><dt>Moteur</dt><dd>Godot et GDScript</dd></div>
+                <div><dt>Mécanisme</dt><dd>Génération aléatoire</dd></div>
+                <div><dt>Difficulté</dt><dd>Indexée sur la vitesse</dd></div>
+              </dl>
+            </div>
+
+            <div class="project-sim" data-arena="runner">
+              <div class="sim-header">
+                <span class="sim-status num" id="runnerModeBadge">Mode : Démo auto (Espace pour jouer)</span>
+                <span class="sim-status num" id="runnerScoreVal">Score : 0</span>
+                <span class="sim-status num" id="runnerSpeedVal">Vitesse : 1.5x</span>
+                <span class="sim-status num" id="runnerDensityVal">Densité : Progressive</span>
+                <span class="sim-status num" id="runnerGapVal">Espacement min. : 165 px</span>
+              </div>
+              <canvas id="runnerCanvas" tabindex="0" width="1160" height="220" aria-label="Jeu Runner procédural jouable au clavier avec Espace ou Flèche Haut"></canvas>
+              <div class="sim-footer-bar">
+                <div class="fsm-actions">
+                  <button type="button" class="btn btn-outline btn-sm" id="runnerPlayBtn">Jouer au clavier</button>
+                  <button type="button" class="btn btn-outline btn-sm" id="runnerJumpBtn">Sauter (Espace)</button>
+                </div>
+                <span class="sim-rule num">Clavier : Espace / Haut / Z pour sauter, Bas / S pour retomber vite</span>
+              </div>
+              <div class="home-slider-box">
+                <label class="control-label" for="runnerSpeedSlider">
+                  <span>Ajuster la vitesse du joueur</span>
+                </label>
+                <input type="range" id="runnerSpeedSlider" min="10" max="35" value="15" />
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 5 : SNAKE REVISITÉ (GODOT / EN COURS) -->
+          <article class="project-card" data-categories="gamedev">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>Snake revisité à bonus (en cours)</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Moderniser un classique souvent monotone en ajoutant de la prise de risque et des choix tactiques.</li>
+                  <li><strong>Solution :</strong> Réécriture en GDScript sous Godot avec bonus temporaires (points dorés, bouclier mur) et rythme évolutif pour export Web HTML5.</li>
+                  <li><strong>Rôle :</strong> Game Design des bonus, code GDScript et intégration Web.</li>
+                </ul>
+              </div>
+              <div class="project-action-group">
+                <button type="button" class="btn btn-outline btn-sm" id="snakeSourceToggleBtn">Charger export Godot</button>
+              </div>
+            </div>
+
+            <div class="project-sim" data-arena="snake">
+              <div class="sim-header">
+                <span class="sim-status num" id="snakeScore">Score : 0</span>
+                <span class="sim-status num" id="snakeBest">Record : 0</span>
+                <span class="sim-status num" id="snakeActiveBonus">Bonus : Aucun</span>
+              </div>
+
+              <div id="snakeJsView" class="snake-view">
+                <canvas id="snakeCanvas" tabindex="0" width="560" height="200" aria-label="Mini jeu Snake jouable au clavier dès appui sur Flèches, ZQSD ou Espace"></canvas>
+                <div class="sim-footer-bar">
+                  <div class="snake-buttons">
+                    <button type="button" class="btn btn-outline btn-sm" id="snakeStartBtn">Jouer ou relancer</button>
+                    <button type="button" class="btn btn-outline btn-sm" id="snakePauseBtn">Pause (P)</button>
+                  </div>
+
+                  <div class="snake-mobile-pad" aria-label="Contrôles directionnels du Snake">
+                    <button type="button" class="dpad-btn snake-dpad-btn" data-snake-dir="UP">Haut</button>
+                    <button type="button" class="dpad-btn snake-dpad-btn" data-snake-dir="LEFT">Gauche</button>
+                    <button type="button" class="dpad-btn snake-dpad-btn" data-snake-dir="DOWN">Bas</button>
+                    <button type="button" class="dpad-btn snake-dpad-btn" data-snake-dir="RIGHT">Droite</button>
+                  </div>
+
+                  <span class="sim-rule num">Clavier : Flèches, ZQSD ou Espace pour démarrer, P pause. Doré : +30 pts. Cyan : Bouclier mur.</span>
+                </div>
+              </div>
+
+              <div id="snakeGodotView" class="snake-godot-view hidden">
+                <div id="snakeGodotStatus" class="godot-placeholder">
+                  <p>Emplacement prêt pour l’export Web HTML5 Godot dans <code>games/snake/index.html</code>.</p>
+                </div>
+                <iframe id="snakeGodotFrame" title="Snake Godot HTML5" class="hidden" loading="lazy"></iframe>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. RAIL HORIZONTAL : ATELIER 3D ET BLENDER (SANS COLONNES) -->
+    <section class="section-band" id="lab3d">
+      <div class="container">
+        <div class="section-head-line">
+          <h2>Modélisation Blender et prototypes 3D</h2>
+          <p class="lead">Glissez horizontalement pour parcourir les modèles 3D interactifs.</p>
+        </div>
+
+        <div class="lab-rail" role="region" aria-label="Galerie horizontale des modèles 3D">
+          <!-- Modèle 1 : La Bougie -->
+          <article class="lab-card">
+            <div class="lab-viewport lab-viewport--candle">
+              <canvas id="viewerCanvas-bougie" width="640" height="340" aria-label="Aperçu 3D interactif de La Dernière Bougie"></canvas>
+              <model-viewer id="mv-bougie" class="glb-viewer hidden" camera-controls auto-rotate autoplay environment-image="neutral" tone-mapping="aces" shadow-intensity="1.5" shadow-softness="0.6" exposure="1.25" alt="Modèle 3D La Dernière Bougie"></model-viewer>
+              <span class="viewer-hint num" aria-hidden="true">↻ Glisser 360°</span>
+              <button type="button" class="viewer-fs-btn" aria-label="Afficher La Dernière Bougie en plein écran" title="Plein écran">⛶</button>
+            </div>
+            <div class="lab-meta-bar">
+              <div class="lab-title-col">
+                <h3>La Dernière Bougie</h3>
+                <p>Deux modèles Blender (.glb) dans la même case : version joueur et bougies ennemies, avec leurs animations glTF.</p>
+              </div>
+              <div class="lab-controls-inline">
+                <button type="button" class="bougie-variant-btn active" data-variant="player" aria-pressed="true">Bougie joueur</button>
+                <button type="button" class="bougie-variant-btn" data-variant="enemy" aria-pressed="false">Bougies ennemies</button>
+                <span id="bougieAnimBar" class="lab-controls-inline"></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Modèle 2 : Phare 3D -->
+          <article class="lab-card">
+            <div class="lab-viewport lab-viewport--starry">
+              <canvas id="viewerCanvas-phare" width="640" height="340" aria-label="Aperçu 3D interactif du phare"></canvas>
+              <model-viewer id="mv-phare" class="glb-viewer hidden" camera-controls auto-rotate tone-mapping="agx" shadow-intensity="1.6" shadow-softness="0.65" exposure="0.72" field-of-view="32deg" camera-orbit="35deg 68deg 105%" min-camera-orbit="auto auto 20%" alt="Modèle 3D Phare"></model-viewer>
+              <span class="viewer-hint num" aria-hidden="true">↻ Glisser 360°</span>
+              <button type="button" class="viewer-fs-btn" aria-label="Afficher Phare 3D en plein écran" title="Plein écran">⛶</button>
+            </div>
+            <div class="lab-meta-bar">
+              <div class="lab-title-col">
+                <h3>Phare 3D</h3>
+                <p>Modélisation hard-surface sous Blender et export glTF (.glb) optimisé pour le rendu temps réel.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Modèle 3 : Pokéballs -->
+          <article class="lab-card">
+            <div class="lab-viewport lab-viewport--pokelab">
+              <canvas id="viewerCanvas-pokeball" width="640" height="340" aria-label="Aperçu 3D interactif des Pokéballs"></canvas>
+              <model-viewer id="mv-pokeball" class="glb-viewer hidden" camera-controls auto-rotate environment-image="neutral" tone-mapping="aces" shadow-intensity="1.5" shadow-softness="0.6" exposure="1.3" field-of-view="18deg" camera-orbit="25deg 72deg 50%" min-camera-orbit="auto auto 15%" alt="Modèle 3D Collection Pokéballs"></model-viewer>
+              <span class="viewer-hint num" aria-hidden="true">↻ Glisser 360°</span>
+              <button type="button" class="viewer-fs-btn" aria-label="Afficher Collection de Pokéballs en plein écran" title="Plein écran">⛶</button>
+            </div>
+            <div class="lab-meta-bar">
+              <div class="lab-title-col">
+                <h3>Collection de Pokéballs</h3>
+                <p>Modélisation hard-surface sous Blender avec travail des chanfreins et reflets métalliques.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="prototype-row">
+          <h3>Prototype Godot 3D : contrôleur et Mixamo</h3>
+          <p>
+            Contrôleur <code>CharacterBody3D</code> en GDScript intégrant double saut, dash avec cooldown, combo d’attaque, collecte de pièces et éclairage HDRI.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FEUILLE DES COMPÉTENCES EN LIGNES PLEINE LARGEUR (ZERO COLONNES) -->
+    <section class="section-band section-well grained" id="piliers">
+      <div class="container">
+        <div class="datasheet-band" aria-label="Fiche technique profil">
+          <div class="datasheet-head num">
+            <span>REF // JMA-01 · FICHE TECHNIQUE</span>
+            <span>STATUT : DISPONIBLE</span>
+          </div>
+          <dl class="datasheet-specs">
+            <div><dt>Identité</dt><dd>John-Mary AYIVI</dd></div>
+            <div><dt>Formation</dt><dd>Licence 3 Génie Électrique &amp; Informatique</dd></div>
+            <div><dt>Localisation</dt><dd>Cotonou / Abomey-Calavi</dd></div>
+            <div><dt>Leadership</dt><dd>Président — Club Art, Design &amp; Gaming (INSTI)</dd></div>
+            <div><dt>Spécialités</dt><dd>ESP32 · KiCad · Godot · Game Design · Blender 3D</dd></div>
+          </dl>
+          <div class="datasheet-counters num">
+            <span><strong>5</strong> Projets interactifs</span>
+            <span><strong>3</strong> Modèles 3D .glb</span>
+            <span><strong>3</strong> Démos jouables</span>
+          </div>
+        </div>
+
+        <h2>Quatre domaines complémentaires</h2>
+        <div class="sheet-rows">
+          <article class="sheet-row">
+            <h3>Génie électrique et embarqué</h3>
+            <p>Microcontrôleurs ESP32, schémas et routage PCB sous KiCad, simulation Proteus, automatisation PL7, capteurs GPS/ultrasons, servomoteurs, relais, écrans LCD et Blynk.</p>
+          </article>
+          <article class="sheet-row">
+            <h3>Game Design et systèmes interactifs</h3>
+            <p>Rédaction de Game Design Documents, équilibrage de gameplay, bases en design d’interface (UI), programmation GDScript sous Godot, machines à états finis et génération procédurale.</p>
+          </article>
+          <article class="sheet-row">
+            <h3>Modélisation et animation Blender</h3>
+            <p>Création de personnages et objets hard-surface, préparation pour pipeline 2.5D, animations contextuelles et export glTF (.glb).</p>
+          </article>
+          <article class="sheet-row">
+            <h3>Apprentissage en intelligence artificielle</h3>
+            <p>Démarrage actuel sur les bases de l’IA avec pour objectif de relier ces futurs modèles à la robotique ESP32 et aux comportements Godot.</p>
+          </article>
+        </div>
+
+        <div class="stack-shelf" aria-label="Langages et logiciels pratiqués">
+          <div class="stack-shelf-head">
+            <h3 class="stack-label num">Langages &amp; Logiciels pratiqués</h3>
+          </div>
+          <div class="stack-marquee" id="stackMarquee">
+            <div class="stack-marquee-track">
+              <div class="stack-marquee-group">
+                <span class="stack-tag stack-tag--lang">Python</span>
+                <span class="stack-tag stack-tag--lang">C++</span>
+                <span class="stack-tag stack-tag--lang">C#</span>
+                <span class="stack-tag stack-tag--lang">GDScript</span>
+                <span class="stack-tag">Arduino IDE</span>
+                <span class="stack-tag">Proteus</span>
+                <span class="stack-tag">KiCad</span>
+                <span class="stack-tag">PL7 (Automatisation)</span>
+                <span class="stack-tag">Godot Engine</span>
+                <span class="stack-tag">Unity</span>
+                <span class="stack-tag">Blender</span>
+                <span class="stack-tag">Visual Studio</span>
+              </div>
+              <div class="stack-marquee-group" aria-hidden="true">
+                <span class="stack-tag stack-tag--lang">Python</span>
+                <span class="stack-tag stack-tag--lang">C++</span>
+                <span class="stack-tag stack-tag--lang">C#</span>
+                <span class="stack-tag stack-tag--lang">GDScript</span>
+                <span class="stack-tag">Arduino IDE</span>
+                <span class="stack-tag">Proteus</span>
+                <span class="stack-tag">KiCad</span>
+                <span class="stack-tag">PL7 (Automatisation)</span>
+                <span class="stack-tag">Godot Engine</span>
+                <span class="stack-tag">Unity</span>
+                <span class="stack-tag">Blender</span>
+                <span class="stack-tag">Visual Studio</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 5. FOOTER COLOPHON PLEINE LARGEUR -->
+  <footer class="footer-band" id="contact">
+    <div class="container footer-colophon">
+      <p class="vision-quote">« Relier l’électronique embarquée, la 3D et le jeu vidéo pour créer des systèmes concrets et vivants. »</p>
+      <div class="footer-statement">
+        <h2>Collaborer sur un projet matériel ou logiciel</h2>
+        <p>Disponible pour vos réalisations techniques, prototypes embarqués et expériences interactives.</p>
+      </div>
+
+      <div class="footer-links-row contact-tiles">
+        <a href="https://wa.me/2290144754830" target="_blank" rel="noopener noreferrer" class="contact-tile">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2m5.81 14.08c-.24.68-1.42 1.31-1.97 1.39-.51.07-1.15.1-1.85-.12-.43-.14-.98-.32-1.69-.63-2.97-1.28-4.91-4.27-5.06-4.47-.15-.2-1.21-1.61-1.21-3.07s.77-2.18 1.04-2.48c.27-.3.59-.38.79-.38h.57c.18 0 .43-.07.67.51.24.59.84 2.04.91 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.18-.31.4-.45.54-.15.15-.3.31-.13.61.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.31 2.38 1.46.3.15.48.13.65-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.34.07.12.07.7-.17 1.38z"/></svg>
+          <span class="contact-tile-text">
+            <strong>WhatsApp</strong>
+            <small>+229 01 44 75 48 30 · Réponse rapide</small>
+          </span>
+        </a>
+
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kemerdyjohn@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-tile">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span class="contact-tile-text">
+            <strong>Gmail</strong>
+            <small>kemerdyjohn@gmail.com</small>
+          </span>
+        </a>
+
+        <a href="https://linkedin.com/in/john-dev88" target="_blank" rel="noopener noreferrer" class="contact-tile">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          <span class="contact-tile-text">
+            <strong>LinkedIn</strong>
+            <small>john-dev88</small>
+          </span>
+        </a>
+
+        <a href="https://github.com/shinkiflinn-ops" target="_blank" rel="noopener noreferrer" class="contact-tile">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          <span class="contact-tile-text">
+            <strong>GitHub</strong>
+            <small>shinkiflinn-ops</small>
+          </span>
+        </a>
+
+        <a href="https://www.tiktok.com/@johnmary1327" target="_blank" rel="noopener noreferrer" class="contact-tile">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.87a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.3z"/></svg>
+          <span class="contact-tile-text">
+            <strong>TikTok</strong>
+            <small>@johnmary1327</small>
+          </span>
+        </a>
+
+        <button type="button" class="contact-tile" id="footerCvBtn">
+          <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          <span class="contact-tile-text">
+            <strong>Télécharger le CV</strong>
+            <small>Format A4 PDF</small>
+          </span>
+        </button>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <p class="footer-meta num">© John-Mary AYIVI · Cotonou &amp; Abomey-Calavi</p>
+        <button type="button" class="btn btn-link btn-sm" id="footerCopyEmailBtn" data-email="kemerdyjohn@gmail.com">Copier l’adresse : kemerdyjohn@gmail.com</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODALE GDD : LA DERNIÈRE BOUGIE -->
+  <div class="modal-backdrop hidden" id="gddModal" role="dialog" aria-modal="true" aria-labelledby="gddModalTitle">
+    <div class="modal-dialog modal-dialog--wide">
+      <div class="modal-header">
+        <h3 id="gddModalTitle">Game Design Document : La Dernière Bougie</h3>
+        <button type="button" class="modal-close" id="closeGddBtn" aria-label="Fermer le GDD">Fermer</button>
+      </div>
+      <div class="modal-body gdd-content">
+        <div class="gdd-section">
+          <h4>1. Concept et conditions de victoire</h4>
+          <p>Le joueur incarne la dernière bougie allumée sur un gâteau d’anniversaire. Les autres bougies, déjà soufflées et jalouses, tentent de l’éteindre avant la fin de la chanson.</p>
+          <ul>
+            <li>Survivre jusqu’à la fin de la chanson : récompense maximale et seule condition qui débloque le niveau 2.</li>
+            <li>Atteindre la zone de sécurité centrale : sortie plus sûre, récompense moindre.</li>
+          </ul>
+        </div>
+        <div class="gdd-section">
+          <h4>2. Direction visuelle et états</h4>
+          <p>Vue de profil en 2D ou 2.5D. Les bougies jalouses évoluent de manière asynchrone sur trois états : Joyeuse, Triste, Méchante. Le joueur affiche Sécurité, Danger ou Réussite.</p>
+        </div>
+        <div class="gdd-section">
+          <h4>3. Mécaniques et audio en trois phases</h4>
+          <ul>
+            <li>Déplacement sur deux axes avec saut variable et ravivage en plein saut (cooldown 10 secondes, coût en flamme).</li>
+            <li>Phase 1 calme, Phase 2 au tiers de bougies méchantes, Phase 3 au dernier tiers du chrono avec passage direct Phase 1 vers Phase 3 si la Phase 2 n’a jamais démarré.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE CV A4 IMPRIMABLE -->
+  <div class="modal-backdrop hidden" id="cvModal" role="dialog" aria-modal="true" aria-labelledby="cvModalTitle">
+    <div class="modal-dialog modal-dialog--cv">
+      <div class="modal-header no-print">
+        <h3 id="cvModalTitle">Aperçu CV : Format A4</h3>
+        <div class="cv-modal-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="printCvBtn">Imprimer ou enregistrer en PDF</button>
+          <button type="button" class="modal-close" id="closeCvBtn" aria-label="Fermer l’aperçu CV">Fermer</button>
+        </div>
+      </div>
+
+      <div class="cv-sheet" id="cvSheet">
+        <header class="cv-header">
+          <div>
+            <h1>John-Mary AYIVI</h1>
+            <p class="cv-role">Étudiant en Licence 3 Génie Électrique et Informatique</p>
+            <p class="cv-tagline">Systèmes embarqués ESP32, KiCad, Game Design, Godot Engine et Blender 3D</p>
+          </div>
+          <div class="cv-contact">
+            <div>Cotonou et Abomey-Calavi, Bénin</div>
+            <div>+229 01 44 75 48 30 (WhatsApp)</div>
+            <div>kemerdyjohn@gmail.com</div>
+            <div>linkedin.com/in/john-dev88</div>
+            <div>github.com/shinkiflinn-ops</div>
+          </div>
+        </header>
+
+        <div class="cv-section">
+          <h2>Profil</h2>
+          <p>
+            Étudiant en Licence 3 Génie Électrique et Informatique et Président du Club Art, Design &amp; Gaming de l’INSTI, reliant électronique embarquée et développement logiciel interactif. Pratique sur microcontrôleurs ESP32, KiCad, robotique, domotique Blynk, moteur Godot et modélisation 3D sous Blender.
+          </p>
+        </div>
+
+        <div class="cv-section">
+          <h2>Formation et compétences</h2>
+          <p><strong>Licence 3 Génie Électrique et Informatique</strong> (en cours), Cotonou et Abomey-Calavi.</p>
+          <ul class="cv-list">
+            <li>Langages : Python, C++, C#, GDScript.</li>
+            <li>Électronique, CAO &amp; automatisation : ESP32, Arduino IDE, Proteus, KiCad, PL7, GPS, ultrasons, servomoteurs, relais, LCD, Blynk.</li>
+            <li>Temps réel, 3D &amp; développement : Godot Engine, Unity, Blender (export .glb), Visual Studio, Game Design Document.</li>
+          </ul>
+        </div>
+
+        <div class="cv-section">
+          <h2>Projets</h2>
+          <div class="cv-projects">
+            <div class="cv-item">
+              <strong>Robot voiture GPS et télécommande Godot</strong> : suivi GPS, évitement autonome par ultrasons et télécommande réalisée sous Godot.
+            </div>
+            <div class="cv-item">
+              <strong>Maison intelligente connectée</strong> : ESP32, température, mouvement, servomoteurs, relais, LED, écran LCD et supervision Blynk.
+            </div>
+            <div class="cv-item">
+              <strong>La Dernière Bougie</strong> : GDD complet, modélisation et animation 3D Blender, logique FSM et audio adaptatif en trois phases.
+            </div>
+            <div class="cv-item">
+              <strong>Runner procédural et Snake revisité (en cours)</strong> : génération d’obstacles selon la vitesse et refonte de Snake sous Godot.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMAND PALETTE -->
+  <div class="modal-backdrop hidden" id="cmdModal" role="dialog" aria-modal="true" aria-label="Palette de commandes rapides">
+    <div class="modal-dialog modal-dialog--cmd">
+      <div class="cmd-search-bar">
+        <input type="text" id="cmdInput" placeholder="Rechercher un projet, copier l’email, ouvrir le CV ou le GDD..." autocomplete="off" />
+        <button type="button" class="modal-close" id="closeCmdBtn" aria-label="Fermer">Échap</button>
+      </div>
+      <ul class="cmd-list" id="cmdList"></ul>
+    </div>
+  </div>
+
+  <aside class="debug-hud hidden num" id="debugHud" aria-live="polite">
+    <span id="debugFps">FPS : 60</span>
+    <span id="debugTheme">Thème : Ambre</span>
+    <span id="debugArena">Banc : Hero (1)</span>
+    <span id="debugAudio">Audio : Off</span>
+  </aside>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
 </html>
