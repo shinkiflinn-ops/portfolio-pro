@@ -1348,16 +1348,28 @@ input[type="range"] {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm;
+    margin: 6mm;
   }
 
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html,
   body {
-    background: var(--color-cv-paper);
-    color: var(--color-cv-ink);
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #16222c !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
+  .clock-preloader,
   .navbar,
   main,
+  footer,
+  #debugHud,
   #gddModal,
   #cmdModal,
   #toast,
@@ -1367,20 +1379,56 @@ input[type="range"] {
 
   #cvModal {
     display: block !important;
-    position: static;
-    background: transparent;
-    padding: 0;
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .modal-dialog--cv {
-    max-width: 100%;
-    max-height: none;
-    border: none;
-    background: var(--color-cv-paper);
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
   }
 
-  .cv-sheet {
-    padding: 0;
+  .cv-sheet--two-col {
+    display: grid !important;
+    grid-template-columns: 33% 67% !important;
+    width: 100% !important;
+    min-height: 280mm;
+    padding: 0 !important;
+    font-size: 11.2px !important;
+    line-height: 1.36 !important;
+  }
+
+  .cv-sidebar {
+    padding: 16px 14px !important;
+    gap: 12px !important;
+  }
+
+  .cv-main {
+    padding: 18px 20px !important;
+    gap: 10px !important;
+  }
+
+  .cv-main-head h1 {
+    font-size: 24px !important;
+  }
+
+  .cv-side-block,
+  .cv-exp-item,
+  .cv-edu-item,
+  .cv-main-sec {
+    break-inside: avoid;
   }
 }
 
@@ -1951,5 +1999,366 @@ body {
   #runnerGodotFrame {
     max-width: 100%;
     aspect-ratio: 16 / 9;
+  }
+}
+
+/* =========================================================
+   HORLOGE ARCANIQUE UMBRA × ZELDA (HYRULE ASTROLABE)
+   ========================================================= */
+.hero-band--astrolabe,
+section.section-band,
+footer.footer-band,
+.tech-ticker {
+  position: relative;
+  z-index: 1;
+}
+
+.hyrule-umbra-clock {
+  position: fixed;
+  left: calc(100vw - min(520px, 60vw) + 3vw);
+  top: 320px;
+  width: min(540px, 62vw);
+  height: min(540px, 62vw);
+  transform: translate(0, -50%) scale(1);
+  color: var(--color-accent);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.78;
+  filter: drop-shadow(0 0 24px oklch(73% 0.15 58 / 0.28));
+  transition:
+    left 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    top 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 720ms ease;
+}
+
+body.is-clock-centered .hyrule-umbra-clock {
+  opacity: 0.28;
+}
+
+.astrolabe-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.astrolabe-ring-outer {
+  transform-origin: 210px 210px;
+  animation: astrolabeSpin 75s linear infinite;
+}
+
+.astrolabe-crescent {
+  transform-origin: 210px 210px;
+  transform: rotate(var(--crescent-rot, 0deg));
+  transition: transform 140ms ease-out;
+}
+
+.astrolabe-core {
+  transform-origin: 210px 210px;
+  animation: astrolabeSpin 48s linear infinite reverse;
+}
+
+@keyframes astrolabeSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 48rem) {
+  .hyrule-umbra-clock {
+    left: calc(100vw - 240px);
+    top: 260px;
+    width: 300px;
+    height: 300px;
+    opacity: 0.38;
+  }
+
+  body.is-clock-centered .hyrule-umbra-clock {
+    opacity: 0.16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .astrolabe-ring-outer,
+  .astrolabe-core {
+    animation: none;
+  }
+  .hyrule-umbra-clock {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   CV A4 2 COLONNES (MODÈLE SIDEBAR + CONTENU)
+   ========================================================= */
+.cv-sheet--two-col {
+  display: grid;
+  grid-template-columns: 34% 66%;
+  padding: 0;
+  background: #ffffff;
+  color: #16222c;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.42;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cv-sidebar {
+  background: #1a1512;
+  color: #f4eee6;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-right: 2px solid #d98a2b;
+}
+
+.cv-side-block h2 {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f0b35e;
+  border-bottom: 1px solid rgba(240, 179, 94, 0.45);
+  padding-bottom: 4px;
+  margin: 0 0 8px 0;
+}
+
+.cv-side-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #ede6dc;
+}
+
+.cv-side-links li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cv-link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #f5c469;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+
+.cv-link-item:hover {
+  color: #ffffff;
+}
+
+.cv-ico {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #f0b35e;
+}
+
+.cv-side-bullets {
+  list-style: disc;
+  padding-left: 15px;
+}
+
+.cv-side-link {
+  font-size: 11.2px;
+  word-break: break-all;
+  margin: 0;
+}
+
+.cv-main {
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cv-main-head {
+  border-bottom: 3px solid #1a1512;
+  padding-bottom: 10px;
+}
+
+.cv-main-head h1 {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: #b86c19;
+  margin: 0 0 4px 0;
+}
+
+.cv-main-head .cv-role {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1512;
+  margin: 0;
+}
+
+.cv-main-sec h2 {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1512;
+  border-bottom: 1.5px solid #c9822c;
+  padding-bottom: 3px;
+  margin: 0 0 8px 0;
+}
+
+.cv-main-sec p {
+  font-size: 12.2px;
+  color: #24201c;
+  margin: 0;
+}
+
+.cv-exp-item {
+  margin-bottom: 10px;
+}
+
+.cv-exp-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.cv-badge {
+  background: #b86c19;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.cv-exp-item ul,
+.cv-proj-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #24303a;
+}
+
+.cv-edu-item {
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #24303a;
+}
+
+@media (max-width: 48rem) {
+  .cv-sheet--two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   ÉCRAN DE CHARGEMENT HORLOGE & FONDU D'ENTRÉE
+   ========================================================= */
+body.is-loading {
+  overflow: hidden;
+}
+
+.navbar,
+main,
+footer {
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.is-loading .navbar,
+body.is-loading main,
+body.is-loading footer {
+  opacity: 0;
+}
+
+.clock-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+  color: var(--color-accent);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 700ms ease;
+}
+
+.clock-preloader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.clock-preloader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.clock-preloader-svg {
+  width: min(420px, 78vw);
+  height: min(420px, 78vw);
+  overflow: visible;
+  filter: drop-shadow(0 0 28px oklch(73% 0.15 58 / 0.38));
+}
+
+.preloader-crescent {
+  transform-origin: 210px 210px;
+  animation: astrolabeSpin 6s linear infinite;
+}
+
+.clock-preloader-bar {
+  width: 180px;
+  height: 2px;
+  background: oklch(73% 0.15 58 / 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.clock-preloader-bar span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left center;
+  animation: clockLoaderWait 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.clock-preloader.is-ready .clock-preloader-bar span {
+  animation: none;
+  transform: scaleX(1);
+  transition: transform 220ms ease-out;
+}
+
+@keyframes clockLoaderWait {
+  0% { transform: scaleX(0.05); }
+  60% { transform: scaleX(0.75); }
+  100% { transform: scaleX(0.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader-crescent,
+  .clock-preloader-bar span {
+    animation: none;
+  }
+  .clock-preloader,
+  .navbar,
+  main,
+  footer {
+    transition-duration: 150ms;
   }
 }

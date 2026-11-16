@@ -13,10 +13,67 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@200;400&family=Barlow:wght@300;400&display=swap" rel="stylesheet" />
 
+  <style>
+    body.is-loading { margin: 0; overflow: hidden; background: var(--color-bg, #0f0e0d); }
+    body.is-loading .navbar, body.is-loading main, body.is-loading footer { opacity: 0; }
+    .clock-preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      display: grid; place-items: center;
+      background: var(--color-bg, #0f0e0d);
+      color: var(--color-accent, #e09f3e);
+      transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), visibility 700ms ease;
+    }
+    .clock-preloader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+    .clock-preloader-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .clock-preloader-svg { width: min(420px, 78vw); height: min(420px, 78vw); overflow: visible; filter: drop-shadow(0 0 28px rgba(224, 159, 62, 0.36)); }
+    .clock-preloader .astrolabe-ring-outer { transform-origin: 210px 210px; animation: preloaderSpin 75s linear infinite; }
+    .clock-preloader .preloader-crescent { transform-origin: 210px 210px; animation: preloaderSpin 6s linear infinite; }
+    .clock-preloader .astrolabe-core { transform-origin: 210px 210px; animation: preloaderSpin 48s linear infinite reverse; }
+    .clock-preloader-bar { width: 180px; height: 2px; background: rgba(224, 159, 62, 0.2); border-radius: 999px; overflow: hidden; }
+    .clock-preloader-bar span { display: block; width: 100%; height: 100%; background: var(--color-accent, #e09f3e); transform-origin: left center; animation: clockLoaderWait 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .clock-preloader.is-ready .clock-preloader-bar span { animation: none; transform: scaleX(1); transition: transform 220ms ease-out; }
+    @keyframes preloaderSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes clockLoaderWait { 0% { transform: scaleX(0.05); } 60% { transform: scaleX(0.75); } 100% { transform: scaleX(0.92); } }
+  </style>
   <link rel="stylesheet" href="styles.css" />
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" async></script>
 </head>
-<body>
+<body class="is-loading">
+  <!-- ÉCRAN DE CHARGEMENT HORLOGE -->
+  <div class="clock-preloader" id="clockPreloader" aria-hidden="true">
+    <div class="clock-preloader-inner">
+      <svg viewBox="0 0 420 420" class="clock-preloader-svg">
+        <g class="astrolabe-ring-outer">
+          <circle cx="210" cy="210" r="196" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 6" opacity="0.6" />
+          <circle cx="210" cy="210" r="172" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.82" />
+          <g font-family="serif" font-size="13" fill="currentColor" text-anchor="middle" opacity="0.88">
+            <text x="210" y="34">XII</text>
+            <text x="298" y="57">I</text>
+            <text x="362" y="121">II</text>
+            <text x="386" y="215">III</text>
+            <text x="362" y="307">IV</text>
+            <text x="298" y="371">V</text>
+            <text x="210" y="396">VI</text>
+            <text x="122" y="371">VII</text>
+            <text x="58" y="307">VIII</text>
+            <text x="34" y="215">IX</text>
+            <text x="58" y="121">X</text>
+            <text x="122" y="57">XI</text>
+          </g>
+        </g>
+        <g class="preloader-crescent">
+          <path d="M272 56 A164 164 0 1 0 272 364 A118 156 0 1 1 272 56 Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+        </g>
+        <g class="astrolabe-core">
+          <polygon points="210,136 242,192 178,192" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+          <polygon points="178,192 210,248 146,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+          <polygon points="242,192 274,248 210,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+        </g>
+      </svg>
+      <div class="clock-preloader-bar"><span></span></div>
+    </div>
+  </div>
+
   <!-- BARRE DE NAVIGATION PLEINE LARGEUR -->
   <header class="navbar" id="top">
     <div class="container nav-inner">
@@ -39,8 +96,44 @@
   </header>
 
   <main>
+    <div class="hyrule-umbra-clock" id="hyruleUmbraClock" aria-hidden="true">
+      <svg viewBox="0 0 420 420" class="astrolabe-svg">
+        <!-- Anneau extérieur Umbra (horloge romaine) -->
+        <g class="astrolabe-ring-outer">
+          <circle cx="210" cy="210" r="196" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="6 6" opacity="0.55" />
+          <circle cx="210" cy="210" r="172" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.72" />
+          <g font-family="serif" font-size="13" fill="currentColor" text-anchor="middle" opacity="0.78">
+            <text x="210" y="34">XII</text>
+            <text x="298" y="57">I</text>
+            <text x="362" y="121">II</text>
+            <text x="386" y="215">III</text>
+            <text x="362" y="307">IV</text>
+            <text x="298" y="371">V</text>
+            <text x="210" y="396">VI</text>
+            <text x="122" y="371">VII</text>
+            <text x="58" y="307">VIII</text>
+            <text x="34" y="215">IX</text>
+            <text x="58" y="121">X</text>
+            <text x="122" y="57">XI</text>
+          </g>
+        </g>
+
+        <!-- Grand croissant de lune statique au repos, tourne au défilement -->
+        <g class="astrolabe-crescent">
+          <path d="M272 56 A164 164 0 1 0 272 364 A118 156 0 1 1 272 56 Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.6" opacity="0.86" />
+        </g>
+
+        <!-- Cœur Triforce rotative -->
+        <g class="astrolabe-core">
+          <polygon points="210,136 242,192 178,192" fill="currentColor" fill-opacity="0.26" stroke="currentColor" stroke-width="2" />
+          <polygon points="178,192 210,248 146,248" fill="currentColor" fill-opacity="0.26" stroke="currentColor" stroke-width="2" />
+          <polygon points="242,192 274,248 210,248" fill="currentColor" fill-opacity="0.26" stroke="currentColor" stroke-width="2" />
+        </g>
+      </svg>
+    </div>
+
     <!-- 1. HERO BANNER PLEINE LARGEUR (SANS COLONNES) -->
-    <section class="hero-band">
+    <section class="hero-band hero-band--astrolabe">
       <div class="container hero-stack">
         <div class="hero-copy">
           <div class="availability-badge num"><span class="avail-dot" aria-hidden="true"></span>Disponible — stages · projets · opportunités</div>
@@ -483,6 +576,7 @@
                 <span class="stack-tag stack-tag--lang">C++</span>
                 <span class="stack-tag stack-tag--lang">C#</span>
                 <span class="stack-tag stack-tag--lang">GDScript</span>
+                <span class="stack-tag stack-tag--lang">POO</span>
                 <span class="stack-tag">Arduino IDE</span>
                 <span class="stack-tag">Proteus</span>
                 <span class="stack-tag">KiCad</span>
@@ -497,6 +591,7 @@
                 <span class="stack-tag stack-tag--lang">C++</span>
                 <span class="stack-tag stack-tag--lang">C#</span>
                 <span class="stack-tag stack-tag--lang">GDScript</span>
+                <span class="stack-tag stack-tag--lang">POO</span>
                 <span class="stack-tag">Arduino IDE</span>
                 <span class="stack-tag">Proteus</span>
                 <span class="stack-tag">KiCad</span>
@@ -621,55 +716,150 @@
         </div>
       </div>
 
-      <div class="cv-sheet" id="cvSheet">
-        <header class="cv-header">
-          <div>
+      <div class="cv-sheet cv-sheet--two-col" id="cvSheet">
+        <aside class="cv-sidebar">
+          <section class="cv-side-block">
+            <h2>COORDONNÉES</h2>
+            <ul class="cv-side-list cv-side-links">
+              <li>
+                <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+                <span>Cotonou / Abomey-Calavi, Bénin</span>
+              </li>
+              <li>
+                <a href="https://wa.me/2290144754830" target="_blank" rel="noopener noreferrer" class="cv-link-item">
+                  <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2z"/></svg>
+                  <span>+229 01 44 75 48 30</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kemerdyjohn@gmail.com" target="_blank" rel="noopener noreferrer" class="cv-link-item">
+                  <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  <span>kemerdyjohn@gmail.com</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/john-dev88" target="_blank" rel="noopener noreferrer" class="cv-link-item">
+                  <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                  <span>linkedin.com/in/john-dev88</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/shinkiflinn-ops" target="_blank" rel="noopener noreferrer" class="cv-link-item">
+                  <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                  <span>github.com/shinkiflinn-ops</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section class="cv-side-block">
+            <h2>LIEN PORTFOLIO</h2>
+            <a href="https://shinkiflinn-ops.github.io/portfolio-pro/" target="_blank" rel="noopener noreferrer" class="cv-link-item cv-side-link">
+              <svg class="cv-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.81 2h2.95a15.65 15.65 0 0 0 1.38 3.56A8.03 8.03 0 0 1 5.07 16zm2.95-8H5.07a8.03 8.03 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.02 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.34.16-2h4.68c.09.66.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56a15.65 15.65 0 0 0 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"/></svg>
+              <span>shinkiflinn-ops.github.io/portfolio-pro</span>
+            </a>
+          </section>
+
+          <section class="cv-side-block">
+            <h2>COMPÉTENCES</h2>
+            <ul class="cv-side-list cv-side-bullets">
+              <li><strong>Systèmes embarqués :</strong> ESP32, Arduino, capteurs (GPS, ultrasons, PIR, température), relais, servomoteurs, LCD, Blynk</li>
+              <li><strong>Programmation :</strong> C++, C#, Python, GDScript, Programmation Orientée Objet (POO)</li>
+              <li><strong>CAO, Simulation &amp; API :</strong> KiCad (schémas &amp; PCB), Proteus, PL7 (automatisation), Arduino IDE, Visual Studio</li>
+              <li><strong>Jeux &amp; 3D :</strong> Godot Engine, Unity, Blender (export .glb), Game Design (GDD), bases UI</li>
+              <li><strong>Transversales :</strong> Leadership (Président de club), gestion de projet, travail en équipe</li>
+            </ul>
+          </section>
+
+          <section class="cv-side-block">
+            <h2>CENTRES D’INTÉRÊT</h2>
+            <ul class="cv-side-list cv-side-bullets">
+              <li><strong>Robotique &amp; systèmes interactifs :</strong> conception matérielle et prototypage</li>
+              <li><strong>Game Design &amp; développement :</strong> mécaniques de jeu sous Godot</li>
+              <li><strong>Modélisation &amp; Animation 3D :</strong> assets sous Blender</li>
+              <li><strong>Lecture :</strong> récits, univers de fiction et game lore</li>
+            </ul>
+          </section>
+
+          <section class="cv-side-block">
+            <h2>LANGUES</h2>
+            <ul class="cv-side-list">
+              <li><strong>Français :</strong> Courant</li>
+              <li><strong>Anglais :</strong> Intermédiaire</li>
+            </ul>
+          </section>
+        </aside>
+
+        <div class="cv-main">
+          <header class="cv-main-head">
             <h1>John-Mary AYIVI</h1>
-            <p class="cv-role">Étudiant en Licence 3 Génie Électrique et Informatique</p>
-            <p class="cv-tagline">Systèmes embarqués ESP32, KiCad, Game Design, Godot Engine et Blender 3D</p>
-          </div>
-          <div class="cv-contact">
-            <div>Cotonou et Abomey-Calavi, Bénin</div>
-            <div>+229 01 44 75 48 30 (WhatsApp)</div>
-            <div>kemerdyjohn@gmail.com</div>
-            <div>linkedin.com/in/john-dev88</div>
-            <div>github.com/shinkiflinn-ops</div>
-          </div>
-        </header>
+            <p class="cv-role">Étudiant en Génie Électrique et Informatique</p>
+          </header>
 
-        <div class="cv-section">
-          <h2>Profil</h2>
-          <p>
-            Étudiant en Licence 3 Génie Électrique et Informatique et Président du Club Art, Design &amp; Gaming de l’INSTI, reliant électronique embarquée et développement logiciel interactif. Pratique sur microcontrôleurs ESP32, KiCad, robotique, domotique Blynk, moteur Godot et modélisation 3D sous Blender.
-          </p>
-        </div>
+          <section class="cv-main-sec">
+            <h2>PROFIL</h2>
+            <p>
+              Étudiant en Licence 3 Génie Électrique et Informatique (Option Électronique et Électrotechnique) à l’INSTI et Président du Club Art, Design &amp; Gaming. Passionné par les systèmes embarqués, l’automatisation (API/PL7), le Game Design et la modélisation 3D (Blender/Godot), je conçois des systèmes interactifs complets, du circuit matériel au logiciel. À la recherche d’un stage technique pour mettre ces compétences au service de projets d’ingénierie ambitieux.
+            </p>
+          </section>
 
-        <div class="cv-section">
-          <h2>Formation et compétences</h2>
-          <p><strong>Licence 3 Génie Électrique et Informatique</strong> (en cours), Cotonou et Abomey-Calavi.</p>
-          <ul class="cv-list">
-            <li>Langages : Python, C++, C#, GDScript.</li>
-            <li>Électronique, CAO &amp; automatisation : ESP32, Arduino IDE, Proteus, KiCad, PL7, GPS, ultrasons, servomoteurs, relais, LCD, Blynk.</li>
-            <li>Temps réel, 3D &amp; développement : Godot Engine, Unity, Blender (export .glb), Visual Studio, Game Design Document.</li>
-          </ul>
-        </div>
+          <section class="cv-main-sec">
+            <h2>EXPÉRIENCE</h2>
+            <div class="cv-exp-item">
+              <div class="cv-exp-top">
+                <strong>Stagiaire — ATS Formation (Accompli Technologie et Service)</strong>
+                <span class="cv-badge">2 mois</span>
+              </div>
+              <ul>
+                <li>Simulation et validation de circuits électroniques sous <strong>Proteus</strong> et <strong>réalisation de PCB</strong>.</li>
+                <li>Électronique pratique, montage et pointage d’antennes satellite en bande Ku.</li>
+              </ul>
+            </div>
 
-        <div class="cv-section">
-          <h2>Projets</h2>
-          <div class="cv-projects">
-            <div class="cv-item">
-              <strong>Robot voiture GPS et télécommande Godot</strong> : suivi GPS, évitement autonome par ultrasons et télécommande réalisée sous Godot.
+            <div class="cv-exp-item">
+              <div class="cv-exp-top">
+                <strong>Stagiaire — Pro Technology Plus</strong>
+                <span class="cv-badge">1 mois</span>
+              </div>
+              <ul>
+                <li>Simulation sous <strong>Proteus</strong>, <strong>programmation de microcontrôleurs Arduino et ESP32</strong> et <strong>prototypage</strong> matériel.</li>
+                <li>Installation et maintenance de systèmes automatiques (API) et d’équipements en énergie photovoltaïque.</li>
+              </ul>
             </div>
-            <div class="cv-item">
-              <strong>Maison intelligente connectée</strong> : ESP32, température, mouvement, servomoteurs, relais, LED, écran LCD et supervision Blynk.
+
+            <div class="cv-exp-item">
+              <div class="cv-exp-top">
+                <strong>Président — Club Art, Design &amp; Gaming (INSTI)</strong>
+                <span class="cv-badge">En cours</span>
+              </div>
+              <ul>
+                <li>Animation et coordination d’équipes étudiantes autour du Game Design, de la 3D et du développement de jeux.</li>
+              </ul>
             </div>
-            <div class="cv-item">
-              <strong>La Dernière Bougie</strong> : GDD complet, modélisation et animation 3D Blender, logique FSM et audio adaptatif en trois phases.
+          </section>
+
+          <section class="cv-main-sec">
+            <h2>PROJETS RÉALISÉS</h2>
+            <ul class="cv-proj-list">
+              <li><strong>Robot voiture GPS &amp; télécommande Godot (ESP32) :</strong> Châssis piloté par ESP32 avec suivi de coordonnées GPS, évitement autonome par ultrasons et télécommande sous Godot Engine.</li>
+              <li><strong>Maison intelligente connectée (ESP32 &amp; Blynk) :</strong> Automatisation domotique reliant capteurs (température, mouvement PIR) à des servomoteurs, relais, LED et écran LCD 16×2.</li>
+              <li><strong>Conception PCB &amp; validation Proteus (KiCad / Arduino / ESP32) :</strong> Saisie de schémas, routage de cartes électroniques sous KiCad et simulation sous Proteus avant prototypage.</li>
+              <li><strong>La Dernière Bougie (Godot 3D / Blender) :</strong> GDD complet, modélisation et animation .glb, machine à états et audio adaptatif en 3 phases.</li>
+              <li><strong>Ninja Run &amp; Snake revisité (Godot) :</strong> Génération procédurale indexée sur la vitesse et refonte de Snake à bonus en GDScript.</li>
+            </ul>
+          </section>
+
+          <section class="cv-main-sec">
+            <h2>FORMATION</h2>
+            <div class="cv-edu-item">
+              <strong>Licence 3 Génie Électrique et Informatique</strong> (Option : Électronique et Électrotechnique) · 2024 – En cours<br />
+              <span>Institut National Supérieur de Technologies Industrielles (INSTI), Lokossa</span>
             </div>
-            <div class="cv-item">
-              <strong>Runner procédural et Snake revisité (en cours)</strong> : génération d’obstacles selon la vitesse et refonte de Snake sous Godot.
+            <div class="cv-edu-item">
+              <strong>Baccalauréat Série F3</strong> · 2024<br />
+              <span>Lycée d’Amitié Sino-Béninoise d’Akassato</span>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>

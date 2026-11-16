@@ -3104,8 +3104,7 @@
       setText('#footerCopyEmailBtn', 'Copy address: kemerdyjohn@gmail.com');
 
       setText('#cvSheet h1', 'John-Mary Ayivi');
-      setText('#cvSheet .cv-role', '3rd-Year Electrical & Computer Engineering Student');
-      setText('#cvSheet .cv-tagline', 'ESP32 Embedded Systems, KiCad, Game Design, Godot Engine & Blender 3D');
+      setText('#cvSheet .cv-role', 'Electrical & Computer Engineering Student');
     }
 
     btn.addEventListener('click', () => {
@@ -3183,10 +3182,57 @@
     });
   }
 
+  function initClockPreloader() {
+    const preloader = document.getElementById('clockPreloader');
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minDuration = reduced ? 120 : 950;
+    const startTime = performance.now();
+    let done = false;
+
+    const finish = () => {
+      if (done) return;
+      done = true;
+      if (preloader) preloader.classList.add('is-ready');
+      window.setTimeout(() => {
+        document.body.classList.remove('is-loading');
+        if (preloader) preloader.classList.add('is-done');
+      }, reduced ? 40 : 180);
+    };
+
+    const scheduleFinish = () => {
+      const elapsed = performance.now() - startTime;
+      const remaining = Math.max(0, minDuration - elapsed);
+      window.setTimeout(finish, remaining);
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleFinish();
+    } else {
+      window.addEventListener('load', scheduleFinish, { once: true });
+    }
+
+    // Sécurité si une ressource externe tarde sur connexion très lente
+    window.setTimeout(finish, 8000);
+  }
+
+  function initScrollAstrolabe() {
+    const clock = document.getElementById('hyruleUmbraClock');
+    if (!clock) return;
+    function onScroll() {
+      const y = window.scrollY || 0;
+      document.body.classList.toggle('is-clock-centered', y > 40);
+      clock.style.setProperty('--crescent-rot', `${(y * 0.14).toFixed(1)}deg`);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    initClockPreloader();
     const toolbarCtrl = initToolbarControls();
     initLanguageSwitcher();
     initBougieGodotEmbed();
+    initScrollAstrolabe();
     initArenaWiring(toolbarCtrl);
     initHeroCanvas();
     initProjectFilters();
