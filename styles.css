@@ -523,7 +523,7 @@ button:disabled,
 
 .project-summon-zone {
   position: relative;
-  height: clamp(320px, 46vh, 440px);
+  height: clamp(180px, 24vh, 240px);
   width: 100%;
   pointer-events: none;
 }
@@ -544,6 +544,11 @@ button:disabled,
 
 .hyrule-umbra-clock .astrolabe-core {
   transition: opacity 180ms ease;
+}
+
+.hyrule-umbra-clock.is-clock-moving {
+  z-index: 84;
+  opacity: 0.92;
 }
 
 .hyrule-umbra-clock.is-triforce-away .astrolabe-core {
@@ -591,7 +596,7 @@ button:disabled,
 
 @media (max-width: 48rem) {
   .project-summon-zone {
-    height: clamp(180px, 28vh, 260px);
+    height: clamp(120px, 16vh, 170px);
   }
 }
 

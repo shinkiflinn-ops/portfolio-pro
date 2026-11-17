@@ -3309,12 +3309,13 @@
         const dy = targetCy - home.cy;
 
         clock.classList.remove('is-triforce-away');
+        clock.classList.add('is-clock-moving');
         gsap.set(pieces, { opacity: 0 });
 
         const tl = gsap.timeline({
           defaults: { overwrite: 'auto' },
           onComplete: () => {
-            clock.classList.remove('is-triforce-away');
+            clock.classList.remove('is-triforce-away', 'is-clock-moving');
             gsap.set(pieces, { opacity: 0 });
             gsap.set(clock, { x: 0, y: 0, rotation: 0, scale: 1 });
             if (activeTl === tl) {
@@ -3467,7 +3468,7 @@
         zones.forEach(({ zone, card }) => {
           ScrollTrigger.create({
             trigger: zone,
-            start: 'top 62%',
+            start: 'top 68%',
             onEnter: () => summonProject(zone, card),
             onLeaveBack: () => {
               // Réinitialise le projet quand on remonte au-dessus pour pouvoir rejouer l'animation en redescendant
