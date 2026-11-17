@@ -48,18 +48,18 @@
 
 :root[data-theme="amber"] {
   color-scheme: dark;
-  --color-paper: oklch(12.5% 0.008 55);
-  --color-paper-2: oklch(16% 0.009 55);
-  --color-paper-3: oklch(20.5% 0.01 55);
-  --color-ink: oklch(92% 0.012 78);
-  --color-ink-2: oklch(80% 0.012 75);
-  --color-muted: oklch(64% 0.012 65);
-  --color-rule: oklch(29% 0.01 55);
-  --color-accent: oklch(73% 0.15 58);
-  --color-accent-deep: oklch(50% 0.11 52);
-  --color-accent-ink: oklch(12.5% 0.008 55);
-  --color-focus: oklch(73% 0.15 58);
-  --grain: 0.07;
+  --color-paper: oklch(24% 0.022 58);
+  --color-paper-2: oklch(28.5% 0.024 58);
+  --color-paper-3: oklch(33% 0.026 58);
+  --color-ink: oklch(95% 0.012 78);
+  --color-ink-2: oklch(85% 0.014 75);
+  --color-muted: oklch(72% 0.015 65);
+  --color-rule: oklch(40% 0.025 58);
+  --color-accent: oklch(76% 0.155 58);
+  --color-accent-deep: oklch(54% 0.12 52);
+  --color-accent-ink: oklch(16% 0.012 55);
+  --color-focus: oklch(76% 0.155 58);
+  --grain: 0.05;
   --grain-filter: none;
 }
 
@@ -1789,20 +1789,20 @@ input[type="range"] {
   }
 }
 
-/* ARRIÈRE-PLAN DARKROOM AMBRE + GRILLE TECHNIQUE */
+/* ARRIÈRE-PLAN DARKROOM AMBRE ÉCLAIRCI + GRILLE TECHNIQUE */
 body {
   background-color: var(--color-paper);
   background-image:
-    radial-gradient(ellipse 75% 48% at 15% 6%, oklch(73% 0.15 58 / 0.17), transparent 65%),
-    radial-gradient(ellipse 65% 50% at 86% 38%, oklch(55% 0.14 45 / 0.12), transparent 65%),
-    radial-gradient(ellipse 70% 45% at 50% 92%, oklch(73% 0.15 58 / 0.11), transparent 70%),
-    repeating-linear-gradient(90deg, oklch(73% 0.15 58 / 0.055) 0 1px, transparent 1px 48px),
-    repeating-linear-gradient(0deg, oklch(73% 0.15 58 / 0.055) 0 1px, transparent 1px 48px);
+    radial-gradient(ellipse 80% 55% at 18% 8%, oklch(76% 0.155 58 / 0.26), transparent 68%),
+    radial-gradient(ellipse 70% 55% at 85% 38%, oklch(64% 0.14 48 / 0.20), transparent 68%),
+    radial-gradient(ellipse 75% 50% at 50% 90%, oklch(76% 0.155 58 / 0.18), transparent 72%),
+    repeating-linear-gradient(90deg, oklch(76% 0.155 58 / 0.09) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(0deg, oklch(76% 0.155 58 / 0.09) 0 1px, transparent 1px 48px);
   background-attachment: fixed;
 }
 
 .section-well {
-  background: oklch(15% 0.01 55 / 0.76);
+  background: oklch(26% 0.022 58 / 0.42);
 }
 
 .project-brief {
@@ -2041,15 +2041,15 @@ footer.footer-band,
   color: var(--color-accent);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.78;
-  filter: drop-shadow(0 0 24px oklch(73% 0.15 58 / 0.28));
+  opacity: 0.85;
+  filter: drop-shadow(0 0 26px oklch(76% 0.155 58 / 0.34));
   transition:
     transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
     opacity 720ms ease;
 }
 
 body.is-clock-centered .hyrule-umbra-clock {
-  opacity: 0.28;
+  opacity: 0.44;
 }
 
 .astrolabe-svg {
