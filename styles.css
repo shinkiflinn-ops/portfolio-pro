@@ -523,7 +523,7 @@ button:disabled,
 
 .project-summon-zone {
   position: relative;
-  height: clamp(260px, 42vh, 400px);
+  height: clamp(320px, 46vh, 440px);
   width: 100%;
   pointer-events: none;
 }
@@ -568,7 +568,7 @@ button:disabled,
   margin-top: -28px;
   opacity: 0;
   overflow: visible;
-  filter: drop-shadow(0 0 18px oklch(76% 0.155 58 / 0.65));
+  filter: drop-shadow(0 0 22px oklch(78% 0.16 58 / 0.85));
   will-change: transform, opacity, filter;
 }
 

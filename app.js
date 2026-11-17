@@ -3326,26 +3326,26 @@
         // ÉTAPE 1 : Extraction de l'horloge et trajet éclaté vers le centre de l'espace vide
         tl.to(triTop, {
           x: targetCx,
-          y: targetCy - 86,
+          y: targetCy - 96,
           rotation: -180,
-          scale: 1.05,
-          duration: 0.52,
+          scale: 1.15,
+          duration: 0.72,
           ease: 'power2.out'
         }, 0)
           .to(triLeft, {
-            x: targetCx - 96,
-            y: targetCy + 68,
+            x: targetCx - 108,
+            y: targetCy + 76,
             rotation: 160,
-            scale: 1.05,
-            duration: 0.52,
+            scale: 1.15,
+            duration: 0.72,
             ease: 'power2.out'
           }, 0)
           .to(triRight, {
-            x: targetCx + 96,
-            y: targetCy + 68,
+            x: targetCx + 108,
+            y: targetCy + 76,
             rotation: -160,
-            scale: 1.05,
-            duration: 0.52,
+            scale: 1.15,
+            duration: 0.72,
             ease: 'power2.out'
           }, 0);
 
@@ -3355,7 +3355,7 @@
           y: targetCy - 28,
           rotation: 0,
           scale: 1,
-          duration: 0.34,
+          duration: 0.44,
           ease: 'back.out(1.7)'
         }, 'assemble')
           .to(triLeft, {
@@ -3363,7 +3363,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.34,
+            duration: 0.44,
             ease: 'back.out(1.7)'
           }, 'assemble')
           .to(triRight, {
@@ -3371,27 +3371,27 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.34,
+            duration: 0.44,
             ease: 'back.out(1.7)'
           }, 'assemble');
 
         // Pulsation lumineuse & onde dorée une fois la Triforce réunie
         tl.add(() => {
           if (summonRing) {
-            gsap.set(summonRing, { x: targetCx, y: targetCy, scale: 0.25, opacity: 0.95 });
+            gsap.set(summonRing, { x: targetCx, y: targetCy, scale: 0.25, opacity: 0.98 });
             gsap.to(summonRing, {
-              scale: 2.7,
+              scale: 3.1,
               opacity: 0,
-              duration: 0.65,
+              duration: 0.85,
               ease: 'power2.out',
               overwrite: 'auto'
             });
           }
         }, 'invoke')
           .to(pieces, {
-            scale: 1.24,
+            scale: 1.32,
             rotation: 360,
-            duration: 0.38,
+            duration: 0.48,
             ease: 'power2.inOut',
             yoyo: true,
             repeat: 1
@@ -3403,18 +3403,18 @@
           gsap.to(card, {
             opacity: 1,
             scale: 1,
-            duration: 0.68,
+            duration: 0.82,
             ease: 'power3.out',
             overwrite: 'auto'
           });
-        }, 'invoke+=0.22');
+        }, 'invoke+=0.28');
 
         tl.to(triTop, {
           x: () => getClockSlots().top.x,
           y: () => getClockSlots().top.y,
           scale: () => getClockSlots().top.scale,
           rotation: 0,
-          duration: 0.52,
+          duration: 0.68,
           ease: 'power3.inOut'
         }, 'return')
           .to(triLeft, {
@@ -3422,7 +3422,7 @@
             y: () => getClockSlots().left.y,
             scale: () => getClockSlots().left.scale,
             rotation: 0,
-            duration: 0.52,
+            duration: 0.68,
             ease: 'power3.inOut'
           }, 'return')
           .to(triRight, {
@@ -3430,21 +3430,32 @@
             y: () => getClockSlots().right.y,
             scale: () => getClockSlots().right.scale,
             rotation: 0,
-            duration: 0.52,
+            duration: 0.68,
             ease: 'power3.inOut'
           }, 'return');
       };
 
-      zones.forEach(({ zone, card }) => {
-        ScrollTrigger.create({
-          trigger: zone,
-          start: 'top 75%',
-          onEnter: () => summonProject(zone, card),
-          onLeaveBack: () => {
-            // Permet de rejouer ou garder propre si on remonte tout en haut
-          }
+      const registerTriggers = () => {
+        zones.forEach(({ zone, card }) => {
+          ScrollTrigger.create({
+            trigger: zone,
+            start: 'top 62%',
+            onEnter: () => summonProject(zone, card),
+            onLeaveBack: () => {
+              // Réinitialise le projet quand on remonte au-dessus pour pouvoir rejouer l'animation en redescendant
+              card.dataset.summoned = '0';
+              gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.35, overwrite: 'auto' });
+            }
+          });
         });
-      });
+        ScrollTrigger.refresh();
+      };
+
+      if (document.body.classList.contains('is-loading')) {
+        window.setTimeout(registerTriggers, 1150);
+      } else {
+        registerTriggers();
+      }
 
       // Sécurité : si l'utilisateur saute directement en bas de page via une ancre
       window.addEventListener('scroll', () => {
