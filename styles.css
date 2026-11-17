@@ -537,7 +537,7 @@ button:disabled,
   will-change: opacity, transform;
 }
 
-.project-card.gsap-hidden {
+body.has-gsap-summon #projets .project-card:not(.is-summoned) {
   opacity: 0;
   transform: scale(0.95);
 }

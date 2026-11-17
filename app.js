@@ -3233,6 +3233,8 @@
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) return;
 
+    document.body.classList.add('has-gsap-summon');
+
     const clock = document.getElementById('hyruleUmbraClock');
     const triTop = document.getElementById('triPieceTop');
     const triLeft = document.getElementById('triPieceLeft');
@@ -3283,41 +3285,48 @@
       };
 
       const summonProject = (zone, card) => {
-        if (card.dataset.summoned === '1') return;
+        if (card.dataset.summoned === '1' || card.dataset.summoning === '1') return;
 
         // Gestion des interruptions si l'utilisateur scrolle rapidement
         if (activeTl) {
           activeTl.kill();
-          if (activeCard && activeCard !== card) {
+          if (activeCard && activeCard !== card && activeCard.dataset.summoned !== '1') {
             activeCard.dataset.summoned = '1';
-            gsap.to(activeCard, { opacity: 1, scale: 1, duration: 0.25, overwrite: 'auto' });
+            activeCard.dataset.summoning = '0';
+            activeCard.classList.add('is-summoned');
+            gsap.to(activeCard, { opacity: 1, scale: 1, duration: 0.28, overwrite: 'auto' });
           }
           gsap.set(pieces, { opacity: 0 });
-          clock.classList.remove('is-triforce-away');
-          gsap.set(clock, { rotation: Number(gsap.getProperty(clock, 'rotation')) % 360 });
+          clock.classList.remove('is-triforce-away', 'is-clock-moving');
+          gsap.set(clock, { rotation: 0, rotationY: 0 });
         }
 
+        card.dataset.summoning = '1';
         activeCard = card;
         const home = getClockHomeSlots();
         const zRect = zone.getBoundingClientRect();
         const vh = window.innerHeight || 800;
+        const vw = window.innerWidth || 1280;
 
         // Centre de l'espace vide juste avant le projet
         const targetCx = zRect.left + zRect.width / 2;
-        const targetCy = Math.min(vh * 0.62, Math.max(vh * 0.28, zRect.top + zRect.height * 0.55));
+        const targetCy = Math.min(vh * 0.58, Math.max(vh * 0.28, zRect.top + zRect.height * 0.55));
         const dx = targetCx - home.cx;
         const dy = targetCy - home.cy;
+        const leftSweepX = -(home.cx - Math.max(120, vw * 0.14));
 
         clock.classList.remove('is-triforce-away');
         clock.classList.add('is-clock-moving');
         gsap.set(pieces, { opacity: 0 });
+        gsap.set(clock, { transformPerspective: 1100, rotationY: 0, rotation: 0 });
 
         const tl = gsap.timeline({
           defaults: { overwrite: 'auto' },
           onComplete: () => {
             clock.classList.remove('is-triforce-away', 'is-clock-moving');
             gsap.set(pieces, { opacity: 0 });
-            gsap.set(clock, { x: 0, y: 0, rotation: 0, scale: 1 });
+            gsap.set(clock, { x: 0, y: 0, rotation: 0, rotationY: 0, scale: 1 });
+            card.dataset.summoning = '0';
             if (activeTl === tl) {
               activeTl = null;
               activeCard = null;
@@ -3326,17 +3335,18 @@
         });
         activeTl = tl;
 
-        // PHASE 1 : Toute l'horloge se déplace vers le milieu en entamant son tour complet (0 -> 180°)
+        // PHASE 1 : L'horloge va au milieu (0 -> 120°) et y dépose la Triforce
         tl.to(clock, {
           x: dx,
           y: dy,
-          rotation: 180,
-          scale: 0.68,
-          duration: 0.68,
+          rotation: 120,
+          rotationY: 120,
+          scale: 0.72,
+          duration: 0.52,
           ease: 'power2.in'
         }, 0);
 
-        // PHASE 2 : Arrivée au milieu -> l'horloge dépose la Triforce et retourne à sa place (180° -> 360°)
+        // PHASE 2 : Dépôt de la Triforce au milieu -> L'horloge file à gauche (240°) puis balaie totalement de la gauche vers la droite (360°)
         tl.add(() => {
           clock.classList.add('is-triforce-away');
           gsap.set(triTop, { x: targetCx, y: targetCy - 28, scale: 1, rotation: 0, opacity: 1 });
@@ -3345,22 +3355,32 @@
         }, 'drop');
 
         tl.to(clock, {
-          x: 0,
-          y: 0,
-          rotation: 360,
-          scale: 1,
-          duration: 0.72,
-          ease: 'power2.out',
-          onComplete: () => gsap.set(clock, { rotation: 0 })
-        }, 'drop');
+          x: leftSweepX,
+          y: dy * 0.65,
+          rotation: 240,
+          rotationY: 240,
+          scale: 0.78,
+          duration: 0.44,
+          ease: 'power1.inOut'
+        }, 'drop')
+          .to(clock, {
+            x: 0,
+            y: 0,
+            rotation: 360,
+            rotationY: 360,
+            scale: 1,
+            duration: 0.74,
+            ease: 'power2.out',
+            onComplete: () => gsap.set(clock, { rotation: 0, rotationY: 0 })
+          });
 
-        // PHASE 3 : Au milieu, la Triforce exécute son animation (éclatement, réassemblage, invocation) et révèle le projet
+        // PHASE 3 : Au milieu, la Triforce exécute son animation complète (éclatement, réassemblage, invocation)
         tl.to(triTop, {
           x: targetCx,
           y: targetCy - 92,
           rotation: -180,
           scale: 1.15,
-          duration: 0.38,
+          duration: 0.36,
           ease: 'power2.out'
         }, 'drop')
           .to(triLeft, {
@@ -3368,7 +3388,7 @@
             y: targetCy + 72,
             rotation: 160,
             scale: 1.15,
-            duration: 0.38,
+            duration: 0.36,
             ease: 'power2.out'
           }, 'drop')
           .to(triRight, {
@@ -3376,7 +3396,7 @@
             y: targetCy + 72,
             rotation: -160,
             scale: 1.15,
-            duration: 0.38,
+            duration: 0.36,
             ease: 'power2.out'
           }, 'drop');
 
@@ -3385,7 +3405,7 @@
           y: targetCy - 28,
           rotation: 0,
           scale: 1,
-          duration: 0.34,
+          duration: 0.32,
           ease: 'back.out(1.7)'
         }, 'assemble')
           .to(triLeft, {
@@ -3393,7 +3413,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.34,
+            duration: 0.32,
             ease: 'back.out(1.7)'
           }, 'assemble')
           .to(triRight, {
@@ -3401,7 +3421,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.34,
+            duration: 0.32,
             ease: 'back.out(1.7)'
           }, 'assemble');
 
@@ -3411,7 +3431,7 @@
             gsap.to(summonRing, {
               scale: 3.1,
               opacity: 0,
-              duration: 0.8,
+              duration: 0.72,
               ease: 'power2.out',
               overwrite: 'auto'
             });
@@ -3420,60 +3440,62 @@
           .to(pieces, {
             scale: 1.3,
             rotation: 360,
-            duration: 0.44,
+            duration: 0.4,
             ease: 'power2.inOut',
             yoyo: true,
             repeat: 1
           }, 'invoke');
 
+        // PHASE 4 : Le projet n'apparaît QU'APRÈS la fin de l'animation Triforce, puis la Triforce retourne dans l'horloge
         tl.add(() => {
           card.dataset.summoned = '1';
+          card.classList.add('is-summoned');
           gsap.to(card, {
             opacity: 1,
             scale: 1,
-            duration: 0.78,
+            duration: 0.65,
             ease: 'power3.out',
             overwrite: 'auto'
           });
-        }, 'invoke+=0.24');
+        }, 'invoke+=0.65');
 
-        // PHASE 4 : Une fois terminée, la Triforce retourne à la place où l'horloge est revenue
         tl.to(triTop, {
           x: () => getClockHomeSlots().top.x,
           y: () => getClockHomeSlots().top.y,
           scale: () => getClockHomeSlots().top.scale,
           rotation: 0,
-          duration: 0.64,
+          duration: 0.56,
           ease: 'power3.inOut'
-        }, 'return')
+        }, 'invoke+=0.65')
           .to(triLeft, {
             x: () => getClockHomeSlots().left.x,
             y: () => getClockHomeSlots().left.y,
             scale: () => getClockHomeSlots().left.scale,
             rotation: 0,
-            duration: 0.64,
+            duration: 0.56,
             ease: 'power3.inOut'
-          }, 'return')
+          }, 'invoke+=0.65')
           .to(triRight, {
             x: () => getClockHomeSlots().right.x,
             y: () => getClockHomeSlots().right.y,
             scale: () => getClockHomeSlots().right.scale,
             rotation: 0,
-            duration: 0.64,
+            duration: 0.56,
             ease: 'power3.inOut'
-          }, 'return');
+          }, 'invoke+=0.65');
       };
 
       const registerTriggers = () => {
         zones.forEach(({ zone, card }) => {
           ScrollTrigger.create({
             trigger: zone,
-            start: 'top 68%',
+            start: 'top 82%',
             onEnter: () => summonProject(zone, card),
             onLeaveBack: () => {
-              // Réinitialise le projet quand on remonte au-dessus pour pouvoir rejouer l'animation en redescendant
               card.dataset.summoned = '0';
-              gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.35, overwrite: 'auto' });
+              card.dataset.summoning = '0';
+              card.classList.remove('is-summoned');
+              gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.3, overwrite: 'auto' });
             }
           });
         });
@@ -3486,12 +3508,13 @@
         registerTriggers();
       }
 
-      // Sécurité : si l'utilisateur saute directement en bas de page via une ancre
+      // Sécurité : uniquement si l'utilisateur a déjà dépassé tout le projet vers le bas (saut d'ancre)
       window.addEventListener('scroll', () => {
         zones.forEach(({ card }) => {
-          if (card.dataset.summoned === '1') return;
-          if (card.getBoundingClientRect().bottom < 0) {
+          if (card.dataset.summoned === '1' || card.dataset.summoning === '1') return;
+          if (card.getBoundingClientRect().bottom < -40) {
             card.dataset.summoned = '1';
+            card.classList.add('is-summoned');
             gsap.set(card, { opacity: 1, scale: 1 });
           }
         });
