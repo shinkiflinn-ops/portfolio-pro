@@ -2,7 +2,8 @@
 
 Portfolio interactif orienté **systèmes embarqués, robotique, game dev (Godot Engine) et modélisation 3D (Blender)**, conçu avec une esthétique **Darkroom Ambre** et un basculement instantané **FR / EN** (`John-Mary AYIVI` / `John-Mary Ayivi`).
 
-- **Site en ligne (GitHub Pages) :** https://shinkiflinn-ops.github.io/portfolio-pro/
+- **Site en ligne (Vercel) :** https://portfolio-pro-beige-ten.vercel.app/
+- **Miroir GitHub Pages :** https://shinkiflinn-ops.github.io/portfolio-pro/
 - **Auteur :** John-Mary AYIVI — Étudiant en Licence 3 Génie Électrique et Informatique (Cotonou / Abomey-Calavi) & Président du Club Art, Design & Gaming (INSTI)
 
 ---
