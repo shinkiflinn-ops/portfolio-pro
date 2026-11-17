@@ -3267,13 +3267,15 @@
       let activeTl = null;
       let activeCard = null;
 
-      // Calcule les coordonnées exactes des 3 triangles dans l'horloge fixe
-      const getClockSlots = () => {
-        const r = clock.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const s = r.width / 420;
+      // Calcule les coordonnées exactes de repos de l'horloge sur le côté droit
+      const getClockHomeSlots = () => {
+        const cx = clock.offsetLeft + clock.offsetWidth / 2;
+        const cy = clock.offsetTop + clock.offsetHeight / 2;
+        const s = clock.offsetWidth / 420;
         return {
+          cx,
+          cy,
+          scale: s,
           top: { x: cx, y: cy - 46 * s, scale: s },
           left: { x: cx - 32 * s, y: cy + 10 * s, scale: s },
           right: { x: cx + 32 * s, y: cy + 10 * s, scale: s }
@@ -3290,31 +3292,31 @@
             activeCard.dataset.summoned = '1';
             gsap.to(activeCard, { opacity: 1, scale: 1, duration: 0.25, overwrite: 'auto' });
           }
+          gsap.set(pieces, { opacity: 0 });
+          clock.classList.remove('is-triforce-away');
+          gsap.set(clock, { rotation: Number(gsap.getProperty(clock, 'rotation')) % 360 });
         }
 
         activeCard = card;
-        const startSlots = getClockSlots();
+        const home = getClockHomeSlots();
         const zRect = zone.getBoundingClientRect();
         const vh = window.innerHeight || 800;
 
         // Centre de l'espace vide juste avant le projet
         const targetCx = zRect.left + zRect.width / 2;
-        const targetCy = Math.min(vh * 0.62, Math.max(vh * 0.28, zRect.top + zRect.height * 0.58));
+        const targetCy = Math.min(vh * 0.62, Math.max(vh * 0.28, zRect.top + zRect.height * 0.55));
+        const dx = targetCx - home.cx;
+        const dy = targetCy - home.cy;
 
-        clock.classList.add('is-triforce-away');
-
-        // Si les fragments n'étaient pas déjà en vol, les placer sur l'horloge
-        if (Number(gsap.getProperty(triTop, 'opacity')) < 0.1) {
-          gsap.set(triTop, { x: startSlots.top.x, y: startSlots.top.y, scale: startSlots.top.scale, rotation: 0, opacity: 1 });
-          gsap.set(triLeft, { x: startSlots.left.x, y: startSlots.left.y, scale: startSlots.left.scale, rotation: 0, opacity: 1 });
-          gsap.set(triRight, { x: startSlots.right.x, y: startSlots.right.y, scale: startSlots.right.scale, rotation: 0, opacity: 1 });
-        }
+        clock.classList.remove('is-triforce-away');
+        gsap.set(pieces, { opacity: 0 });
 
         const tl = gsap.timeline({
           defaults: { overwrite: 'auto' },
           onComplete: () => {
             clock.classList.remove('is-triforce-away');
             gsap.set(pieces, { opacity: 0 });
+            gsap.set(clock, { x: 0, y: 0, rotation: 0, scale: 1 });
             if (activeTl === tl) {
               activeTl = null;
               activeCard = null;
@@ -3323,39 +3325,66 @@
         });
         activeTl = tl;
 
-        // ÉTAPE 1 : Extraction de l'horloge et trajet éclaté vers le centre de l'espace vide
+        // PHASE 1 : Toute l'horloge se déplace vers le milieu en entamant son tour complet (0 -> 180°)
+        tl.to(clock, {
+          x: dx,
+          y: dy,
+          rotation: 180,
+          scale: 0.68,
+          duration: 0.68,
+          ease: 'power2.in'
+        }, 0);
+
+        // PHASE 2 : Arrivée au milieu -> l'horloge dépose la Triforce et retourne à sa place (180° -> 360°)
+        tl.add(() => {
+          clock.classList.add('is-triforce-away');
+          gsap.set(triTop, { x: targetCx, y: targetCy - 28, scale: 1, rotation: 0, opacity: 1 });
+          gsap.set(triLeft, { x: targetCx - 32, y: targetCy + 28, scale: 1, rotation: 0, opacity: 1 });
+          gsap.set(triRight, { x: targetCx + 32, y: targetCy + 28, scale: 1, rotation: 0, opacity: 1 });
+        }, 'drop');
+
+        tl.to(clock, {
+          x: 0,
+          y: 0,
+          rotation: 360,
+          scale: 1,
+          duration: 0.72,
+          ease: 'power2.out',
+          onComplete: () => gsap.set(clock, { rotation: 0 })
+        }, 'drop');
+
+        // PHASE 3 : Au milieu, la Triforce exécute son animation (éclatement, réassemblage, invocation) et révèle le projet
         tl.to(triTop, {
           x: targetCx,
-          y: targetCy - 96,
+          y: targetCy - 92,
           rotation: -180,
           scale: 1.15,
-          duration: 0.72,
+          duration: 0.38,
           ease: 'power2.out'
-        }, 0)
+        }, 'drop')
           .to(triLeft, {
-            x: targetCx - 108,
-            y: targetCy + 76,
+            x: targetCx - 104,
+            y: targetCy + 72,
             rotation: 160,
             scale: 1.15,
-            duration: 0.72,
+            duration: 0.38,
             ease: 'power2.out'
-          }, 0)
+          }, 'drop')
           .to(triRight, {
-            x: targetCx + 108,
-            y: targetCy + 76,
+            x: targetCx + 104,
+            y: targetCy + 72,
             rotation: -160,
             scale: 1.15,
-            duration: 0.72,
+            duration: 0.38,
             ease: 'power2.out'
-          }, 0);
+          }, 'drop');
 
-        // ÉTAPE 2 : Assemblage au centre + Pulsation lumineuse dorée d'invocation
         tl.to(triTop, {
           x: targetCx,
           y: targetCy - 28,
           rotation: 0,
           scale: 1,
-          duration: 0.44,
+          duration: 0.34,
           ease: 'back.out(1.7)'
         }, 'assemble')
           .to(triLeft, {
@@ -3363,7 +3392,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.44,
+            duration: 0.34,
             ease: 'back.out(1.7)'
           }, 'assemble')
           .to(triRight, {
@@ -3371,66 +3400,65 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.44,
+            duration: 0.34,
             ease: 'back.out(1.7)'
           }, 'assemble');
 
-        // Pulsation lumineuse & onde dorée une fois la Triforce réunie
         tl.add(() => {
           if (summonRing) {
             gsap.set(summonRing, { x: targetCx, y: targetCy, scale: 0.25, opacity: 0.98 });
             gsap.to(summonRing, {
               scale: 3.1,
               opacity: 0,
-              duration: 0.85,
+              duration: 0.8,
               ease: 'power2.out',
               overwrite: 'auto'
             });
           }
         }, 'invoke')
           .to(pieces, {
-            scale: 1.32,
+            scale: 1.3,
             rotation: 360,
-            duration: 0.48,
+            duration: 0.44,
             ease: 'power2.inOut',
             yoyo: true,
             repeat: 1
           }, 'invoke');
 
-        // ÉTAPE 3 : Apparition du projet (opacity: 1, scale: 1) + Retour des 3 triangles dans l'horloge
         tl.add(() => {
           card.dataset.summoned = '1';
           gsap.to(card, {
             opacity: 1,
             scale: 1,
-            duration: 0.82,
+            duration: 0.78,
             ease: 'power3.out',
             overwrite: 'auto'
           });
-        }, 'invoke+=0.28');
+        }, 'invoke+=0.24');
 
+        // PHASE 4 : Une fois terminée, la Triforce retourne à la place où l'horloge est revenue
         tl.to(triTop, {
-          x: () => getClockSlots().top.x,
-          y: () => getClockSlots().top.y,
-          scale: () => getClockSlots().top.scale,
+          x: () => getClockHomeSlots().top.x,
+          y: () => getClockHomeSlots().top.y,
+          scale: () => getClockHomeSlots().top.scale,
           rotation: 0,
-          duration: 0.68,
+          duration: 0.64,
           ease: 'power3.inOut'
         }, 'return')
           .to(triLeft, {
-            x: () => getClockSlots().left.x,
-            y: () => getClockSlots().left.y,
-            scale: () => getClockSlots().left.scale,
+            x: () => getClockHomeSlots().left.x,
+            y: () => getClockHomeSlots().left.y,
+            scale: () => getClockHomeSlots().left.scale,
             rotation: 0,
-            duration: 0.68,
+            duration: 0.64,
             ease: 'power3.inOut'
           }, 'return')
           .to(triRight, {
-            x: () => getClockSlots().right.x,
-            y: () => getClockSlots().right.y,
-            scale: () => getClockSlots().right.scale,
+            x: () => getClockHomeSlots().right.x,
+            y: () => getClockHomeSlots().right.y,
+            scale: () => getClockHomeSlots().right.scale,
             rotation: 0,
-            duration: 0.68,
+            duration: 0.64,
             ease: 'power3.inOut'
           }, 'return');
       };
