@@ -3227,12 +3227,52 @@
     onScroll();
   }
 
+  function initProjectScrollFade() {
+    const cards = Array.from(document.querySelectorAll('#projets .project-card'));
+    if (!cards.length) return;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    let ticking = false;
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    function updateCards() {
+      ticking = false;
+      const vh = window.innerHeight || 800;
+      cards.forEach((card) => {
+        if (card.classList.contains('hidden')) return;
+        const rect = card.getBoundingClientRect();
+        // Entrée par le bas : de vh * 0.94 (0) vers vh * 0.56 (1)
+        const enterProg = clamp((vh * 0.94 - rect.top) / (vh * 0.38), 0, 1);
+        // Sortie par le haut : de vh * 0.46 (1) vers vh * 0.12 (0)
+        const exitProg = clamp((rect.bottom - vh * 0.12) / (vh * 0.34), 0, 1);
+        const vis = Math.min(enterProg, exitProg);
+        const opacity = (0.06 + vis * 0.94).toFixed(3);
+        const shift = ((1 - enterProg) * 18 - (1 - exitProg) * 18).toFixed(1);
+        card.style.setProperty('--project-vis', opacity);
+        card.style.setProperty('--project-shift', `${shift}px`);
+      });
+    }
+
+    function requestUpdate() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateCards);
+      }
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate, { passive: true });
+    updateCards();
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initClockPreloader();
     const toolbarCtrl = initToolbarControls();
     initLanguageSwitcher();
     initBougieGodotEmbed();
     initScrollAstrolabe();
+    initProjectScrollFade();
     initArenaWiring(toolbarCtrl);
     initHeroCanvas();
     initProjectFilters();
