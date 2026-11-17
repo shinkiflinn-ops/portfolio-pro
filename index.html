@@ -491,7 +491,23 @@
             </div>
           </article>
 
-          <!-- Modèle 2 : Phare 3D -->
+          <!-- Modèle 2 : Personnage Cartoon -->
+          <article class="lab-card">
+            <div class="lab-viewport lab-viewport--candle">
+              <canvas id="viewerCanvas-cartoon" width="640" height="340" aria-label="Aperçu 3D interactif du personnage cartoon"></canvas>
+              <model-viewer id="mv-cartoon" class="glb-viewer hidden" camera-controls auto-rotate autoplay environment-image="neutral" tone-mapping="aces" shadow-intensity="1.5" shadow-softness="0.6" exposure="1.25" alt="Modèle 3D Personnage Cartoon"></model-viewer>
+              <span class="viewer-hint num" aria-hidden="true">↻ Glisser 360°</span>
+              <button type="button" class="viewer-fs-btn" aria-label="Afficher Personnage Cartoon en grand" title="Agrandir">⛶</button>
+            </div>
+            <div class="lab-meta-bar">
+              <div class="lab-title-col">
+                <h3>Personnage Cartoon</h3>
+                <p>Modélisation de personnage stylisé sous Blender et export glTF (.glb) prêt pour le temps réel.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Modèle 3 : Phare 3D -->
           <article class="lab-card">
             <div class="lab-viewport lab-viewport--starry">
               <canvas id="viewerCanvas-phare" width="640" height="340" aria-label="Aperçu 3D interactif du phare"></canvas>
@@ -894,6 +910,22 @@
             </div>
           </section>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FENÊTRE DE JEU GODOT (AVEC CROIX POUR QUITTER) -->
+  <div class="modal-backdrop hidden" id="gameWindowModal" role="dialog" aria-modal="true" aria-labelledby="gameWindowTitle">
+    <div class="modal-dialog modal-dialog--game" id="gameWindowDialog">
+      <div class="modal-bar">
+        <span class="modal-title num" id="gameWindowTitle">Jeu Godot 4.7</span>
+        <div class="game-window-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="gameWindowExpandBtn" title="Agrandir ou réduire la fenêtre">⛶ Agrandir</button>
+          <button type="button" class="modal-close game-window-close" id="closeGameWindowBtn" aria-label="Fermer la fenêtre du jeu">✕</button>
+        </div>
+      </div>
+      <div class="game-window-stage">
+        <iframe id="gameWindowFrame" title="Fenêtre de jeu Godot" allow="autoplay"></iframe>
       </div>
     </div>
   </div>

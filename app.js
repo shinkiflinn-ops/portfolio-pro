@@ -2570,6 +2570,7 @@
 
     const configs = [
       { key: 'bougie', canvasId: 'viewerCanvas-bougie', mvId: 'mv-bougie', defaultPath: 'assets/models/bougie.glb' },
+      { key: 'cartoon', canvasId: 'viewerCanvas-cartoon', mvId: 'mv-cartoon', defaultPath: 'assets/models/cartoonpersonage.glb' },
       { key: 'phare', canvasId: 'viewerCanvas-phare', mvId: 'mv-phare', defaultPath: 'assets/models/phare.glb' },
       { key: 'pokeball', canvasId: 'viewerCanvas-pokeball', mvId: 'mv-pokeball', defaultPath: 'assets/models/pokeball.glb' }
     ];
@@ -3181,50 +3182,75 @@
   }
 
   function initBougieGodotEmbed() {
-    wireGodotEmbed({
-      toggleBtnId: 'bougieGodotToggleBtn',
-      viewId: 'bougieGodotView',
-      arenaId: 'heroArena',
-      frameId: 'bougieGodotFrame',
-      fsBtnId: 'bougieGodotFsBtn',
-      path: 'games/bougie/la_dernière_bougie.html',
-      openFr: 'Jouer au jeu Godot 3D',
-      openEn: 'Play Godot 3D Game',
-      closeFr: 'Revenir au mini-jeu 2.5D',
-      closeEn: 'Back to 2.5D mini-game',
-      toastFr: 'Chargement du jeu Godot 3D...',
-      toastEn: 'Loading Godot 3D Web build...'
-    });
-    wireGodotEmbed({
-      toggleBtnId: 'runnerGodotToggleBtn',
-      viewId: 'runnerGodotView',
-      arenaId: 'runnerJsArena',
-      frameId: 'runnerGodotFrame',
-      fsBtnId: 'runnerGodotFsBtn',
-      path: 'games/ninja run/ninja run.html',
-      openFr: 'Jouer à Ninja Run (Godot)',
-      openEn: 'Play Ninja Run (Godot)',
-      closeFr: 'Revenir à l’aperçu',
-      closeEn: 'Back to preview',
-      toastFr: 'Chargement de Ninja Run (Godot)...',
-      toastEn: 'Loading Ninja Run (Godot)...'
-    });
+    const gameModal = document.getElementById('gameWindowModal');
+    const gameDialog = document.getElementById('gameWindowDialog');
+    const gameTitle = document.getElementById('gameWindowTitle');
+    const gameFrame = document.getElementById('gameWindowFrame');
+    const closeGameBtn = document.getElementById('closeGameWindowBtn');
+    const expandGameBtn = document.getElementById('gameWindowExpandBtn');
 
-    const quickLaunch = document.getElementById('runnerQuickLaunchBtn');
-    const runnerToggle = document.getElementById('runnerGodotToggleBtn');
-    if (quickLaunch && runnerToggle) {
-      quickLaunch.addEventListener('click', () => {
-        runnerToggle.click();
-        completeMission('runner', 'Ninja Run (Godot)');
+    function closeGameWindow() {
+      if (!gameModal) return;
+      gameModal.classList.add('hidden');
+      if (gameDialog) gameDialog.classList.remove('is-expanded');
+      if (expandGameBtn) expandGameBtn.textContent = '⛶ Agrandir';
+      if (gameFrame) gameFrame.src = 'about:blank';
+    }
+
+    function openGameWindow(title, path, toastMsg) {
+      if (!gameModal || !gameFrame) return;
+      if (gameTitle) gameTitle.textContent = title;
+      if (gameDialog) gameDialog.classList.remove('is-expanded');
+      if (expandGameBtn) expandGameBtn.textContent = '⛶ Agrandir';
+      gameFrame.src = encodeURI(path);
+      gameModal.classList.remove('hidden');
+      if (toastMsg) showToast(toastMsg);
+    }
+
+    if (closeGameBtn) closeGameBtn.addEventListener('click', closeGameWindow);
+    if (gameModal) {
+      gameModal.addEventListener('click', (e) => {
+        if (e.target === gameModal) closeGameWindow();
       });
     }
-    if (runnerToggle) {
-      runnerToggle.addEventListener('click', () => completeMission('runner', 'Ninja Run (Godot)'));
+    if (expandGameBtn && gameDialog) {
+      expandGameBtn.addEventListener('click', () => {
+        const expanded = gameDialog.classList.toggle('is-expanded');
+        expandGameBtn.textContent = expanded ? '✕ Quitter le grand format' : '⛶ Agrandir';
+      });
     }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && gameModal && !gameModal.classList.contains('hidden')) {
+        closeGameWindow();
+      }
+    });
+
     const bougieToggle = document.getElementById('bougieGodotToggleBtn');
     if (bougieToggle) {
-      bougieToggle.addEventListener('click', () => completeMission('bougie', 'La Dernière Bougie (Godot 3D)'));
+      bougieToggle.addEventListener('click', () => {
+        const isEn = document.documentElement.lang === 'en';
+        openGameWindow(
+          'Godot 4.7 · La Dernière Bougie 3D',
+          'games/bougie/la_dernière_bougie.html',
+          isEn ? 'Loading Godot 3D Web build...' : 'Chargement du jeu Godot 3D...'
+        );
+        completeMission('bougie', 'La Dernière Bougie (Godot 3D)');
+      });
     }
+
+    const runnerToggle = document.getElementById('runnerGodotToggleBtn');
+    const quickLaunch = document.getElementById('runnerQuickLaunchBtn');
+    const launchRunner = () => {
+      const isEn = document.documentElement.lang === 'en';
+      openGameWindow(
+        'Godot 4.7 · Ninja Run',
+        'games/ninja run/ninja run.html',
+        isEn ? 'Loading Ninja Run (Godot)...' : 'Chargement de Ninja Run (Godot)...'
+      );
+      completeMission('runner', 'Ninja Run (Godot)');
+    };
+    if (runnerToggle) runnerToggle.addEventListener('click', launchRunner);
+    if (quickLaunch) quickLaunch.addEventListener('click', launchRunner);
 
     const questModal = document.getElementById('questModal');
     const closeQuestBtn = document.getElementById('closeQuestBtn');
