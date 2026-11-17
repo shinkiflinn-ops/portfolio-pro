@@ -1406,22 +1406,46 @@ input[type="range"] {
     width: 100% !important;
     min-height: 280mm;
     padding: 0 !important;
-    font-size: 11.2px !important;
-    line-height: 1.36 !important;
+    font-size: 12.2px !important;
+    line-height: 1.38 !important;
   }
 
   .cv-sidebar {
-    padding: 16px 14px !important;
-    gap: 12px !important;
+    padding: 14px 13px !important;
+    gap: 11px !important;
+  }
+
+  .cv-side-block h2 {
+    font-size: 13.2px !important;
+  }
+
+  .cv-side-list {
+    font-size: 11.8px !important;
+    gap: 5px !important;
   }
 
   .cv-main {
-    padding: 18px 20px !important;
-    gap: 10px !important;
+    padding: 16px 18px !important;
+    gap: 9px !important;
   }
 
   .cv-main-head h1 {
-    font-size: 24px !important;
+    font-size: 26px !important;
+  }
+
+  .cv-main-head .cv-role {
+    font-size: 14px !important;
+  }
+
+  .cv-main-sec h2 {
+    font-size: 13.8px !important;
+  }
+
+  .cv-main-sec p,
+  .cv-exp-item ul,
+  .cv-proj-list,
+  .cv-edu-item {
+    font-size: 12px !important;
   }
 
   .cv-side-block,
@@ -1439,15 +1463,13 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  padding: 6px 12px;
+  padding: var(--space-xs) var(--space-sm);
   margin-bottom: var(--space-md);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: 999px;
   background: var(--color-well);
   color: var(--color-ink);
   font-size: var(--text-xs);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .avail-dot {
@@ -1537,6 +1559,7 @@ input[type="range"] {
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   background: var(--color-paper);
+  color: var(--color-ink);
   padding: var(--space-lg);
   margin-bottom: var(--space-xl);
 }
@@ -1567,10 +1590,8 @@ input[type="range"] {
 
 .datasheet-specs dt {
   font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   color: var(--color-muted);
-  margin-bottom: 2px;
+  margin-bottom: var(--space-3xs);
 }
 
 .datasheet-specs dd {
@@ -1592,7 +1613,8 @@ input[type="range"] {
 .datasheet-counters strong {
   color: var(--color-accent);
   font-size: var(--text-lg);
-  margin-right: 4px;
+  font-variant-numeric: tabular-nums;
+  margin-right: var(--space-2xs);
 }
 
 .vision-quote {
@@ -1701,8 +1723,6 @@ input[type="range"] {
 .stack-label {
   margin: 0;
   font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: var(--color-accent);
 }
 
@@ -1742,15 +1762,13 @@ input[type="range"] {
 }
 
 .stack-tag {
-  padding: 14px 24px;
+  padding: var(--space-sm) var(--space-lg);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   background: var(--color-well);
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: var(--text-xl);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   white-space: nowrap;
   transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
 }
@@ -2026,8 +2044,6 @@ footer.footer-band,
   opacity: 0.78;
   filter: drop-shadow(0 0 24px oklch(73% 0.15 58 / 0.28));
   transition:
-    left 720ms cubic-bezier(0.16, 1, 0.3, 1),
-    top 720ms cubic-bezier(0.16, 1, 0.3, 1),
     transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
     opacity 720ms ease;
 }
@@ -2097,8 +2113,8 @@ body.is-clock-centered .hyrule-umbra-clock {
   background: #ffffff;
   color: #16222c;
   font-family: var(--font-body);
-  font-size: 12.5px;
-  line-height: 1.42;
+  font-size: 13.5px;
+  line-height: 1.44;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -2115,7 +2131,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 
 .cv-side-block h2 {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: #f0b35e;
@@ -2131,7 +2147,7 @@ body.is-clock-centered .hyrule-umbra-clock {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 11.5px;
+  font-size: 12.4px;
   color: #ede6dc;
 }
 
@@ -2187,7 +2203,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 
 .cv-main-head h1 {
   font-family: var(--font-body);
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
   text-transform: none;
   letter-spacing: -0.01em;
@@ -2196,7 +2212,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-main-head .cv-role {
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 600;
   color: #1a1512;
   margin: 0;
@@ -2204,7 +2220,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 
 .cv-main-sec h2 {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #1a1512;
   border-bottom: 1.5px solid #c9822c;
@@ -2213,7 +2229,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-main-sec p {
-  font-size: 12.2px;
+  font-size: 13px;
   color: #24201c;
   margin: 0;
 }
@@ -2231,7 +2247,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-badge {
-  background: #b86c19;
+  background: #9c560d;
   color: #ffffff;
   font-size: 11px;
   padding: 2px 8px;
@@ -2246,13 +2262,13 @@ body.is-clock-centered .hyrule-umbra-clock {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 12px;
+  font-size: 12.8px;
   color: #24303a;
 }
 
 .cv-edu-item {
   margin-bottom: 8px;
-  font-size: 12px;
+  font-size: 12.8px;
   color: #24303a;
 }
 
@@ -2287,7 +2303,7 @@ body.is-loading footer {
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: var(--color-bg);
+  background: var(--color-paper, #0f0e0d);
   color: var(--color-accent);
   opacity: 1;
   visibility: visible;

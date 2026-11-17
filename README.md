@@ -18,8 +18,11 @@ Portfolio interactif orienté **systèmes embarqués, robotique, game dev (Godot
    - **Snake revisité à bonus** : mini-jeu clavier/tactile avec bonus temporaires.
 3. **Atelier 3D Blender (`.glb`)**
    - Visualiseurs `<model-viewer>` interactifs à 360° avec mode plein écran (`⛶`) pour **La Dernière Bougie** (variante joueur + bougies ennemies avec animations glTF réelles), **Phare 3D** (sous ciel étoilé) et **Collection de Pokéballs**.
-4. **Fiche technique, audio & CV imprimable**
-   - Fiche profil **`REF // JMA-01`**, bandeau glissable **Langages & Logiciels** (`Python`, `C++`, `C#`, `GDScript`, `Arduino IDE`, `Proteus`, `KiCad`, `PL7`, `Godot Engine`, `Unity`, `Blender`, `Visual Studio`), musique d'ambiance optionnelle (`Son : Off / On`) et **CV A4 imprimable en PDF**.
+4. **Horloge Umbra × Triforce, écran d'attente & CV A4 imprimable**
+   - **Écran de chargement arcanique (`#clockPreloader`)** : horloge de démarrage (`420 × 420 px`) avec CSS critique inline qui patiente jusqu'au chargement complet de la page (`window.load` + minimum `950 ms`) avant un fondu croisé vers le portfolio.
+   - **Horloge Umbra × Triforce d'arrière-plan** : anneau romain rotatif, grand croissant de lune statique au repos qui pivote au défilement et Triforce centrale animée.
+   - **CV A4 2 colonnes imprimable en PDF (`#cvModal`)** : mise en page Darkroom Ambre structurée sur **1 page A4**, liens cliquables avec icônes (WhatsApp, Gmail, LinkedIn, GitHub, Portfolio), puces chiffrées (3 PCB chez ATS Formation, 3 prototypes Arduino/ESP32 chez Pro Technology Plus, 20 membres coordonnés à l'INSTI) et contrastes validés (`@media print`).
+   - **Fiche profil `Réf. JMA-01`** & bandeau glissable **Langages & Logiciels** (`Python`, `C++`, `C#`, `GDScript`, `Arduino IDE`, `Proteus`, `KiCad`, `PL7`, `Godot Engine`, `Unity`, `Blender`, `Visual Studio`) + musique d'ambiance optionnelle (`Son : Off / On`).
 
 ---
 
