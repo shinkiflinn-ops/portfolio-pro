@@ -159,18 +159,47 @@
   const missionsDone = new Set();
   const TOTAL_MISSIONS = 5;
 
+  function getQuestRank(count) {
+    if (count >= TOTAL_MISSIONS) return 'Maître d’Hyrule';
+    if (count >= 4) return 'Ingénieur';
+    if (count >= 2) return 'Explorateur';
+    if (count >= 1) return 'Apprenti';
+    return 'Visiteur';
+  }
+
+  function syncQuestModalUi() {
+    const xp = missionsDone.size * 100;
+    const rankEl = document.getElementById('questRankLabel');
+    const xpTextEl = document.getElementById('questXpText');
+    const xpFillEl = document.getElementById('questXpFill');
+    if (rankEl) rankEl.textContent = getQuestRank(missionsDone.size);
+    if (xpTextEl) xpTextEl.textContent = `${xp} / ${TOTAL_MISSIONS * 100} XP`;
+    if (xpFillEl) xpFillEl.style.width = `${(missionsDone.size / TOTAL_MISSIONS) * 100}%`;
+    document.querySelectorAll('.quest-item').forEach((item) => {
+      const done = missionsDone.has(item.dataset.quest);
+      item.classList.toggle('is-done', done);
+      const badge = item.querySelector('strong');
+      if (badge) badge.textContent = done ? '✓ Validée' : '+100 XP';
+    });
+  }
+
   function completeMission(key, label) {
     if (missionsDone.has(key)) return;
     missionsDone.add(key);
     playSfx('mission');
+    const xp = missionsDone.size * 100;
     if (questBadgeEl) {
-      questBadgeEl.textContent = `Missions : ${missionsDone.size} sur ${TOTAL_MISSIONS}`;
+      questBadgeEl.textContent = `Missions : ${missionsDone.size}/${TOTAL_MISSIONS} · ${xp} XP`;
       questBadgeEl.classList.toggle('is-complete', missionsDone.size >= TOTAL_MISSIONS);
+      questBadgeEl.classList.remove('is-pop');
+      void questBadgeEl.offsetWidth;
+      questBadgeEl.classList.add('is-pop');
     }
+    syncQuestModalUi();
     if (missionsDone.size === TOTAL_MISSIONS) {
-      showToast('Toutes les missions interactives sont validées.');
+      showToast(`Rang Maître d’Hyrule débloqué (${xp} XP) !`);
     } else if (label) {
-      showToast(`Mission validée : ${label}`);
+      showToast(`+100 XP · Mission validée : ${label}`);
     }
   }
 
@@ -3175,10 +3204,48 @@
       path: 'games/ninja run/ninja run.html',
       openFr: 'Jouer à Ninja Run (Godot)',
       openEn: 'Play Ninja Run (Godot)',
-      closeFr: 'Revenir au mini-jeu Runner',
-      closeEn: 'Back to JS Runner',
+      closeFr: 'Revenir à l’aperçu',
+      closeEn: 'Back to preview',
       toastFr: 'Chargement de Ninja Run (Godot)...',
       toastEn: 'Loading Ninja Run (Godot)...'
+    });
+
+    const quickLaunch = document.getElementById('runnerQuickLaunchBtn');
+    const runnerToggle = document.getElementById('runnerGodotToggleBtn');
+    if (quickLaunch && runnerToggle) {
+      quickLaunch.addEventListener('click', () => {
+        runnerToggle.click();
+        completeMission('runner', 'Ninja Run (Godot)');
+      });
+    }
+    if (runnerToggle) {
+      runnerToggle.addEventListener('click', () => completeMission('runner', 'Ninja Run (Godot)'));
+    }
+    const bougieToggle = document.getElementById('bougieGodotToggleBtn');
+    if (bougieToggle) {
+      bougieToggle.addEventListener('click', () => completeMission('bougie', 'La Dernière Bougie (Godot 3D)'));
+    }
+
+    const questModal = document.getElementById('questModal');
+    const closeQuestBtn = document.getElementById('closeQuestBtn');
+    if (questBadgeEl && questModal) {
+      questBadgeEl.addEventListener('click', () => {
+        syncQuestModalUi();
+        questModal.classList.remove('hidden');
+      });
+    }
+    if (closeQuestBtn && questModal) {
+      closeQuestBtn.addEventListener('click', () => questModal.classList.add('hidden'));
+      questModal.addEventListener('click', (e) => {
+        if (e.target === questModal) questModal.classList.add('hidden');
+      });
+    }
+    document.querySelectorAll('.quest-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (questModal) questModal.classList.add('hidden');
+        const target = document.querySelector(btn.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     });
   }
 

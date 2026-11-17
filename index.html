@@ -90,7 +90,7 @@
         <button type="button" class="btn btn-outline btn-sm" id="langToggleBtn" aria-pressed="false" title="Changer la langue FR / EN">EN</button>
         <button type="button" class="btn btn-outline btn-sm" id="soundToggleBtn" aria-pressed="false">Son : Off</button>
         <button type="button" class="btn btn-outline btn-sm" id="debugToggleBtn" aria-pressed="false" title="Afficher le HUD technique (F3)">F3 HUD</button>
-        <span class="quest-hud num" id="questCounterBadge">Missions : 0 sur 5</span>
+        <button type="button" class="quest-hud num" id="questCounterBadge" title="Ouvrir le journal des missions">Missions : 0/5 · 0 XP</button>
         <button type="button" class="btn btn-outline btn-sm" id="openCvBtn">Aperçu CV</button>
         <button type="button" class="btn btn-outline btn-sm" id="openCmdBtn" title="Palette rapide (Ctrl + K)">Commandes</button>
       </div>
@@ -320,7 +320,7 @@
                 </ul>
               </div>
               <div class="project-action-group">
-                <button type="button" class="btn btn-primary btn-sm" id="bougieGodotToggleBtn">Jouer au jeu Godot 3D</button>
+                <button type="button" class="btn btn-primary btn-sm btn-attention" id="bougieGodotToggleBtn">Jouer au jeu Godot 3D</button>
                 <button type="button" class="btn btn-outline btn-sm" id="openGddModalBtn">Lire le GDD complet</button>
                 <a href="#lab3d" class="btn btn-link btn-sm">Inspecter le modèle 3D</a>
               </div>
@@ -351,7 +351,7 @@
 
               <div class="sim-footer-bar">
                 <div class="fsm-actions">
-                  <button type="button" class="btn btn-outline btn-sm" id="heroChallengeBtn">Défi survie 30s</button>
+                  <button type="button" class="btn btn-outline btn-sm btn-attention" id="heroChallengeBtn">Défi survie 30s</button>
                   <span class="sim-rule num" id="heroScoreLabel">Esquives : 0</span>
                 </div>
                 <span class="sim-rule num">Clavier : Q/D ou Flèches, Espace sauter et raviver</span>
@@ -371,7 +371,7 @@
                 </ul>
               </div>
               <div class="project-action-group">
-                <button type="button" class="btn btn-primary btn-sm" id="runnerGodotToggleBtn">Jouer à Ninja Run (Godot)</button>
+                <button type="button" class="btn btn-primary btn-sm btn-attention" id="runnerGodotToggleBtn">Jouer à Ninja Run (Godot)</button>
                 <dl class="project-specs num">
                   <div><dt>Moteur</dt><dd>Godot et GDScript</dd></div>
                   <div><dt>Mécanisme</dt><dd>Génération aléatoire</dd></div>
@@ -390,25 +390,19 @@
 
             <div class="project-sim" id="runnerJsArena" data-arena="runner">
               <div class="sim-header">
-                <span class="sim-status num" id="runnerModeBadge">Mode : Démo auto (Espace pour jouer)</span>
-                <span class="sim-status num" id="runnerScoreVal">Score : 0</span>
-                <span class="sim-status num" id="runnerSpeedVal">Vitesse : 1.5x</span>
-                <span class="sim-status num" id="runnerDensityVal">Densité : Progressive</span>
-                <span class="sim-status num" id="runnerGapVal">Espacement min. : 165 px</span>
+                <span class="sim-status num">Aperçu du jeu réel · Godot 4.7 Web</span>
+                <span class="sim-status num">Export HTML5 natif (WASD / Espace)</span>
               </div>
-              <canvas id="runnerCanvas" tabindex="0" width="1160" height="220" aria-label="Jeu Runner procédural jouable au clavier avec Espace ou Flèche Haut"></canvas>
-              <div class="sim-footer-bar">
-                <div class="fsm-actions">
-                  <button type="button" class="btn btn-outline btn-sm" id="runnerPlayBtn">Jouer au clavier</button>
-                  <button type="button" class="btn btn-outline btn-sm" id="runnerJumpBtn">Sauter (Espace)</button>
+              <div class="real-game-preview">
+                <div class="real-game-stage">
+                  <img src="games/ninja%20run/ninja%20run.png" alt="Aperçu officiel du jeu Godot Ninja Run" class="real-game-poster" />
+                  <div class="real-game-scanline" aria-hidden="true"></div>
+                  <div class="real-game-overlay">
+                    <span class="real-game-tag num">GODOT 4.7 · NINJA RUN</span>
+                    <button type="button" class="btn btn-primary btn-attention" id="runnerQuickLaunchBtn">▶ Lancer le vrai jeu Ninja Run</button>
+                    <small>Génération procédurale d’obstacles indexée sur la vitesse</small>
+                  </div>
                 </div>
-                <span class="sim-rule num">Clavier : Espace / Haut / Z pour sauter, Bas / S pour retomber vite</span>
-              </div>
-              <div class="home-slider-box">
-                <label class="control-label" for="runnerSpeedSlider">
-                  <span>Ajuster la vitesse du joueur</span>
-                </label>
-                <input type="range" id="runnerSpeedSlider" min="10" max="35" value="15" />
               </div>
             </div>
           </article>
@@ -440,7 +434,7 @@
                 <canvas id="snakeCanvas" tabindex="0" width="560" height="200" aria-label="Mini jeu Snake jouable au clavier dès appui sur Flèches, ZQSD ou Espace"></canvas>
                 <div class="sim-footer-bar">
                   <div class="snake-buttons">
-                    <button type="button" class="btn btn-outline btn-sm" id="snakeStartBtn">Jouer ou relancer</button>
+                    <button type="button" class="btn btn-outline btn-sm btn-attention" id="snakeStartBtn">Jouer ou relancer</button>
                     <button type="button" class="btn btn-outline btn-sm" id="snakePauseBtn">Pause (P)</button>
                   </div>
 
@@ -900,6 +894,29 @@
             </div>
           </section>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNAL DES MISSIONS (GAMIFICATION) -->
+  <div class="modal-backdrop hidden" id="questModal" role="dialog" aria-modal="true" aria-labelledby="questModalTitle">
+    <div class="modal-dialog modal-dialog--cmd">
+      <div class="modal-bar">
+        <span class="modal-title num" id="questModalTitle">Journal des missions · <strong id="questRankLabel">Visiteur</strong></span>
+        <button type="button" class="modal-close" id="closeQuestBtn" aria-label="Fermer">Fermer</button>
+      </div>
+      <div class="quest-panel">
+        <div class="quest-xp-row num">
+          <span id="questXpText">0 / 500 XP</span>
+          <div class="quest-xp-bar"><span id="questXpFill"></span></div>
+        </div>
+        <ul class="quest-list" id="questList">
+          <li><button type="button" class="quest-item" data-quest="rover" data-target="#projets"><span>Piloter le Robot ESP32 (clavier ou GPS)</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="home" data-target="#projets"><span>Tester la Maison intelligente Blynk</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="bougie" data-target="#heroArena"><span>Jouer à La Dernière Bougie</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="runner" data-target="#runnerJsArena"><span>Lancer Ninja Run (Godot) ou Snake</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="lab3d" data-target="#lab3d"><span>Inspecter un modèle 3D dans l’Atelier</span><strong class="num">+100 XP</strong></button></li>
+        </ul>
       </div>
     </div>
   </div>
