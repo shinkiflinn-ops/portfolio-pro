@@ -3233,37 +3233,236 @@
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) return;
 
-    let ticking = false;
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const clock = document.getElementById('hyruleUmbraClock');
+    const triTop = document.getElementById('triPieceTop');
+    const triLeft = document.getElementById('triPieceLeft');
+    const triRight = document.getElementById('triPieceRight');
+    const summonRing = document.getElementById('triSummonRing');
+    const pieces = [triTop, triLeft, triRight];
 
-    function updateCards() {
-      ticking = false;
-      const vh = window.innerHeight || 800;
-      cards.forEach((card) => {
-        if (card.classList.contains('hidden')) return;
-        const rect = card.getBoundingClientRect();
-        // Entrée par le bas : de vh * 0.94 (0) vers vh * 0.56 (1)
-        const enterProg = clamp((vh * 0.94 - rect.top) / (vh * 0.38), 0, 1);
-        // Sortie par le haut : de vh * 0.46 (1) vers vh * 0.12 (0)
-        const exitProg = clamp((rect.bottom - vh * 0.12) / (vh * 0.34), 0, 1);
-        const vis = Math.min(enterProg, exitProg);
-        const opacity = (0.06 + vis * 0.94).toFixed(3);
-        const shift = ((1 - enterProg) * 18 - (1 - exitProg) * 18).toFixed(1);
-        card.style.setProperty('--project-vis', opacity);
-        card.style.setProperty('--project-shift', `${shift}px`);
-      });
-    }
+    // Créer dynamiquement la zone vide d'invocation avant chaque carte projet
+    const zones = cards.map((card) => {
+      const zone = document.createElement('div');
+      zone.className = 'project-summon-zone';
+      zone.setAttribute('aria-hidden', 'true');
+      card.parentNode.insertBefore(zone, card);
+      return { zone, card };
+    });
 
-    function requestUpdate() {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(updateCards);
+    const bootGsap = () => {
+      if (!window.gsap || !window.ScrollTrigger || !clock || pieces.some((p) => !p)) {
+        cards.forEach((c) => c.classList.remove('gsap-hidden'));
+        return;
       }
-    }
 
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate, { passive: true });
-    updateCards();
+      const gsap = window.gsap;
+      const ScrollTrigger = window.ScrollTrigger;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // État initial : projets invisibles (opacity: 0, scale: 0.95)
+      gsap.set(cards, { opacity: 0, scale: 0.95 });
+      gsap.set(pieces, { opacity: 0, scale: 1 });
+      if (summonRing) gsap.set(summonRing, { opacity: 0, scale: 0.2 });
+
+      let activeTl = null;
+      let activeCard = null;
+
+      // Calcule les coordonnées exactes des 3 triangles dans l'horloge fixe
+      const getClockSlots = () => {
+        const r = clock.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const s = r.width / 420;
+        return {
+          top: { x: cx, y: cy - 46 * s, scale: s },
+          left: { x: cx - 32 * s, y: cy + 10 * s, scale: s },
+          right: { x: cx + 32 * s, y: cy + 10 * s, scale: s }
+        };
+      };
+
+      const summonProject = (zone, card) => {
+        if (card.dataset.summoned === '1') return;
+
+        // Gestion des interruptions si l'utilisateur scrolle rapidement
+        if (activeTl) {
+          activeTl.kill();
+          if (activeCard && activeCard !== card) {
+            activeCard.dataset.summoned = '1';
+            gsap.to(activeCard, { opacity: 1, scale: 1, duration: 0.25, overwrite: 'auto' });
+          }
+        }
+
+        activeCard = card;
+        const startSlots = getClockSlots();
+        const zRect = zone.getBoundingClientRect();
+        const vh = window.innerHeight || 800;
+
+        // Centre de l'espace vide juste avant le projet
+        const targetCx = zRect.left + zRect.width / 2;
+        const targetCy = Math.min(vh * 0.62, Math.max(vh * 0.28, zRect.top + zRect.height * 0.58));
+
+        clock.classList.add('is-triforce-away');
+
+        // Si les fragments n'étaient pas déjà en vol, les placer sur l'horloge
+        if (Number(gsap.getProperty(triTop, 'opacity')) < 0.1) {
+          gsap.set(triTop, { x: startSlots.top.x, y: startSlots.top.y, scale: startSlots.top.scale, rotation: 0, opacity: 1 });
+          gsap.set(triLeft, { x: startSlots.left.x, y: startSlots.left.y, scale: startSlots.left.scale, rotation: 0, opacity: 1 });
+          gsap.set(triRight, { x: startSlots.right.x, y: startSlots.right.y, scale: startSlots.right.scale, rotation: 0, opacity: 1 });
+        }
+
+        const tl = gsap.timeline({
+          defaults: { overwrite: 'auto' },
+          onComplete: () => {
+            clock.classList.remove('is-triforce-away');
+            gsap.set(pieces, { opacity: 0 });
+            if (activeTl === tl) {
+              activeTl = null;
+              activeCard = null;
+            }
+          }
+        });
+        activeTl = tl;
+
+        // ÉTAPE 1 : Extraction de l'horloge et trajet éclaté vers le centre de l'espace vide
+        tl.to(triTop, {
+          x: targetCx,
+          y: targetCy - 86,
+          rotation: -180,
+          scale: 1.05,
+          duration: 0.52,
+          ease: 'power2.out'
+        }, 0)
+          .to(triLeft, {
+            x: targetCx - 96,
+            y: targetCy + 68,
+            rotation: 160,
+            scale: 1.05,
+            duration: 0.52,
+            ease: 'power2.out'
+          }, 0)
+          .to(triRight, {
+            x: targetCx + 96,
+            y: targetCy + 68,
+            rotation: -160,
+            scale: 1.05,
+            duration: 0.52,
+            ease: 'power2.out'
+          }, 0);
+
+        // ÉTAPE 2 : Assemblage au centre + Pulsation lumineuse dorée d'invocation
+        tl.to(triTop, {
+          x: targetCx,
+          y: targetCy - 28,
+          rotation: 0,
+          scale: 1,
+          duration: 0.34,
+          ease: 'back.out(1.7)'
+        }, 'assemble')
+          .to(triLeft, {
+            x: targetCx - 32,
+            y: targetCy + 28,
+            rotation: 0,
+            scale: 1,
+            duration: 0.34,
+            ease: 'back.out(1.7)'
+          }, 'assemble')
+          .to(triRight, {
+            x: targetCx + 32,
+            y: targetCy + 28,
+            rotation: 0,
+            scale: 1,
+            duration: 0.34,
+            ease: 'back.out(1.7)'
+          }, 'assemble');
+
+        // Pulsation lumineuse & onde dorée une fois la Triforce réunie
+        tl.add(() => {
+          if (summonRing) {
+            gsap.set(summonRing, { x: targetCx, y: targetCy, scale: 0.25, opacity: 0.95 });
+            gsap.to(summonRing, {
+              scale: 2.7,
+              opacity: 0,
+              duration: 0.65,
+              ease: 'power2.out',
+              overwrite: 'auto'
+            });
+          }
+        }, 'invoke')
+          .to(pieces, {
+            scale: 1.24,
+            rotation: 360,
+            duration: 0.38,
+            ease: 'power2.inOut',
+            yoyo: true,
+            repeat: 1
+          }, 'invoke');
+
+        // ÉTAPE 3 : Apparition du projet (opacity: 1, scale: 1) + Retour des 3 triangles dans l'horloge
+        tl.add(() => {
+          card.dataset.summoned = '1';
+          gsap.to(card, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.68,
+            ease: 'power3.out',
+            overwrite: 'auto'
+          });
+        }, 'invoke+=0.22');
+
+        tl.to(triTop, {
+          x: () => getClockSlots().top.x,
+          y: () => getClockSlots().top.y,
+          scale: () => getClockSlots().top.scale,
+          rotation: 0,
+          duration: 0.52,
+          ease: 'power3.inOut'
+        }, 'return')
+          .to(triLeft, {
+            x: () => getClockSlots().left.x,
+            y: () => getClockSlots().left.y,
+            scale: () => getClockSlots().left.scale,
+            rotation: 0,
+            duration: 0.52,
+            ease: 'power3.inOut'
+          }, 'return')
+          .to(triRight, {
+            x: () => getClockSlots().right.x,
+            y: () => getClockSlots().right.y,
+            scale: () => getClockSlots().right.scale,
+            rotation: 0,
+            duration: 0.52,
+            ease: 'power3.inOut'
+          }, 'return');
+      };
+
+      zones.forEach(({ zone, card }) => {
+        ScrollTrigger.create({
+          trigger: zone,
+          start: 'top 75%',
+          onEnter: () => summonProject(zone, card),
+          onLeaveBack: () => {
+            // Permet de rejouer ou garder propre si on remonte tout en haut
+          }
+        });
+      });
+
+      // Sécurité : si l'utilisateur saute directement en bas de page via une ancre
+      window.addEventListener('scroll', () => {
+        zones.forEach(({ card }) => {
+          if (card.dataset.summoned === '1') return;
+          if (card.getBoundingClientRect().bottom < 0) {
+            card.dataset.summoned = '1';
+            gsap.set(card, { opacity: 1, scale: 1 });
+          }
+        });
+      }, { passive: true });
+    };
+
+    if (window.gsap && window.ScrollTrigger) {
+      bootGsap();
+    } else {
+      window.addEventListener('load', bootGsap, { once: true });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
