@@ -94,10 +94,38 @@
   }
 
   /* =========================================================
-     AUDIO SYNTHÉTIQUE WEB AUDIO (MUET PAR DÉFAUT)
+     AUDIO SYNTHÉTIQUE WEB AUDIO (MUET PAR DÉFAUT) & CLIC BOTW
      ========================================================= */
   let soundEnabled = false;
   let audioCtx = null;
+
+  const botwClickPool = Array.from({ length: 3 }, () => {
+    const a = new Audio('assets/audio/botw-interact.mp3');
+    a.preload = 'auto';
+    a.volume = 0.42;
+    return a;
+  });
+  let botwPoolIdx = 0;
+
+  function playBotwClick() {
+    const snd = botwClickPool[botwPoolIdx % botwClickPool.length];
+    botwPoolIdx += 1;
+    try {
+      snd.currentTime = 0;
+      snd.play().catch(() => {});
+    } catch {
+      // Ignorer si le navigateur bloque avant geste utilisateur
+    }
+  }
+
+  function initGlobalBotwButtonAudio() {
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('button, .btn, .contact-tile, [role="button"], [role="tab"], .nav-links a');
+      if (!target) return;
+      if (target.disabled || target.getAttribute('aria-disabled') === 'true') return;
+      playBotwClick();
+    }, true);
+  }
 
   function playSfx(kind) {
     if (!soundEnabled) return;
@@ -274,9 +302,43 @@
       });
     });
 
-    const bgMusic = new Audio('assets/audio/ambiance.mp3');
-    bgMusic.loop = true;
-    bgMusic.volume = 0.28;
+    /* Playlist d'ambiance Zelda (extraits nettoyés et équilibrés à -21 LUFS) */
+    const AMBIENT_PLAYLIST = [
+      { title: 'Dragon Roost Island (Wind Waker)', src: 'assets/audio/ambient-01-dragon-roost.mp3' },
+      { title: "Zelda's Lullaby (Orchestral)", src: 'assets/audio/ambient-02-zeldas-lullaby.mp3' },
+      { title: 'Gerudo Valley (Ocarina of Time)', src: 'assets/audio/ambient-03-gerudo-valley.mp3' }
+    ];
+
+    const nextTrackBtn = document.getElementById('nextTrackBtn');
+    const ambientAudio = new Audio();
+    ambientAudio.preload = 'none';
+    ambientAudio.volume = 0.28;
+    let ambientIndex = 0;
+
+    function loadAndPlayAmbient(index, announce = true) {
+      ambientIndex = ((index % AMBIENT_PLAYLIST.length) + AMBIENT_PLAYLIST.length) % AMBIENT_PLAYLIST.length;
+      const track = AMBIENT_PLAYLIST[ambientIndex];
+      if (!ambientAudio.src || !ambientAudio.src.endsWith(track.src)) {
+        ambientAudio.src = track.src;
+      }
+      ambientAudio.play().catch(() => {});
+      if (announce) {
+        showToast(`Ambiance (${ambientIndex + 1}/${AMBIENT_PLAYLIST.length}) : ${track.title}`);
+      }
+    }
+
+    ambientAudio.addEventListener('ended', () => {
+      if (!soundEnabled) return;
+      loadAndPlayAmbient(ambientIndex + 1, false);
+    });
+
+    function startZeldaMelody() {
+      loadAndPlayAmbient(ambientIndex, true);
+    }
+
+    function stopZeldaMelody() {
+      ambientAudio.pause();
+    }
 
     if (soundBtn) {
       soundBtn.addEventListener('click', () => {
@@ -285,28 +347,38 @@
         soundBtn.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
         if (debugAudio) debugAudio.textContent = `Audio : ${soundEnabled ? 'On' : 'Off'}`;
         if (soundEnabled) {
-          bgMusic.play().catch(() => {});
-          playSfx('revive');
-          showToast('Musique d’ambiance et audio activés.');
+          startZeldaMelody();
         } else {
-          bgMusic.pause();
-          showToast('Audio coupé.');
+          stopZeldaMelody();
+          showToast('Ambiance coupée.');
         }
       });
     }
 
-    function toggleDebugHud() {
-      if (!debugHud || !debugBtn) return;
-      const open = debugHud.classList.toggle('hidden');
-      const isOpen = !open;
-      debugBtn.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
+    if (nextTrackBtn) {
+      nextTrackBtn.addEventListener('click', () => {
+        if (!soundEnabled) {
+          soundEnabled = true;
+          if (soundBtn) {
+            soundBtn.textContent = 'Son : On';
+            soundBtn.setAttribute('aria-pressed', 'true');
+          }
+          if (debugAudio) debugAudio.textContent = 'Audio : On';
+          loadAndPlayAmbient(ambientIndex + 1, true);
+        } else {
+          loadAndPlayAmbient(ambientIndex + 1, true);
+        }
+      });
     }
-
-    if (debugBtn) debugBtn.addEventListener('click', toggleDebugHud);
 
     let frames = 0;
     let lastTime = performance.now();
+    let debugRaf = 0;
     function tickDebug() {
+      if (!debugHud || debugHud.classList.contains('hidden')) {
+        debugRaf = 0;
+        return;
+      }
       frames += 1;
       const now = performance.now();
       if (now - lastTime >= 500) {
@@ -316,9 +388,22 @@
         if (debugFps) debugFps.textContent = `FPS : ${fps}`;
         if (debugArena) debugArena.textContent = `Banc : ${activeArena}`;
       }
-      requestAnimationFrame(tickDebug);
+      debugRaf = requestAnimationFrame(tickDebug);
     }
-    tickDebug();
+
+    function toggleDebugHud() {
+      if (!debugHud || !debugBtn) return;
+      const open = debugHud.classList.toggle('hidden');
+      const isOpen = !open;
+      debugBtn.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
+      if (isOpen && !debugRaf) {
+        frames = 0;
+        lastTime = performance.now();
+        debugRaf = requestAnimationFrame(tickDebug);
+      }
+    }
+
+    if (debugBtn) debugBtn.addEventListener('click', toggleDebugHud);
 
     return { applyTheme, toggleDebugHud };
   }
@@ -358,6 +443,10 @@
     if (!el) return;
     setActiveArena(name);
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (name === 'rover') {
+      const rail = document.getElementById('roverStageRail');
+      if (rail) rail.scrollTo({ left: rail.clientWidth, behavior: 'smooth' });
+    }
     const canvas = el.querySelector('canvas');
     if (canvas) canvas.focus({ preventScroll: true });
   }
@@ -712,7 +801,7 @@
           player.dodges += 1;
           player.successTimer = 42;
           if (player.dodges >= 1 && activeArena === 'hero' && (player.vy !== 0 || Math.abs(player.vx) > 0.4)) {
-            completeMission('hero', 'Esquive sur La Dernière Bougie');
+            completeMission('bougie', 'Esquive sur La Dernière Bougie');
           }
         }
         if (!g.alive || g.life <= 0 || g.x < 40 || g.x > canvas.width - 40) {
@@ -1201,6 +1290,9 @@
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
+    const rail = document.getElementById('roverStageRail');
+    const slideBtns = document.querySelectorAll('.rover-slide-btn');
+    const toSimBtn = document.getElementById('roverToSimBtn');
     const modeBtns = document.querySelectorAll('.rover-mode-btn');
     const dirBtns = document.querySelectorAll('[data-rover-dir]');
     const badgeEl = document.getElementById('roverStateBadge');
@@ -1208,6 +1300,32 @@
     const lonEl = document.getElementById('roverLon');
     const ultraEl = document.getElementById('roverUltrasonic');
     const pwmEl = document.getElementById('roverPwm');
+
+    function goToSlide(target) {
+      if (!rail) return;
+      const toInterface = target === 'interface';
+      rail.scrollTo({ left: toInterface ? rail.clientWidth : 0, behavior: 'smooth' });
+      slideBtns.forEach((b) => b.classList.toggle('active', b.dataset.roverSlide === target));
+    }
+
+    slideBtns.forEach((btn) => {
+      btn.addEventListener('click', () => goToSlide(btn.dataset.roverSlide || 'photo'));
+    });
+
+    if (toSimBtn) {
+      toSimBtn.addEventListener('click', () => {
+        goToSlide('interface');
+        canvas.focus({ preventScroll: true });
+        setActiveArena('rover');
+      });
+    }
+
+    if (rail) {
+      rail.addEventListener('scroll', () => {
+        const active = rail.scrollLeft > rail.clientWidth * 0.45 ? 'interface' : 'photo';
+        slideBtns.forEach((b) => b.classList.toggle('active', b.dataset.roverSlide === active));
+      }, { passive: true });
+    }
 
     let roverMode = 'manual';
     let manualCmd = 'stop';
@@ -1235,6 +1353,7 @@
 
     modeBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
+        goToSlide('interface');
         switchMode(btn.dataset.roverMode || 'manual');
         playSfx('relay');
         completeMission('rover', 'Pilotage robot ESP32');
@@ -1243,6 +1362,7 @@
 
     dirBtns.forEach((btn) => {
       const startCmd = () => {
+        goToSlide('interface');
         manualCmd = btn.dataset.roverDir || 'stop';
         if (roverMode !== 'manual') switchMode('manual');
         completeMission('rover', 'Pilotage robot ESP32');
@@ -2733,9 +2853,11 @@
       });
 
       function renderModel() {
-        const pal = getCanvasPalette();
-        animT += 1;
-        if (!canvas.classList.contains('hidden')) {
+        const rect = canvas.getBoundingClientRect();
+        const visible = !canvas.classList.contains('hidden') && rect.bottom > -40 && rect.top < window.innerHeight + 40;
+        if (visible) {
+          const pal = getCanvasPalette();
+          animT += 1;
           if (!dragging) yaw += 0.008;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -3046,13 +3168,6 @@
       setHtml('.hero-copy .lead', '3rd-year Electrical &amp; Computer Engineering student and President of the INSTI Art, Design &amp; Gaming Club, I build embedded and interactive systems.<br />Passionate about game dev, game design, and everything interactive, I also dedicate time to 3D modeling in Blender.');
       setText('.hero-cta-row a.btn-primary', 'Explore electronics & demos');
       setText('#heroCvBtn', 'Generate Resume');
-      const godotBtn = document.getElementById('bougieGodotToggleBtn');
-      if (godotBtn) {
-        const isGodotOpen = document.getElementById('bougieGodotView') && !document.getElementById('bougieGodotView').classList.contains('hidden');
-        godotBtn.textContent = lang === 'en'
-          ? (isGodotOpen ? 'Back to 2.5D mini-game' : 'Play Godot 3D Game')
-          : (isGodotOpen ? 'Revenir au mini-jeu 2.5D' : 'Jouer au jeu Godot 3D');
-      }
       const runnerGodotBtn = document.getElementById('runnerGodotToggleBtn');
       if (runnerGodotBtn) {
         const isRunnerOpen = document.getElementById('runnerGodotView') && !document.getElementById('runnerGodotView').classList.contains('hidden');
@@ -3063,21 +3178,24 @@
 
       setText('#projets .section-head-line h2', 'Projects and digital twins');
       setList('.filter-bar .filter-btn', ['All (5)', 'Electronics & IoT', 'Games & Godot', '3D Modeling']);
+      setList('.rover-slide-btn', ['Prototype photo', 'Virtual interface →']);
+      setText('#roverToSimBtn', 'Slide to virtual interface →');
+      setText('.rover-photo-caption .real-game-tag', 'REAL PROTOTYPE · GPS ESP32 CAR');
 
       setList('.project-card h3', [
         'GPS Rover Car & Godot Remote',
         'Smart Home Connected via Blynk',
-        'The Last Candle: 2.5D Survival',
         'Procedural Obstacle Runner',
-        'Revisited Bonus Snake (WIP)'
+        'Revisited Bonus Snake (WIP)',
+        'The Last Candle: 2.5D Survival'
       ]);
 
       setList('.project-card .project-brief', [
         '<li><strong>Problem:</strong> Remotely drive a mobile robot while handling obstacles and live GPS coordinates.</li><li><strong>Solution:</strong> ESP32 chassis with GPS tracking, autonomous ultrasonic avoidance, and a dedicated Godot Engine remote.</li><li><strong>Role:</strong> Embedded electronics, avoidance logic, and Godot control interface.</li>',
         '<li><strong>Problem:</strong> Automate and remotely monitor temperature, lighting, and access inside a home.</li><li><strong>Solution:</strong> ESP32 node linking temperature &amp; motion sensors to servos, relays, LEDs, local LCD, and Blynk dashboard.</li><li><strong>Role:</strong> Hardware wiring, local automation rules, and Blynk supervision.</li>',
-        '<li><strong>Problem:</strong> Design a short, tense survival game where sound and visuals directly mirror danger.</li><li><strong>Solution:</strong> 2.5D pipeline with player/enemy candles animated in Blender (.glb), async state machine, and 3-phase adaptive audio.</li><li><strong>Role:</strong> Game Design Document, 3D modeling/animation, and interactive prototyping.</li>',
         '<li><strong>Problem:</strong> Keep gameplay challenging without static levels or unfair difficulty spikes.</li><li><strong>Solution:</strong> Procedural obstacle spawning in Godot (GDScript) where frequency and spacing scale with speed.</li><li><strong>Role:</strong> Difficulty curve Game Design and GDScript programming.</li>',
-        '<li><strong>Problem:</strong> Refresh a classic game by adding risk-reward choices and tactical pacing.</li><li><strong>Solution:</strong> GDScript rewrite in Godot with temporary bonuses (golden points, wall shield) and progressive pace for HTML5 Web export.</li><li><strong>Role:</strong> Bonus Game Design, GDScript coding, and Web integration.</li>'
+        '<li><strong>Problem:</strong> Refresh a classic game by adding risk-reward choices and tactical pacing.</li><li><strong>Solution:</strong> GDScript rewrite in Godot with temporary bonuses (golden points, wall shield) and progressive pace for HTML5 Web export.</li><li><strong>Role:</strong> Bonus Game Design, GDScript coding, and Web integration.</li>',
+        '<li><strong>Problem:</strong> Design a short, tense survival game where sound and visuals directly mirror danger.</li><li><strong>Solution:</strong> 2.5D pipeline with player/enemy candles animated in Blender (.glb), async state machine, and 3-phase adaptive audio.</li><li><strong>Role:</strong> Game Design Document, 3D modeling/animation, and interactive prototyping.</li>'
       ]);
 
       setText('#lab3d .section-head-line h2', 'Blender Modeling & 3D Prototypes');
@@ -3197,6 +3315,9 @@
 
     function openGameWindow(title, path, toastMsg) {
       if (!gameModal || !gameFrame) return;
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
       if (gameTitle) gameTitle.textContent = title;
       if (gameDialog) gameDialog.classList.remove('is-expanded');
       if (expandGameBtn) expandGameBtn.textContent = '⛶ Agrandir';
@@ -3222,19 +3343,6 @@
         closeGameWindow();
       }
     });
-
-    const bougieToggle = document.getElementById('bougieGodotToggleBtn');
-    if (bougieToggle) {
-      bougieToggle.addEventListener('click', () => {
-        const isEn = document.documentElement.lang === 'en';
-        openGameWindow(
-          'Godot 4.7 · La Dernière Bougie 3D',
-          'games/bougie/la_dernière_bougie.html',
-          isEn ? 'Loading Godot 3D Web build...' : 'Chargement du jeu Godot 3D...'
-        );
-        completeMission('bougie', 'La Dernière Bougie (Godot 3D)');
-      });
-    }
 
     const runnerToggle = document.getElementById('runnerGodotToggleBtn');
     const quickLaunch = document.getElementById('runnerQuickLaunchBtn');
@@ -3276,7 +3384,7 @@
   function initClockPreloader() {
     const preloader = document.getElementById('clockPreloader');
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const minDuration = reduced ? 120 : 950;
+    const minDuration = reduced ? 200 : 4000;
     const startTime = performance.now();
     let done = false;
 
@@ -3580,16 +3688,43 @@
         zones.forEach(({ zone, card }) => {
           ScrollTrigger.create({
             trigger: zone,
-            start: 'top 82%',
+            start: 'top 84%',
             onEnter: () => summonProject(zone, card),
             onLeaveBack: () => {
               card.dataset.summoned = '0';
               card.dataset.summoning = '0';
               card.classList.remove('is-summoned');
-              gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.3, overwrite: 'auto' });
+              gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.28, overwrite: 'auto' });
             }
           });
         });
+
+        // Faire disparaître les projets dès qu'ils sortent du champ de vision (haut ou bas) et les réafficher en revenant
+        if ('IntersectionObserver' in window) {
+          const cardVisObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                const card = entry.target;
+                if (card.dataset.summoning === '1') return;
+                if (entry.isIntersecting) {
+                  // Réaffichage fluide si on remonte depuis le bas ou si la carte est déjà bien visible dans le champ
+                  if (card.dataset.summoned !== '1' && (entry.boundingClientRect.top < (window.innerHeight || 800) * 0.25 || entry.intersectionRatio >= 0.35)) {
+                    card.dataset.summoned = '1';
+                    card.classList.add('is-summoned');
+                    gsap.to(card, { opacity: 1, scale: 1, duration: 0.36, ease: 'power2.out', overwrite: 'auto' });
+                  }
+                } else if (card.dataset.summoned === '1') {
+                  card.dataset.summoned = '0';
+                  card.classList.remove('is-summoned');
+                  gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.28, ease: 'power2.in', overwrite: 'auto' });
+                }
+              });
+            },
+            { threshold: [0.02, 0.36] }
+          );
+          zones.forEach(({ card }) => cardVisObserver.observe(card));
+        }
+
         ScrollTrigger.refresh();
       };
 
@@ -3598,18 +3733,6 @@
       } else {
         registerTriggers();
       }
-
-      // Sécurité : uniquement si l'utilisateur a déjà dépassé tout le projet vers le bas (saut d'ancre)
-      window.addEventListener('scroll', () => {
-        zones.forEach(({ card }) => {
-          if (card.dataset.summoned === '1' || card.dataset.summoning === '1') return;
-          if (card.getBoundingClientRect().bottom < -40) {
-            card.dataset.summoned = '1';
-            card.classList.add('is-summoned');
-            gsap.set(card, { opacity: 1, scale: 1 });
-          }
-        });
-      }, { passive: true });
     };
 
     if (window.gsap && window.ScrollTrigger) {
@@ -3619,13 +3742,244 @@
     }
   }
 
+  function initProgressiveReveals() {
+    const selectors = [
+      '#lab3d .section-head-line',
+      '#lab3d .lab-card',
+      '#lab3d .prototype-row',
+      '#piliers .datasheet-head',
+      '#piliers .datasheet-specs > div',
+      '#piliers .datasheet-counters > span',
+      '#piliers h2',
+      '#piliers .sheet-row',
+      '#piliers .stack-shelf-head',
+      '#piliers .skill-mini-card',
+      '#contact .vision-quote',
+      '#contact .footer-statement',
+      '#contact .contact-tile',
+      '#contact .footer-bottom-bar'
+    ];
+    const items = Array.from(document.querySelectorAll(selectors.join(', ')));
+    if (!items.length) return;
+
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) {
+      items.forEach((el) => el.classList.add('is-revealed'));
+      return;
+    }
+
+    items.forEach((el, idx) => {
+      el.classList.add('scroll-reveal-item');
+      el.style.setProperty('--reveal-delay', `${(idx % 5) * 45}ms`);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-revealed', entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -28px 0px' }
+    );
+
+    items.forEach((el) => observer.observe(el));
+  }
+
+  function initFairyBackground() {
+    const canvas = document.getElementById('fairyBgCanvas');
+    if (!canvas) return;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    const ctx = canvas.getContext('2d');
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
+
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', resize, { passive: true });
+
+    let mouseX = 0;
+    let mouseY = 0;
+    window.addEventListener(
+      'mousemove',
+      (e) => {
+        mouseX = (e.clientX / Math.max(1, w) - 0.5) * 2;
+        mouseY = (e.clientY / Math.max(1, h) - 0.5) * 2;
+      },
+      { passive: true }
+    );
+
+    // Couleur unique Darkroom Ambre pour toutes les fées
+    const FAIRY_UNIFORM = {
+      core: 'rgba(255, 224, 152, 0.98)',
+      glow: 'rgba(232, 148, 60, 0.55)',
+      trail: 'rgba(232, 148, 60, 0.45)',
+      wing: 'rgba(245, 196, 108, 0.44)'
+    };
+
+    const glowSprite = (() => {
+      const sp = document.createElement('canvas');
+      sp.width = 64;
+      sp.height = 64;
+      const sctx = sp.getContext('2d');
+      const g = sctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+      g.addColorStop(0, FAIRY_UNIFORM.core);
+      g.addColorStop(0.35, FAIRY_UNIFORM.glow);
+      g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sctx.fillStyle = g;
+      sctx.beginPath();
+      sctx.arc(32, 32, 30, 0, Math.PI * 2);
+      sctx.fill();
+      return sp;
+    })();
+
+    // Étoiles 3D en profondeur
+    const stars3D = Array.from({ length: 34 }, () => ({
+      x: (Math.random() - 0.5) * 1800,
+      y: (Math.random() - 0.5) * 1100,
+      z: Math.random() * 860 + 40
+    }));
+
+    // Nombre réduit et aléatoire de fées (2 à 4), toutes de la même couleur ambre
+    const fairyCount = 2 + Math.floor(Math.random() * 3);
+    const spawnFairy = (initial) => ({
+      x: initial ? Math.random() * (w + 200) : w * (0.28 + Math.random() * 0.85),
+      y: initial ? Math.random() * h : -40 - Math.random() * 180,
+      z: 140 + Math.random() * 500,
+      vx: -(1.5 + Math.random() * 1.7),
+      vy: 2.1 + Math.random() * 2.2,
+      vz: -(0.3 + Math.random() * 0.45),
+      size: 4.5 + Math.random() * 3.0,
+      tailLen: 26 + Math.random() * 32,
+      wingSpeed: 0.25 + Math.random() * 0.14
+    });
+
+    const fairies = Array.from({ length: fairyCount }, () => spawnFairy(true));
+    let gridOffset = 0;
+
+    function drawWing(cx, cy, dir, flap, size, color) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(dir, 1);
+      ctx.rotate(flap * 0.48 - 0.28);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.ellipse(size * 1.6, -size * 0.6, size * 1.5, size * 0.62, -0.35, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(size * 1.15, size * 0.5, size * 1.0, size * 0.42, 0.35, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function tick(now) {
+      if (document.hidden) {
+        window.requestAnimationFrame(tick);
+        return;
+      }
+      ctx.clearRect(0, 0, w, h);
+
+      const fov = 380;
+      const vpX = w * 0.5 + mouseX * 48;
+      const vpY = h * 0.42 + mouseY * 28 - ((window.scrollY || 0) * 0.04) % 90;
+
+      // 1. Grille 3D en perspective (sol & plafond techniques)
+      gridOffset = (gridOffset + 0.65) % 90;
+      ctx.strokeStyle = 'rgba(232, 148, 60, 0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let gx = -900; gx <= 900; gx += 180) {
+        const x1 = vpX + (gx * fov) / (fov + 80);
+        const y1 = vpY + (280 * fov) / (fov + 80);
+        const x2 = vpX + (gx * fov) / (fov + 880);
+        const y2 = vpY + (280 * fov) / (fov + 880);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+      }
+      for (let gz = 80; gz <= 880; gz += 90) {
+        const z = gz - gridOffset;
+        if (z <= 20) continue;
+        const sc = fov / (fov + z);
+        const y = vpY + 280 * sc;
+        const xL = vpX - 900 * sc;
+        const xR = vpX + 900 * sc;
+        ctx.moveTo(xL, y);
+        ctx.lineTo(xR, y);
+      }
+      ctx.stroke();
+
+      // 2. Champ d'étoiles 3D
+      stars3D.forEach((st) => {
+        st.z -= 1.1;
+        if (st.z <= 20) {
+          st.z = 880;
+          st.x = (Math.random() - 0.5) * 1800;
+          st.y = (Math.random() - 0.5) * 1100;
+        }
+        const sc = fov / (fov + st.z);
+        const sx = vpX + st.x * sc;
+        const sy = vpY + st.y * sc;
+        if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) return;
+        const alpha = Math.min(0.65, (1 - st.z / 900) * 0.75);
+        ctx.fillStyle = `rgba(245, 220, 175, ${alpha.toFixed(2)})`;
+        ctx.fillRect(sx, sy, Math.max(1.2, sc * 2.4), Math.max(1.2, sc * 2.4));
+      });
+
+      // 3. Fées étoiles filantes en chute diagonale 3D (couleur uniforme)
+      fairies.forEach((f, idx) => {
+        f.x += f.vx;
+        f.y += f.vy;
+        f.z += f.vz;
+        if (f.y > h + 80 || f.x < -120 || f.z < 30) {
+          fairies[idx] = spawnFairy(false);
+          return;
+        }
+
+        const depthScale = fov / (fov + f.z * 0.45);
+        const sz = f.size * depthScale;
+        const tailX = f.x - f.vx * f.tailLen * 0.45;
+        const tailY = f.y - f.vy * f.tailLen * 0.45;
+
+        // Traînée d'étoile filante
+        ctx.strokeStyle = FAIRY_UNIFORM.trail;
+        ctx.lineWidth = Math.max(1.2, sz * 0.45);
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(f.x, f.y);
+        ctx.stroke();
+
+        const flap = Math.sin(now * 0.02 * (f.wingSpeed * 4));
+        drawWing(f.x - sz * 0.35, f.y, -1, flap, sz, FAIRY_UNIFORM.wing);
+        drawWing(f.x + sz * 0.35, f.y, 1, flap, sz, FAIRY_UNIFORM.wing);
+
+        const r = sz * 4.0;
+        ctx.drawImage(glowSprite, f.x - r, f.y - r, r * 2, r * 2);
+
+        ctx.fillStyle = FAIRY_UNIFORM.core;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, Math.max(1.5, sz * 0.58), 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      window.requestAnimationFrame(tick);
+    }
+
+    window.requestAnimationFrame(tick);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initClockPreloader();
+    initGlobalBotwButtonAudio();
+    initFairyBackground();
     const toolbarCtrl = initToolbarControls();
     initLanguageSwitcher();
     initBougieGodotEmbed();
     initScrollAstrolabe();
     initProjectScrollFade();
+    initProgressiveReveals();
     initArenaWiring(toolbarCtrl);
     initHeroCanvas();
     initProjectFilters();

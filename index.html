@@ -25,12 +25,14 @@
     }
     .clock-preloader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
     .clock-preloader-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; }
-    .clock-preloader-svg { width: min(420px, 78vw); height: min(420px, 78vw); overflow: visible; filter: drop-shadow(0 0 28px rgba(224, 159, 62, 0.36)); }
+    .clock-preloader-visual { position: relative; display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 36px); padding-inline: 16px; }
+    .clock-preloader-svg { width: min(360px, 64vw); height: min(360px, 64vw); overflow: visible; filter: drop-shadow(0 0 28px rgba(224, 159, 62, 0.36)); transform: translateX(-8px); }
+    .clock-preloader-navi { width: min(175px, 32vw); height: auto; align-self: flex-start; margin-top: 10px; pointer-events: none; }
     .clock-preloader .astrolabe-ring-outer { transform-origin: 210px 210px; animation: preloaderSpin 75s linear infinite; }
     .clock-preloader .preloader-crescent { transform-origin: 210px 210px; animation: preloaderSpin 6s linear infinite; }
     .clock-preloader .astrolabe-core { transform-origin: 210px 210px; animation: preloaderSpin 48s linear infinite reverse; }
     .clock-preloader-bar { width: 180px; height: 2px; background: rgba(224, 159, 62, 0.2); border-radius: 999px; overflow: hidden; }
-    .clock-preloader-bar span { display: block; width: 100%; height: 100%; background: var(--color-accent, #e09f3e); transform-origin: left center; animation: clockLoaderWait 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .clock-preloader-bar span { display: block; width: 100%; height: 100%; background: var(--color-accent, #e09f3e); transform-origin: left center; animation: clockLoaderWait 4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .clock-preloader.is-ready .clock-preloader-bar span { animation: none; transform: scaleX(1); transition: transform 220ms ease-out; }
     @keyframes preloaderSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes clockLoaderWait { 0% { transform: scaleX(0.05); } 60% { transform: scaleX(0.75); } 100% { transform: scaleX(0.92); } }
@@ -44,34 +46,37 @@
   <!-- ÉCRAN DE CHARGEMENT HORLOGE -->
   <div class="clock-preloader" id="clockPreloader" aria-hidden="true">
     <div class="clock-preloader-inner">
-      <svg viewBox="0 0 420 420" class="clock-preloader-svg">
-        <g class="astrolabe-ring-outer">
-          <circle cx="210" cy="210" r="196" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 6" opacity="0.6" />
-          <circle cx="210" cy="210" r="172" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.82" />
-          <g font-family="serif" font-size="13" fill="currentColor" text-anchor="middle" opacity="0.88">
-            <text x="210" y="34">XII</text>
-            <text x="298" y="57">I</text>
-            <text x="362" y="121">II</text>
-            <text x="386" y="215">III</text>
-            <text x="362" y="307">IV</text>
-            <text x="298" y="371">V</text>
-            <text x="210" y="396">VI</text>
-            <text x="122" y="371">VII</text>
-            <text x="58" y="307">VIII</text>
-            <text x="34" y="215">IX</text>
-            <text x="58" y="121">X</text>
-            <text x="122" y="57">XI</text>
+      <div class="clock-preloader-visual">
+        <svg viewBox="0 0 420 420" class="clock-preloader-svg">
+          <g class="astrolabe-ring-outer">
+            <circle cx="210" cy="210" r="196" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 6" opacity="0.6" />
+            <circle cx="210" cy="210" r="172" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.82" />
+            <g font-family="serif" font-size="13" fill="currentColor" text-anchor="middle" opacity="0.88">
+              <text x="210" y="34">XII</text>
+              <text x="298" y="57">I</text>
+              <text x="362" y="121">II</text>
+              <text x="386" y="215">III</text>
+              <text x="362" y="307">IV</text>
+              <text x="298" y="371">V</text>
+              <text x="210" y="396">VI</text>
+              <text x="122" y="371">VII</text>
+              <text x="58" y="307">VIII</text>
+              <text x="34" y="215">IX</text>
+              <text x="58" y="121">X</text>
+              <text x="122" y="57">XI</text>
+            </g>
           </g>
-        </g>
-        <g class="preloader-crescent">
-          <path d="M272 56 A164 164 0 1 0 272 364 A118 156 0 1 1 272 56 Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
-        </g>
-        <g class="astrolabe-core">
-          <polygon points="210,136 242,192 178,192" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
-          <polygon points="178,192 210,248 146,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
-          <polygon points="242,192 274,248 210,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
-        </g>
-      </svg>
+          <g class="preloader-crescent">
+            <path d="M272 56 A164 164 0 1 0 272 364 A118 156 0 1 1 272 56 Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+          </g>
+          <g class="astrolabe-core">
+            <polygon points="210,136 242,192 178,192" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+            <polygon points="178,192 210,248 146,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+            <polygon points="242,192 274,248 210,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
+          </g>
+        </svg>
+        <img src="assets/media/navi-amber.png" alt="Fée Navi Ambre" class="clock-preloader-navi" />
+      </div>
       <div class="clock-preloader-bar"><span></span></div>
     </div>
   </div>
@@ -89,6 +94,7 @@
       <div class="nav-actions">
         <button type="button" class="btn btn-outline btn-sm" id="langToggleBtn" aria-pressed="false" title="Changer la langue FR / EN">EN</button>
         <button type="button" class="btn btn-outline btn-sm" id="soundToggleBtn" aria-pressed="false">Son : Off</button>
+        <button type="button" class="btn btn-outline btn-sm" id="nextTrackBtn" title="Changer de piste Zelda">Piste ⏭</button>
         <button type="button" class="btn btn-outline btn-sm" id="debugToggleBtn" aria-pressed="false" title="Afficher le HUD technique (F3)">F3 HUD</button>
         <button type="button" class="quest-hud num" id="questCounterBadge" title="Ouvrir le journal des missions">Missions : 0/5 · 0 XP</button>
         <button type="button" class="btn btn-outline btn-sm" id="openCvBtn">Aperçu CV</button>
@@ -98,6 +104,7 @@
   </header>
 
   <main>
+    <canvas class="fairy-bg-canvas" id="fairyBgCanvas" aria-hidden="true"></canvas>
     <div class="hyrule-umbra-clock" id="hyruleUmbraClock" aria-hidden="true">
       <svg viewBox="0 0 420 420" class="astrolabe-svg">
         <!-- Anneau extérieur Umbra (horloge romaine) -->
@@ -213,6 +220,8 @@
             <div class="project-sim" data-arena="rover">
               <div class="sim-header">
                 <div class="sim-mode-group">
+                  <button type="button" class="rover-slide-btn active" data-rover-slide="photo">Photo prototype</button>
+                  <button type="button" class="rover-slide-btn" data-rover-slide="interface">Interface virtuelle →</button>
                   <button type="button" class="rover-mode-btn active" data-rover-mode="manual">Télécommande Godot</button>
                   <button type="button" class="rover-mode-btn" data-rover-mode="gps">Suivi GPS</button>
                   <button type="button" class="rover-mode-btn" data-rover-mode="auto">Évitement autonome</button>
@@ -220,7 +229,18 @@
                 <span class="sim-status num" id="roverStateBadge">Mode : Manuel Godot (ZQSD / Flèches)</span>
               </div>
 
-              <canvas id="roverCanvas" tabindex="0" width="1160" height="300" aria-label="Simulateur radar du robot voiture ESP32 pilotable au clavier"></canvas>
+              <div class="rover-stage-rail" id="roverStageRail" role="region" aria-label="Défilement de la photo du prototype vers le simulateur Godot">
+                <div class="rover-slide rover-slide--photo" data-slide="photo">
+                  <img src="assets/media/voiture-gps.jpg" alt="Prototype physique réel de la voiture GPS ESP32" class="rover-real-photo" />
+                  <div class="rover-photo-caption">
+                    <span class="real-game-tag num">PROTOTYPE RÉEL · VOITURE GPS ESP32</span>
+                    <button type="button" class="btn btn-outline btn-sm" id="roverToSimBtn">Défiler vers l’interface virtuelle →</button>
+                  </div>
+                </div>
+                <div class="rover-slide rover-slide--sim" data-slide="interface">
+                  <canvas id="roverCanvas" tabindex="0" width="1160" height="300" aria-label="Simulateur radar du robot voiture ESP32 pilotable au clavier"></canvas>
+                </div>
+              </div>
 
               <div class="sim-footer-bar">
                 <div class="rover-dpad" aria-label="Commandes manuelles du robot">
@@ -308,58 +328,7 @@
             </div>
           </article>
 
-          <!-- PROJET 3 : LA DERNIÈRE BOUGIE (GDD + FSM + AUDIO 3 PHASES) -->
-          <article class="project-card" data-categories="gamedev 3d">
-            <div class="project-top-strip">
-              <div class="project-head-group">
-                <h3>La Dernière Bougie : survival 2.5D</h3>
-                <ul class="project-brief">
-                  <li><strong>Problème :</strong> Concevoir un survival court mais tendu où l’ambiance sonore et visuelle reflète directement le danger.</li>
-                  <li><strong>Solution :</strong> Pipeline 2.5D avec bougies joueur/ennemies animées sous Blender (.glb), machine à états asynchrone et audio en 3 phases.</li>
-                  <li><strong>Rôle :</strong> Game Design Document, modélisation/animation 3D et prototypage interactif.</li>
-                </ul>
-              </div>
-              <div class="project-action-group">
-                <button type="button" class="btn btn-primary btn-sm btn-attention" id="bougieGodotToggleBtn">Jouer au jeu Godot 3D</button>
-                <button type="button" class="btn btn-outline btn-sm" id="openGddModalBtn">Lire le GDD complet</button>
-                <a href="#lab3d" class="btn btn-link btn-sm">Inspecter le modèle 3D</a>
-              </div>
-            </div>
-
-            <div id="bougieGodotView" class="bougie-godot-view hidden">
-              <div class="bougie-godot-bar">
-                <span class="sim-status num">Godot 4.7 Web · La Dernière Bougie 3D</span>
-                <button type="button" class="btn btn-outline btn-sm" id="bougieGodotFsBtn">Plein écran ⛶</button>
-              </div>
-              <iframe id="bougieGodotFrame" title="La Dernière Bougie — Version Godot 3D" loading="lazy" allow="autoplay; fullscreen"></iframe>
-            </div>
-
-            <div class="project-sim is-keyboard-active" id="heroArena" data-arena="hero">
-              <div class="stage-toolbar">
-                <div class="stage-tabs" role="tablist" aria-label="Modes d’affichage de la scène">
-                  <button type="button" class="hero-mode-btn active" data-hero-mode="flame" role="tab" aria-selected="true">Scène 2.5D</button>
-                  <button type="button" class="hero-mode-btn" data-hero-mode="telemetry" role="tab" aria-selected="false">Bus ESP32</button>
-                  <button type="button" class="hero-mode-btn" data-hero-mode="wireframe" role="tab" aria-selected="false">Maillage 3D</button>
-                </div>
-                <div class="stage-readout num">
-                  <span id="heroExpressionLabel">État joueur : Sécurité</span>
-                  <span id="heroTelemetryText">ZQSD ou Flèches pour esquiver, Espace pour sauter</span>
-                </div>
-              </div>
-
-              <canvas id="heroCanvas" tabindex="0" width="1280" height="380" aria-label="Scène jouable de La Dernière Bougie : Q et D ou Flèches pour bouger, Espace pour sauter et raviver"></canvas>
-
-              <div class="sim-footer-bar">
-                <div class="fsm-actions">
-                  <button type="button" class="btn btn-outline btn-sm btn-attention" id="heroChallengeBtn">Défi survie 30s</button>
-                  <span class="sim-rule num" id="heroScoreLabel">Esquives : 0</span>
-                </div>
-                <span class="sim-rule num">Clavier : Q/D ou Flèches, Espace sauter et raviver</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- PROJET 4 : RUNNER PROCÉDURAL -->
+          <!-- PROJET 3 : RUNNER PROCÉDURAL -->
           <article class="project-card" data-categories="gamedev">
             <div class="project-top-strip">
               <div class="project-head-group">
@@ -385,7 +354,7 @@
                 <span class="sim-status num">Godot Web · Ninja Run</span>
                 <button type="button" class="btn btn-outline btn-sm" id="runnerGodotFsBtn">Plein écran ⛶</button>
               </div>
-              <iframe id="runnerGodotFrame" title="Ninja Run — Runner Godot" loading="lazy" allow="autoplay; fullscreen"></iframe>
+              <iframe id="runnerGodotFrame" title="Ninja Run — Runner Godot" loading="lazy" allow="fullscreen 'none'; autoplay 'self'"></iframe>
             </div>
 
             <div class="project-sim" id="runnerJsArena" data-arena="runner">
@@ -407,7 +376,7 @@
             </div>
           </article>
 
-          <!-- PROJET 5 : SNAKE REVISITÉ (GODOT / EN COURS) -->
+          <!-- PROJET 4 : SNAKE REVISITÉ (GODOT / EN COURS) -->
           <article class="project-card" data-categories="gamedev">
             <div class="project-top-strip">
               <div class="project-head-group">
@@ -454,6 +423,48 @@
                   <p>Emplacement prêt pour l’export Web HTML5 Godot dans <code>games/snake/index.html</code>.</p>
                 </div>
                 <iframe id="snakeGodotFrame" title="Snake Godot HTML5" class="hidden" loading="lazy"></iframe>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 5 : LA DERNIÈRE BOUGIE (GDD + FSM + AUDIO 3 PHASES) -->
+          <article class="project-card" data-categories="gamedev 3d">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>La Dernière Bougie : survival 2.5D</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Concevoir un survival court mais tendu où l’ambiance sonore et visuelle reflète directement le danger.</li>
+                  <li><strong>Solution :</strong> Pipeline 2.5D avec bougies joueur/ennemies animées sous Blender (.glb), machine à états asynchrone et audio en 3 phases.</li>
+                  <li><strong>Rôle :</strong> Game Design Document, modélisation/animation 3D et prototypage interactif.</li>
+                </ul>
+              </div>
+              <div class="project-action-group">
+                <button type="button" class="btn btn-outline btn-sm" id="openGddModalBtn">Lire le GDD complet</button>
+                <a href="#lab3d" class="btn btn-link btn-sm">Inspecter le modèle 3D</a>
+              </div>
+            </div>
+
+            <div class="project-sim is-keyboard-active" id="heroArena" data-arena="hero">
+              <div class="stage-toolbar">
+                <div class="stage-tabs" role="tablist" aria-label="Modes d’affichage de la scène">
+                  <button type="button" class="hero-mode-btn active" data-hero-mode="flame" role="tab" aria-selected="true">Scène 2.5D</button>
+                  <button type="button" class="hero-mode-btn" data-hero-mode="telemetry" role="tab" aria-selected="false">Bus ESP32</button>
+                  <button type="button" class="hero-mode-btn" data-hero-mode="wireframe" role="tab" aria-selected="false">Maillage 3D</button>
+                </div>
+                <div class="stage-readout num">
+                  <span id="heroExpressionLabel">État joueur : Sécurité</span>
+                  <span id="heroTelemetryText">ZQSD ou Flèches pour esquiver, Espace pour sauter</span>
+                </div>
+              </div>
+
+              <canvas id="heroCanvas" tabindex="0" width="1280" height="380" aria-label="Scène jouable de La Dernière Bougie : Q et D ou Flèches pour bouger, Espace pour sauter et raviver"></canvas>
+
+              <div class="sim-footer-bar">
+                <div class="fsm-actions">
+                  <button type="button" class="btn btn-outline btn-sm btn-attention" id="heroChallengeBtn">Défi survie 30s</button>
+                  <span class="sim-rule num" id="heroScoreLabel">Esquives : 0</span>
+                </div>
+                <span class="sim-rule num">Clavier : Q/D ou Flèches, Espace sauter et raviver</span>
               </div>
             </div>
           </article>
@@ -908,7 +919,7 @@
         </div>
       </div>
       <div class="game-window-stage">
-        <iframe id="gameWindowFrame" title="Fenêtre de jeu Godot" allow="autoplay"></iframe>
+        <iframe id="gameWindowFrame" title="Fenêtre de jeu Godot" allow="fullscreen 'none'; autoplay 'self'"></iframe>
       </div>
     </div>
   </div>
