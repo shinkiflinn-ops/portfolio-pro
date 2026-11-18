@@ -3434,7 +3434,7 @@
           rotation: 120,
           rotationY: 120,
           scale: 0.72,
-          duration: 0.52,
+          duration: 0.3,
           ease: 'power2.in'
         }, 0);
 
@@ -3452,7 +3452,7 @@
           rotation: 240,
           rotationY: 240,
           scale: 0.78,
-          duration: 0.44,
+          duration: 0.26,
           ease: 'power1.inOut'
         }, 'drop')
           .to(clock, {
@@ -3461,7 +3461,7 @@
             rotation: 360,
             rotationY: 360,
             scale: 1,
-            duration: 0.74,
+            duration: 0.42,
             ease: 'power2.out',
             onComplete: () => gsap.set(clock, { rotation: 0, rotationY: 0 })
           });
@@ -3472,7 +3472,7 @@
           y: targetCy - 92,
           rotation: -180,
           scale: 1.15,
-          duration: 0.36,
+          duration: 0.2,
           ease: 'power2.out'
         }, 'drop')
           .to(triLeft, {
@@ -3480,7 +3480,7 @@
             y: targetCy + 72,
             rotation: 160,
             scale: 1.15,
-            duration: 0.36,
+            duration: 0.2,
             ease: 'power2.out'
           }, 'drop')
           .to(triRight, {
@@ -3488,7 +3488,7 @@
             y: targetCy + 72,
             rotation: -160,
             scale: 1.15,
-            duration: 0.36,
+            duration: 0.2,
             ease: 'power2.out'
           }, 'drop');
 
@@ -3497,7 +3497,7 @@
           y: targetCy - 28,
           rotation: 0,
           scale: 1,
-          duration: 0.32,
+          duration: 0.18,
           ease: 'back.out(1.7)'
         }, 'assemble')
           .to(triLeft, {
@@ -3505,7 +3505,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.32,
+            duration: 0.18,
             ease: 'back.out(1.7)'
           }, 'assemble')
           .to(triRight, {
@@ -3513,7 +3513,7 @@
             y: targetCy + 28,
             rotation: 0,
             scale: 1,
-            duration: 0.32,
+            duration: 0.18,
             ease: 'back.out(1.7)'
           }, 'assemble');
 
@@ -3523,7 +3523,7 @@
             gsap.to(summonRing, {
               scale: 3.1,
               opacity: 0,
-              duration: 0.72,
+              duration: 0.42,
               ease: 'power2.out',
               overwrite: 'auto'
             });
@@ -3532,7 +3532,7 @@
           .to(pieces, {
             scale: 1.3,
             rotation: 360,
-            duration: 0.4,
+            duration: 0.22,
             ease: 'power2.inOut',
             yoyo: true,
             repeat: 1
@@ -3545,36 +3545,36 @@
           gsap.to(card, {
             opacity: 1,
             scale: 1,
-            duration: 0.65,
+            duration: 0.42,
             ease: 'power3.out',
             overwrite: 'auto'
           });
-        }, 'invoke+=0.65');
+        }, 'invoke+=0.34');
 
         tl.to(triTop, {
           x: () => getClockHomeSlots().top.x,
           y: () => getClockHomeSlots().top.y,
           scale: () => getClockHomeSlots().top.scale,
           rotation: 0,
-          duration: 0.56,
+          duration: 0.3,
           ease: 'power3.inOut'
-        }, 'invoke+=0.65')
+        }, 'invoke+=0.34')
           .to(triLeft, {
             x: () => getClockHomeSlots().left.x,
             y: () => getClockHomeSlots().left.y,
             scale: () => getClockHomeSlots().left.scale,
             rotation: 0,
-            duration: 0.56,
+            duration: 0.3,
             ease: 'power3.inOut'
-          }, 'invoke+=0.65')
+          }, 'invoke+=0.34')
           .to(triRight, {
             x: () => getClockHomeSlots().right.x,
             y: () => getClockHomeSlots().right.y,
             scale: () => getClockHomeSlots().right.scale,
             rotation: 0,
-            duration: 0.56,
+            duration: 0.3,
             ease: 'power3.inOut'
-          }, 'invoke+=0.65');
+          }, 'invoke+=0.34');
       };
 
       const registerTriggers = () => {
