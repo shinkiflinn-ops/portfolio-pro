@@ -2570,7 +2570,7 @@
 
     const configs = [
       { key: 'bougie', canvasId: 'viewerCanvas-bougie', mvId: 'mv-bougie', defaultPath: 'assets/models/bougie.glb' },
-      { key: 'cartoon', canvasId: 'viewerCanvas-cartoon', mvId: 'mv-cartoon', defaultPath: 'assets/models/cartoonpersonage.glb' },
+      { key: 'cartoon', canvasId: 'viewerCanvas-cartoon', mvId: 'mv-cartoon', defaultPath: 'assets/models/bouge.glb' },
       { key: 'phare', canvasId: 'viewerCanvas-phare', mvId: 'mv-phare', defaultPath: 'assets/models/phare.glb' },
       { key: 'pokeball', canvasId: 'viewerCanvas-pokeball', mvId: 'mv-pokeball', defaultPath: 'assets/models/pokeball.glb' }
     ];
