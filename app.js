@@ -3129,7 +3129,6 @@
       setText('.footer-statement p', 'Available for engineering builds, embedded prototypes, and interactive experiences.');
       setText('#footerCvBtn strong', 'Download Resume');
       setText('#footerCvBtn small', 'A4 PDF Format');
-      setText('.footer-meta', '© John-Mary Ayivi · Cotonou & Abomey-Calavi');
       setText('#footerCopyEmailBtn', 'Copy address: kemerdyjohn@gmail.com');
 
       setText('#cvSheet h1', 'John-Mary Ayivi');
