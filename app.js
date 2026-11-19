@@ -32,6 +32,222 @@
       cakeTop: '#2a241f',
       cakeBottom: '#1b1815'
     },
+    emerald: {
+      label: 'Émeraude Hyrule',
+      paper: '#101b16',
+      paper2: '#16241d',
+      paper3: '#1e3027',
+      ink: '#e8f4ed',
+      ink2: '#c0d9ca',
+      muted: '#84a592',
+      rule: '#2f4b3c',
+      grid: 'rgba(61, 214, 140, 0.14)',
+      accent: '#3dd68c',
+      accentSoft: 'rgba(61, 214, 140, 0.22)',
+      accentWarm: '#90f2be',
+      accentDeep: '#1f8a58',
+      scrim: 'rgba(12, 22, 17, 0.80)',
+      shadow: 'rgba(5, 10, 8, 0.55)',
+      shield: '#8ee3ef',
+      waxLight: '#e8f5ee',
+      waxMid: '#cbe0d4',
+      waxDark: '#8aa898',
+      faceInk: '#101b16',
+      sisterCalm: '#9bb8a8',
+      sisterSad: '#738f80',
+      sisterAngry: '#4f6d5c',
+      cakeTop: '#1d2f26',
+      cakeBottom: '#101b16'
+    },
+    sapphire: {
+      label: 'Saphir Sheikah',
+      paper: '#101624',
+      paper2: '#161f32',
+      paper3: '#1f2b42',
+      ink: '#e7eefb',
+      ink2: '#bfcee8',
+      muted: '#8598ba',
+      rule: '#2f4062',
+      grid: 'rgba(72, 176, 255, 0.14)',
+      accent: '#48b0ff',
+      accentSoft: 'rgba(72, 176, 255, 0.22)',
+      accentWarm: '#9cd6ff',
+      accentDeep: '#226cb5',
+      scrim: 'rgba(12, 18, 30, 0.80)',
+      shadow: 'rgba(6, 9, 16, 0.55)',
+      shield: '#7be3ff',
+      waxLight: '#e8f1fb',
+      waxMid: '#cad8ea',
+      waxDark: '#8c9eb8',
+      faceInk: '#101624',
+      sisterCalm: '#9aaec8',
+      sisterSad: '#7285a0',
+      sisterAngry: '#546482',
+      cakeTop: '#1d2940',
+      cakeBottom: '#101624'
+    },
+    umbra: {
+      label: 'Violet Umbra',
+      paper: '#17111f',
+      paper2: '#20182b',
+      paper3: '#2a2038',
+      ink: '#f1eaf7',
+      ink2: '#d2c2e0',
+      muted: '#9b86ae',
+      rule: '#433357',
+      grid: 'rgba(200, 126, 255, 0.14)',
+      accent: '#c87eff',
+      accentSoft: 'rgba(200, 126, 255, 0.22)',
+      accentWarm: '#e6b8ff',
+      accentDeep: '#7f3bb5',
+      scrim: 'rgba(18, 13, 25, 0.80)',
+      shadow: 'rgba(8, 5, 12, 0.55)',
+      shield: '#a6d8ff',
+      waxLight: '#f3ebf8',
+      waxMid: '#dcd0e6',
+      waxDark: '#9d8cae',
+      faceInk: '#17111f',
+      sisterCalm: '#b5a2c6',
+      sisterSad: '#88749b',
+      sisterAngry: '#664a78',
+      cakeTop: '#281e36',
+      cakeBottom: '#17111f'
+    },
+    gold: {
+      label: 'Or',
+      paper: '#18140e',
+      paper2: '#211b12',
+      paper3: '#2b2317',
+      ink: '#f8f2e4',
+      ink2: '#ded2b8',
+      muted: '#a49574',
+      rule: '#4b3f28',
+      grid: 'rgba(242, 201, 76, 0.14)',
+      accent: '#f2c94c',
+      accentSoft: 'rgba(242, 201, 76, 0.24)',
+      accentWarm: '#ffe694',
+      accentDeep: '#b8861d',
+      scrim: 'rgba(20, 16, 10, 0.80)',
+      shadow: 'rgba(8, 6, 3, 0.58)',
+      shield: '#d5e4f0',
+      waxLight: '#faf4e3',
+      waxMid: '#e6d9b8',
+      waxDark: '#a89670',
+      faceInk: '#18140e',
+      sisterCalm: '#c2b596',
+      sisterSad: '#93866c',
+      sisterAngry: '#6f5938',
+      cakeTop: '#292116',
+      cakeBottom: '#18140e'
+    },
+    silver: {
+      label: 'Argent',
+      paper: '#13161b',
+      paper2: '#1a1e25',
+      paper3: '#232832',
+      ink: '#f0f4f9',
+      ink2: '#c9d2de',
+      muted: '#8f9aa8',
+      rule: '#3b4350',
+      grid: 'rgba(207, 216, 227, 0.14)',
+      accent: '#cfd8e3',
+      accentSoft: 'rgba(207, 216, 227, 0.22)',
+      accentWarm: '#eef4fb',
+      accentDeep: '#768496',
+      scrim: 'rgba(15, 18, 23, 0.80)',
+      shadow: 'rgba(6, 8, 11, 0.58)',
+      shield: '#a6cbe8',
+      waxLight: '#f2f5f9',
+      waxMid: '#d5dce5',
+      waxDark: '#8e99a8',
+      faceInk: '#13161b',
+      sisterCalm: '#aeb8c4',
+      sisterSad: '#838d99',
+      sisterAngry: '#5a6470',
+      cakeTop: '#21262e',
+      cakeBottom: '#13161b'
+    },
+    'gold-silver': {
+      label: 'Or & Argent',
+      paper: '#121418',
+      paper2: '#191c22',
+      paper3: '#22262e',
+      ink: '#eef2f7',
+      ink2: '#cdd5e0',
+      muted: '#95a0af',
+      rule: '#3f4654',
+      grid: 'rgba(235, 195, 86, 0.14)',
+      accent: '#ebc356',
+      accentSoft: 'rgba(235, 195, 86, 0.22)',
+      accentWarm: '#f7df94',
+      accentDeep: '#7d8898',
+      scrim: 'rgba(14, 16, 20, 0.80)',
+      shadow: 'rgba(5, 7, 10, 0.58)',
+      shield: '#cfd8e3',
+      waxLight: '#f3f5f8',
+      waxMid: '#d8dee6',
+      waxDark: '#929ba8',
+      faceInk: '#121418',
+      sisterCalm: '#b5bec9',
+      sisterSad: '#88919e',
+      sisterAngry: '#665b45',
+      cakeTop: '#20242c',
+      cakeBottom: '#121418'
+    },
+    'starry-snow': {
+      label: 'Nuit Étoilée & Neige',
+      paper: '#0f1329',
+      paper2: '#151b38',
+      paper3: '#1d2448',
+      ink: '#f5f8ff',
+      ink2: '#cad9f5',
+      muted: '#90a3cc',
+      rule: '#323f6b',
+      grid: 'rgba(176, 206, 255, 0.14)',
+      accent: '#b8d7ff',
+      accentSoft: 'rgba(184, 215, 255, 0.24)',
+      accentWarm: '#ffffff',
+      accentDeep: '#4d3a8a',
+      scrim: 'rgba(10, 14, 32, 0.82)',
+      shadow: 'rgba(4, 6, 16, 0.64)',
+      shield: '#a5ccff',
+      waxLight: '#f5f8ff',
+      waxMid: '#d8e5fb',
+      waxDark: '#8da4cf',
+      faceInk: '#0f1329',
+      sisterCalm: '#b5c6e4',
+      sisterSad: '#8397bc',
+      sisterAngry: '#5a5084',
+      cakeTop: '#192040',
+      cakeBottom: '#0f1329'
+    },
+    'milky-snow': {
+      label: 'Voie Lactée & Neige',
+      paper: '#0b1120',
+      paper2: '#121b30',
+      paper3: '#192642',
+      ink: '#f4f8ff',
+      ink2: '#cddcf2',
+      muted: '#8da2c4',
+      rule: '#2f446b',
+      grid: 'rgba(198, 224, 255, 0.14)',
+      accent: '#cfe2ff',
+      accentSoft: 'rgba(207, 226, 255, 0.24)',
+      accentWarm: '#f5f9ff',
+      accentDeep: '#3a5d96',
+      scrim: 'rgba(8, 13, 25, 0.82)',
+      shadow: 'rgba(3, 6, 14, 0.64)',
+      shield: '#9bc4f8',
+      waxLight: '#f4f8ff',
+      waxMid: '#d8e6fb',
+      waxDark: '#8aa4cc',
+      faceInk: '#0b1120',
+      sisterCalm: '#c0cbe0',
+      sisterSad: '#8a9ab8',
+      sisterAngry: '#546b94',
+      cakeTop: '#16223d',
+      cakeBottom: '#0b1120'
+    },
     red: {
       label: 'Rouge',
       paper: '#1b1815',
@@ -88,7 +304,7 @@
     }
   };
 
-  let currentTheme = 'amber';
+  let currentTheme = 'milky-snow';
   function getCanvasPalette() {
     return PALETTES[currentTheme] || PALETTES.amber;
   }
@@ -281,18 +497,14 @@
     function applyTheme(name) {
       if (!PALETTES[name]) return;
       currentTheme = name;
-      if (name === 'amber') {
-        document.documentElement.removeAttribute('data-theme');
-      } else {
-        document.documentElement.setAttribute('data-theme', name);
-      }
+      document.documentElement.setAttribute('data-theme', name);
       themeBtns.forEach((b) => {
         const active = b.dataset.themeChoice === name;
         b.classList.toggle('active', active);
         b.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
       if (debugTheme) debugTheme.textContent = `Thème : ${PALETTES[name].label}`;
-      showToast(`Palette Darkroom : ${PALETTES[name].label}`);
+      showToast(`Thème : ${PALETTES[name].label}`);
     }
 
     themeBtns.forEach((btn) => {
@@ -470,7 +682,7 @@
       Digit6: 'snake'
     };
 
-    const themeOrder = ['amber', 'red', 'fibre'];
+    const themeOrder = ['milky-snow', 'starry-snow', 'amber', 'gold', 'silver', 'gold-silver', 'emerald', 'sapphire', 'umbra', 'red', 'fibre'];
 
     window.addEventListener('keydown', (e) => {
       if (isModalOpen()) return;
@@ -3167,7 +3379,7 @@
       setText('.hero-copy h1', 'Embedded electronics, robotics and game dev');
       setHtml('.hero-copy .lead', '3rd-year Electrical &amp; Computer Engineering student and President of the INSTI Art, Design &amp; Gaming Club, I build embedded and interactive systems.<br />Passionate about game dev, game design, and everything interactive, I also dedicate time to 3D modeling in Blender.');
       setText('.hero-cta-row a.btn-primary', 'Explore electronics & demos');
-      setText('#heroCvBtn', 'Generate Resume');
+      setText('#heroCvBtn', 'View Resume');
       const runnerGodotBtn = document.getElementById('runnerGodotToggleBtn');
       if (runnerGodotBtn) {
         const isRunnerOpen = document.getElementById('runnerGodotView') && !document.getElementById('runnerGodotView').classList.contains('hidden');
@@ -3812,29 +4024,26 @@
       { passive: true }
     );
 
-    // Couleur unique Darkroom Ambre pour toutes les fées
-    const FAIRY_UNIFORM = {
-      core: 'rgba(255, 224, 152, 0.98)',
-      glow: 'rgba(232, 148, 60, 0.55)',
-      trail: 'rgba(232, 148, 60, 0.45)',
-      wing: 'rgba(245, 196, 108, 0.44)'
-    };
-
-    const glowSprite = (() => {
+    // Couleur uniforme synchronisée avec la palette active
+    const spriteCache = new Map();
+    function getThemeSprite(pal) {
+      const key = pal.accent || '#e8943c';
+      if (spriteCache.has(key)) return spriteCache.get(key);
       const sp = document.createElement('canvas');
       sp.width = 64;
       sp.height = 64;
       const sctx = sp.getContext('2d');
       const g = sctx.createRadialGradient(32, 32, 0, 32, 32, 30);
-      g.addColorStop(0, FAIRY_UNIFORM.core);
-      g.addColorStop(0.35, FAIRY_UNIFORM.glow);
+      g.addColorStop(0, pal.accentWarm || '#ffe098');
+      g.addColorStop(0.35, pal.accentSoft || 'rgba(232, 148, 60, 0.55)');
       g.addColorStop(1, 'rgba(0, 0, 0, 0)');
       sctx.fillStyle = g;
       sctx.beginPath();
       sctx.arc(32, 32, 30, 0, Math.PI * 2);
       sctx.fill();
+      spriteCache.set(key, sp);
       return sp;
-    })();
+    }
 
     // Étoiles 3D en profondeur
     const stars3D = Array.from({ length: 34 }, () => ({
@@ -3842,6 +4051,74 @@
       y: (Math.random() - 0.5) * 1100,
       z: Math.random() * 860 + 40
     }));
+
+    // Bande galactique Voie Lactée pré-rendue (0 latence en boucle d'animation)
+    const milkyWaySprite = (() => {
+      const mw = document.createElement('canvas');
+      mw.width = 920;
+      mw.height = 520;
+      const mctx = mw.getContext('2d');
+      mctx.save();
+      mctx.translate(460, 260);
+      mctx.rotate(-0.34);
+
+      const outerGlow = mctx.createRadialGradient(0, 0, 10, 0, 0, 440);
+      outerGlow.addColorStop(0, 'rgba(222, 236, 255, 0.14)');
+      outerGlow.addColorStop(0.35, 'rgba(138, 174, 240, 0.10)');
+      outerGlow.addColorStop(0.7, 'rgba(72, 102, 172, 0.04)');
+      outerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      mctx.scale(1.65, 0.48);
+      mctx.fillStyle = outerGlow;
+      mctx.beginPath();
+      mctx.arc(0, 0, 440, 0, Math.PI * 2);
+      mctx.fill();
+
+      // Poussière stellaire fine intégrée à la bande lactée
+      for (let s = 0; s < 220; s += 1) {
+        const rx = (Math.random() - 0.5) * 680;
+        const ry = (Math.random() - 0.5) * (170 - Math.abs(rx) * 0.14);
+        const r = 0.55 + Math.random() * 1.15;
+        const a = 0.12 + Math.random() * 0.45;
+        mctx.fillStyle = `rgba(235, 244, 255, ${a.toFixed(2)})`;
+        mctx.fillRect(rx, ry, r, r);
+      }
+      mctx.restore();
+      return mw;
+    })();
+
+    // Constellation du Lion (Leo) projetée sur le plan 3D d'arrière-plan
+    // Coordonnées célestes réelles (AD / Déc normalisées) + profondeur 3D z par étoile
+    const LEO_STARS = [
+      { name: 'Regulus', x: 185, y: 120, z: 220, r: 3.6, flare: true },   // 0: α Leo (cœur)
+      { name: 'η Leo', x: 192, y: 26, z: 245, r: 2.3 },                   // 1: poitrail
+      { name: 'Algieba', x: 128, y: -22, z: 235, r: 3.0, flare: true },   // 2: γ Leo (cou)
+      { name: 'Adhafera', x: 142, y: -88, z: 265, r: 2.2 },               // 3: ζ Leo (crinière)
+      { name: 'Rasalas', x: 256, y: -132, z: 280, r: 2.3 },               // 4: μ Leo (front)
+      { name: 'Algenubi', x: 292, y: -90, z: 295, r: 2.4 },               // 5: ε Leo (museau)
+      { name: 'Zosma', x: -136, y: -38, z: 250, r: 2.6 },                 // 6: δ Leo (hanche)
+      { name: 'Chertan', x: -132, y: 54, z: 268, r: 2.3 },                // 7: θ Leo (patte arrière)
+      { name: 'Denebola', x: -310, y: 68, z: 230, r: 3.1, flare: true }   // 8: β Leo (queue)
+    ];
+
+    const LEO_EDGES = [
+      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], // Faucille / Tête du Lion
+      [2, 6], [0, 7],                         // Dos & ventre
+      [6, 7], [6, 8], [7, 8]                  // Triangle arrière & queue (Denebola)
+    ];
+
+    // Flocons de neige 2 couches (profondeur + brise légère de la souris)
+    const snowflakes = Array.from({ length: 68 }, (_, idx) => {
+      const near = idx % 3 === 0;
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: near ? 1.8 + Math.random() * 1.7 : 0.85 + Math.random() * 1.1,
+        vy: near ? 1.05 + Math.random() * 0.95 : 0.45 + Math.random() * 0.6,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.012 + Math.random() * 0.018,
+        alpha: near ? 0.55 + Math.random() * 0.35 : 0.25 + Math.random() * 0.35
+      };
+    });
 
     // Nombre réduit et aléatoire de fées (2 à 4), toutes de la même couleur ambre
     const fairyCount = 2 + Math.floor(Math.random() * 3);
@@ -3886,9 +4163,19 @@
       const vpX = w * 0.5 + mouseX * 48;
       const vpY = h * 0.42 + mouseY * 28 - ((window.scrollY || 0) * 0.04) % 90;
 
+      const pal = getCanvasPalette();
+      const glowSprite = getThemeSprite(pal);
+
+      // 0. Bande Voie Lactée pré-rendue en parallaxe (spécial Voie Lactée Neige)
+      if (currentTheme === 'milky-snow') {
+        const mwW = Math.max(w * 1.15, 960);
+        const mwH = Math.max(h * 0.78, 460);
+        ctx.drawImage(milkyWaySprite, vpX - mwW * 0.5, vpY - mwH * 0.54, mwW, mwH);
+      }
+
       // 1. Grille 3D en perspective (sol & plafond techniques)
       gridOffset = (gridOffset + 0.65) % 90;
-      ctx.strokeStyle = 'rgba(232, 148, 60, 0.12)';
+      ctx.strokeStyle = pal.grid || 'rgba(232, 148, 60, 0.14)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let gx = -900; gx <= 900; gx += 180) {
@@ -3912,7 +4199,7 @@
       ctx.stroke();
 
       // 2. Champ d'étoiles 3D
-      stars3D.forEach((st) => {
+      stars3D.forEach((st, idx) => {
         st.z -= 1.1;
         if (st.z <= 20) {
           st.z = 880;
@@ -3923,10 +4210,107 @@
         const sx = vpX + st.x * sc;
         const sy = vpY + st.y * sc;
         if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) return;
-        const alpha = Math.min(0.65, (1 - st.z / 900) * 0.75);
-        ctx.fillStyle = `rgba(245, 220, 175, ${alpha.toFixed(2)})`;
+        const isSnowNight = currentTheme === 'starry-snow' || currentTheme === 'milky-snow';
+        const twinkle = isSnowNight ? 0.72 + 0.28 * Math.sin(now * 0.004 + idx) : 1;
+        const alpha = Math.min(0.88, (1 - st.z / 900) * (isSnowNight ? 0.95 : 0.75) * twinkle);
+        ctx.fillStyle = isSnowNight
+          ? `rgba(230, 242, 255, ${alpha.toFixed(2)})`
+          : `rgba(245, 220, 175, ${alpha.toFixed(2)})`;
         ctx.fillRect(sx, sy, Math.max(1.2, sc * 2.4), Math.max(1.2, sc * 2.4));
       });
+
+      // 2a. Constellation du Lion (Leo) sur le plan 3D d'arrière-plan
+      {
+        const scrollShift = (window.scrollY || 0) * 0.05;
+        // Placement centré vers le milieu du ciel 3D
+        const targetScreenX = w * 0.5;
+        const targetScreenY = (w < 768 ? h * 0.25 : h * 0.28) - (scrollShift % 90) * 0.35;
+        const leoScale = Math.min(0.92, Math.max(0.44, w / 1420));
+        const baseZ = 240;
+
+        const leoProjected = LEO_STARS.map((st, idx) => {
+          // Profondeur 3D réelle selon l'axe vertical & mouvement souris
+          const z = st.z + mouseY * 24 + mouseX * (st.x * 0.05);
+          const sc = fov / (fov + z);
+          const refSc = fov / (fov + baseZ);
+          const sx = targetScreenX + (st.x * leoScale * sc) / refSc + mouseX * (28 * sc);
+          const sy = targetScreenY + (st.y * leoScale * sc) / refSc + mouseY * (18 * sc);
+          const pulse = 0.84 + 0.16 * Math.sin(now * 0.0032 + idx * 1.1);
+          return { sx, sy, sc, r: Math.max(2.6, st.r * 1.35), flare: st.flare, name: st.name, pulse };
+        });
+
+        // Lignes lumineuses de la constellation
+        ctx.save();
+        ctx.strokeStyle = pal.accent || '#d4e5ff';
+        ctx.globalAlpha = 0.68;
+        ctx.lineWidth = 1.65;
+        ctx.beginPath();
+        LEO_EDGES.forEach(([aIdx, bIdx]) => {
+          const a = leoProjected[aIdx];
+          const b = leoProjected[bIdx];
+          ctx.moveTo(a.sx, a.sy);
+          ctx.lineTo(b.sx, b.sy);
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // Étoiles de la constellation du Lion
+        leoProjected.forEach((p) => {
+          const haloR = p.r * (p.flare ? 7.2 : 4.6);
+          ctx.globalAlpha = 0.92 * p.pulse;
+          ctx.drawImage(glowSprite, p.sx - haloR, p.sy - haloR, haloR * 2, haloR * 2);
+          ctx.globalAlpha = 1;
+
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(p.sx, p.sy, Math.max(2.3, p.r * 0.8), 0, Math.PI * 2);
+          ctx.fill();
+
+          if (p.flare) {
+            const arm = p.r * 4.4 * p.pulse;
+            ctx.strokeStyle = pal.accentWarm || '#ffffff';
+            ctx.globalAlpha = 0.9;
+            ctx.lineWidth = 1.25;
+            ctx.beginPath();
+            ctx.moveTo(p.sx - arm, p.sy);
+            ctx.lineTo(p.sx + arm, p.sy);
+            ctx.moveTo(p.sx, p.sy - arm);
+            ctx.lineTo(p.sx, p.sy + arm);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        });
+
+        // Repères astronomiques discrets
+        const reg = leoProjected[0];
+        const den = leoProjected[8];
+        ctx.font = '600 11px ui-monospace, SFMono-Regular, monospace';
+        ctx.fillStyle = pal.accent || '#d4e5ff';
+        ctx.globalAlpha = 0.78;
+        ctx.fillText('REGULUS · α LEO', reg.sx + 10, reg.sy + 4);
+        ctx.fillText('DENEBOLA · β', den.sx - 86, den.sy + 15);
+        ctx.fillText('LION · ♌', (reg.sx + den.sx) * 0.5 - 24, leoProjected[3].sy - 14);
+        ctx.globalAlpha = 1;
+      }
+
+      // 2b. Chute de neige (active sur Nuit Étoilée et Voie Lactée Neige)
+      if (currentTheme === 'starry-snow' || currentTheme === 'milky-snow') {
+        snowflakes.forEach((fl) => {
+          fl.y += fl.vy;
+          fl.sway += fl.swaySpeed;
+          fl.x += Math.sin(fl.sway) * 0.45 + mouseX * 0.28;
+          if (fl.y > h + 8) {
+            fl.y = -8;
+            fl.x = Math.random() * w;
+          }
+          if (fl.x > w + 8) fl.x = -8;
+          if (fl.x < -8) fl.x = w + 8;
+          ctx.fillStyle = `rgba(238, 246, 255, ${fl.alpha.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
 
       // 3. Fées étoiles filantes en chute diagonale 3D (couleur uniforme)
       fairies.forEach((f, idx) => {
@@ -3944,7 +4328,7 @@
         const tailY = f.y - f.vy * f.tailLen * 0.45;
 
         // Traînée d'étoile filante
-        ctx.strokeStyle = FAIRY_UNIFORM.trail;
+        ctx.strokeStyle = pal.accentSoft || 'rgba(232, 148, 60, 0.45)';
         ctx.lineWidth = Math.max(1.2, sz * 0.45);
         ctx.beginPath();
         ctx.moveTo(tailX, tailY);
@@ -3952,13 +4336,13 @@
         ctx.stroke();
 
         const flap = Math.sin(now * 0.02 * (f.wingSpeed * 4));
-        drawWing(f.x - sz * 0.35, f.y, -1, flap, sz, FAIRY_UNIFORM.wing);
-        drawWing(f.x + sz * 0.35, f.y, 1, flap, sz, FAIRY_UNIFORM.wing);
+        drawWing(f.x - sz * 0.35, f.y, -1, flap, sz, pal.accentSoft || 'rgba(245, 196, 108, 0.44)');
+        drawWing(f.x + sz * 0.35, f.y, 1, flap, sz, pal.accentSoft || 'rgba(245, 196, 108, 0.44)');
 
         const r = sz * 4.0;
         ctx.drawImage(glowSprite, f.x - r, f.y - r, r * 2, r * 2);
 
-        ctx.fillStyle = FAIRY_UNIFORM.core;
+        ctx.fillStyle = pal.accentWarm || '#ffe098';
         ctx.beginPath();
         ctx.arc(f.x, f.y, Math.max(1.5, sz * 0.58), 0, Math.PI * 2);
         ctx.fill();
