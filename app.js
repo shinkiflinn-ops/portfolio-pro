@@ -338,6 +338,7 @@
     document.addEventListener('click', (e) => {
       const target = e.target.closest('button, .btn, .contact-tile, [role="button"], [role="tab"], .nav-links a');
       if (!target) return;
+      if (target.id === 'lightboxPrevBtn' || target.id === 'lightboxNextBtn') return;
       if (target.disabled || target.getAttribute('aria-disabled') === 'true') return;
       playBotwClick();
     }, true);
@@ -2482,37 +2483,6 @@
     const pauseBtn = document.getElementById('snakePauseBtn');
     const dpadBtns = document.querySelectorAll('.snake-dpad-btn');
 
-    const toggleBtn = document.getElementById('snakeSourceToggleBtn');
-    const jsView = document.getElementById('snakeJsView');
-    const godotView = document.getElementById('snakeGodotView');
-    const godotFrame = document.getElementById('snakeGodotFrame');
-    const godotStatus = document.getElementById('snakeGodotStatus');
-
-    if (toggleBtn && jsView && godotView) {
-      let showingGodot = false;
-      toggleBtn.addEventListener('click', () => {
-        showingGodot = !showingGodot;
-        jsView.classList.toggle('hidden', showingGodot);
-        godotView.classList.toggle('hidden', !showingGodot);
-        toggleBtn.textContent = showingGodot
-          ? 'Revenir au Snake de test'
-          : 'Charger export Godot';
-
-        if (showingGodot && godotFrame && godotStatus && !godotFrame.dataset.checked) {
-          godotFrame.dataset.checked = 'true';
-          fetch('games/snake/index.html', { method: 'HEAD' })
-            .then((res) => {
-              if (res.ok) {
-                godotFrame.src = 'games/snake/index.html';
-                godotFrame.classList.remove('hidden');
-                godotStatus.classList.add('hidden');
-              }
-            })
-            .catch(() => {});
-        }
-      });
-    }
-
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const cell = 20;
@@ -3209,11 +3179,12 @@
      ========================================================= */
   function initModalsAndCommands(toolbarCtrl) {
     const gddModal = document.getElementById('gddModal');
+    const valdoriaGddModal = document.getElementById('valdoriaGddModal');
     const cvModal = document.getElementById('cvModal');
     const cmdModal = document.getElementById('cmdModal');
 
     function closeAll() {
-      [gddModal, cvModal, cmdModal].forEach((m) => m && m.classList.add('hidden'));
+      [gddModal, valdoriaGddModal, cvModal, cmdModal].forEach((m) => m && m.classList.add('hidden'));
     }
 
     function openModal(modal) {
@@ -3227,21 +3198,24 @@
     };
 
     bindOpen('openGddModalBtn', gddModal);
+    bindOpen('openValdoriaGddBtn', valdoriaGddModal);
     bindOpen('openCvBtn', cvModal);
     bindOpen('heroCvBtn', cvModal);
     bindOpen('footerCvBtn', cvModal);
 
     const closeGddBtn = document.getElementById('closeGddBtn');
+    const closeValdoriaGddBtn = document.getElementById('closeValdoriaGddBtn');
     const closeCvBtn = document.getElementById('closeCvBtn');
     const closeCmdBtn = document.getElementById('closeCmdBtn');
     const printCvBtn = document.getElementById('printCvBtn');
 
     if (closeGddBtn) closeGddBtn.addEventListener('click', closeAll);
+    if (closeValdoriaGddBtn) closeValdoriaGddBtn.addEventListener('click', closeAll);
     if (closeCvBtn) closeCvBtn.addEventListener('click', closeAll);
     if (closeCmdBtn) closeCmdBtn.addEventListener('click', closeAll);
     if (printCvBtn) printCvBtn.addEventListener('click', () => window.print());
 
-    [gddModal, cvModal, cmdModal].forEach((modal) => {
+    [gddModal, valdoriaGddModal, cvModal, cmdModal].forEach((modal) => {
       if (!modal) return;
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeAll();
@@ -3263,6 +3237,7 @@
       { label: 'Démarrer Snake revisité au clavier', hint: 'Touche 6', run: () => focusArena('snake') },
       { label: 'Ouvrir le CV A4 imprimable', hint: 'CV PDF', run: () => openModal(cvModal) },
       { label: 'Lire le GDD : La Dernière Bougie', hint: 'GDD', run: () => openModal(gddModal) },
+      { label: 'Lire le GDD : Valdoria (Remastered)', hint: 'GDD', run: () => openModal(valdoriaGddModal) },
       { label: 'Copier le courriel kemerdyjohn@gmail.com', hint: 'Copier', run: () => copyEmail('kemerdyjohn@gmail.com') },
       { label: 'Aller au rail 3D Blender', hint: '#lab3d', run: () => (window.location.hash = '#lab3d') },
       {
@@ -3389,16 +3364,20 @@
       }
 
       setText('#projets .section-head-line h2', 'Projects and digital twins');
-      setList('.filter-bar .filter-btn', ['All (5)', 'Electronics & IoT', 'Games & Godot', '3D Modeling']);
+      setList('.filter-bar .filter-btn', ['All (6)', 'Electronics & IoT', 'Games & Godot', '3D Modeling']);
       setList('.rover-slide-btn', ['Prototype photo', 'Virtual interface →']);
       setText('#roverToSimBtn', 'Slide to virtual interface →');
       setText('.rover-photo-caption .real-game-tag', 'REAL PROTOTYPE · GPS ESP32 CAR');
+      setText('#openValdoriaGddBtn', 'Read Full GDD (Valdoria)');
+      setText('#snakeSourceToggleBtn', 'Play Snake (Godot)');
+      setText('#snakeGodotPlayBtn', '▶ Launch Real Snake Game');
 
       setList('.project-card h3', [
         'GPS Rover Car & Godot Remote',
         'Smart Home Connected via Blynk',
         'Procedural Obstacle Runner',
-        'Revisited Bonus Snake (WIP)',
+        'Revisited Bonus Snake',
+        'Valdoria: Echoes of Betrayal',
         'The Last Candle: 2.5D Survival'
       ]);
 
@@ -3407,6 +3386,7 @@
         '<li><strong>Problem:</strong> Automate and remotely monitor temperature, lighting, and access inside a home.</li><li><strong>Solution:</strong> ESP32 node linking temperature &amp; motion sensors to servos, relays, LEDs, local LCD, and Blynk dashboard.</li><li><strong>Role:</strong> Hardware wiring, local automation rules, and Blynk supervision.</li>',
         '<li><strong>Problem:</strong> Keep gameplay challenging without static levels or unfair difficulty spikes.</li><li><strong>Solution:</strong> Procedural obstacle spawning in Godot (GDScript) where frequency and spacing scale with speed.</li><li><strong>Role:</strong> Difficulty curve Game Design and GDScript programming.</li>',
         '<li><strong>Problem:</strong> Refresh a classic game by adding risk-reward choices and tactical pacing.</li><li><strong>Solution:</strong> GDScript rewrite in Godot with temporary bonuses (golden points, wall shield) and progressive pace for HTML5 Web export.</li><li><strong>Role:</strong> Bonus Game Design, GDScript coding, and Web integration.</li>',
+        '<li><strong>Problem:</strong> Design a narrative souls-like action-adventure that subverts the spirit-guide trope with high audio/visual clarity.</li><li><strong>Solution:</strong> Single-stamina combat, 4 Mask stances (<em>Rhino, Black Leopard, Martial Eagle, Spectre</em>), Strategist’s Eye, diegetic Resonant Runes, and 5 Barons + adaptive final boss.</li><li><strong>Role:</strong> Full Remastered Game Design Document, 3-act narrative arc, and systems direction.</li>',
         '<li><strong>Problem:</strong> Design a short, tense survival game where sound and visuals directly mirror danger.</li><li><strong>Solution:</strong> 2.5D pipeline with player/enemy candles animated in Blender (.glb), async state machine, and 3-phase adaptive audio.</li><li><strong>Role:</strong> Game Design Document, 3D modeling/animation, and interactive prototyping.</li>'
       ]);
 
@@ -3569,6 +3549,20 @@
     };
     if (runnerToggle) runnerToggle.addEventListener('click', launchRunner);
     if (quickLaunch) quickLaunch.addEventListener('click', launchRunner);
+
+    const snakeGodotTop = document.getElementById('snakeSourceToggleBtn');
+    const snakeGodotPlay = document.getElementById('snakeGodotPlayBtn');
+    const launchSnakeGodot = () => {
+      const isEn = document.documentElement.lang === 'en';
+      openGameWindow(
+        'Godot 4.7 · Snake revisité',
+        'games/snake/snake.html',
+        isEn ? 'Loading Snake (Godot)...' : 'Chargement de Snake (Godot)...'
+      );
+      completeMission('runner', 'Snake revisité (Godot)');
+    };
+    if (snakeGodotTop) snakeGodotTop.addEventListener('click', launchSnakeGodot);
+    if (snakeGodotPlay) snakeGodotPlay.addEventListener('click', launchSnakeGodot);
 
     const questModal = document.getElementById('questModal');
     const closeQuestBtn = document.getElementById('closeQuestBtn');
@@ -4354,6 +4348,101 @@
     window.requestAnimationFrame(tick);
   }
 
+  function initImageLightbox() {
+    const modal = document.getElementById('imageLightboxModal');
+    const imgEl = document.getElementById('lightboxImg');
+    const titleEl = document.getElementById('lightboxTitle');
+    const badgeEl = document.getElementById('lightboxBadge');
+    const prevBtn = document.getElementById('lightboxPrevBtn');
+    const nextBtn = document.getElementById('lightboxNextBtn');
+    const closeBtn = document.getElementById('closeLightboxBtn');
+    if (!modal || !imgEl) return;
+
+    let currentGroup = [];
+    let currentIndex = 0;
+
+    function renderSlide() {
+      const target = currentGroup[currentIndex];
+      if (!target) return;
+      imgEl.src = target.currentSrc || target.src;
+      imgEl.alt = target.alt || '';
+      const fig = target.closest('figure');
+      const cap = fig && fig.querySelector('figcaption') ? fig.querySelector('figcaption').textContent.trim() : '';
+      if (titleEl) {
+        const counter = currentGroup.length > 1 ? ` (${currentIndex + 1}/${currentGroup.length})` : '';
+        titleEl.textContent = `${cap || target.alt || 'Aperçu image'}${counter}`;
+      }
+      if (badgeEl) {
+        const hasBadge = !!(fig && fig.querySelector('.valdoria-art-badge'));
+        badgeEl.classList.toggle('hidden', !hasBadge);
+      }
+      const multi = currentGroup.length > 1;
+      if (prevBtn) prevBtn.classList.toggle('hidden', !multi);
+      if (nextBtn) nextBtn.classList.toggle('hidden', !multi);
+    }
+
+    function openLightbox(group, index) {
+      currentGroup = group;
+      currentIndex = index;
+      renderSlide();
+      modal.classList.remove('hidden');
+      playBotwClick();
+    }
+
+    function closeLightbox() {
+      modal.classList.add('hidden');
+    }
+
+    function step(delta) {
+      if (currentGroup.length <= 1) return;
+      currentIndex = (currentIndex + delta + currentGroup.length) % currentGroup.length;
+      renderSlide();
+    }
+
+    const valdoriaImgs = Array.from(document.querySelectorAll('.valdoria-art-card img'));
+    valdoriaImgs.forEach((im, idx) => {
+      im.addEventListener('click', () => openLightbox(valdoriaImgs, idx));
+    });
+
+    const singleImgs = Array.from(document.querySelectorAll('.rover-real-photo, .snake-showcase-img'));
+    singleImgs.forEach((im) => {
+      im.addEventListener('click', () => openLightbox([im], 0));
+    });
+
+    const snakeShowcase = document.getElementById('snakeShowcase');
+    const snakeJsView = document.getElementById('snakeJsView');
+    const snakeLaunchDemoBtn = document.getElementById('snakeLaunchDemoBtn');
+    const snakeBackShowcaseBtn = document.getElementById('snakeBackShowcaseBtn');
+    const snakeStartBtn = document.getElementById('snakeStartBtn');
+    if (snakeLaunchDemoBtn && snakeShowcase && snakeJsView) {
+      snakeLaunchDemoBtn.addEventListener('click', () => {
+        snakeShowcase.classList.add('hidden');
+        snakeJsView.classList.remove('hidden');
+        setActiveArena('snake');
+        if (snakeStartBtn) snakeStartBtn.click();
+      });
+    }
+    if (snakeBackShowcaseBtn && snakeShowcase && snakeJsView) {
+      snakeBackShowcaseBtn.addEventListener('click', () => {
+        snakeJsView.classList.add('hidden');
+        snakeShowcase.classList.remove('hidden');
+      });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => step(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => step(1));
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      else if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'ArrowRight') step(1);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initClockPreloader();
     initGlobalBotwButtonAudio();
@@ -4361,6 +4450,7 @@
     const toolbarCtrl = initToolbarControls();
     initLanguageSwitcher();
     initBougieGodotEmbed();
+    initImageLightbox();
     initScrollAstrolabe();
     initProjectScrollFade();
     initProgressiveReveals();

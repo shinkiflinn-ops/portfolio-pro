@@ -37,7 +37,7 @@
     @keyframes preloaderSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes clockLoaderWait { 0% { transform: scaleX(0.05); } 60% { transform: scaleX(0.75); } 100% { transform: scaleX(0.92); } }
   </style>
-  <link rel="stylesheet" href="styles.css?v=20261119d" />
+  <link rel="stylesheet" href="styles.css?v=20261119k" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" async></script>
@@ -75,7 +75,7 @@
             <polygon points="242,192 274,248 210,248" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="2" />
           </g>
         </svg>
-        <img src="assets/media/navi-moonlight.png" alt="Fée Navi Lune" class="clock-preloader-navi" />
+        <img src="assets/media/navi-moonlight.png?v=20261119e" alt="Fée Navi Lune" class="clock-preloader-navi" />
       </div>
       <div class="clock-preloader-bar"><span></span></div>
     </div>
@@ -191,7 +191,7 @@
         <div class="section-head-line">
           <h2>Projets et jumeaux numériques</h2>
           <div class="filter-bar" role="group" aria-label="Filtrer les réalisations">
-            <button type="button" class="filter-btn active" data-filter="all">Tous (5)</button>
+            <button type="button" class="filter-btn active" data-filter="all">Tous (6)</button>
             <button type="button" class="filter-btn" data-filter="iot">Électronique et IoT</button>
             <button type="button" class="filter-btn" data-filter="gamedev">Jeux et Godot</button>
             <button type="button" class="filter-btn" data-filter="3d">Modélisation 3D</button>
@@ -376,19 +376,19 @@
             </div>
           </article>
 
-          <!-- PROJET 4 : SNAKE REVISITÉ (GODOT / EN COURS) -->
+          <!-- PROJET 4 : SNAKE REVISITÉ (GODOT) -->
           <article class="project-card" data-categories="gamedev">
             <div class="project-top-strip">
               <div class="project-head-group">
-                <h3>Snake revisité à bonus (en cours)</h3>
+                <h3>Snake revisité à bonus</h3>
                 <ul class="project-brief">
                   <li><strong>Problème :</strong> Moderniser un classique souvent monotone en ajoutant de la prise de risque et des choix tactiques.</li>
-                  <li><strong>Solution :</strong> Réécriture en GDScript sous Godot avec bonus temporaires (points dorés, bouclier mur) et rythme évolutif pour export Web HTML5.</li>
+                  <li><strong>Solution :</strong> Réécriture en GDScript sous Godot avec bonus temporaires (vies, points dorés, bouclier mur) et rythme évolutif pour export Web HTML5.</li>
                   <li><strong>Rôle :</strong> Game Design des bonus, code GDScript et intégration Web.</li>
                 </ul>
               </div>
               <div class="project-action-group">
-                <button type="button" class="btn btn-outline btn-sm" id="snakeSourceToggleBtn">Charger export Godot</button>
+                <button type="button" class="btn btn-primary btn-sm btn-attention" id="snakeSourceToggleBtn">Jouer à Snake (Godot)</button>
               </div>
             </div>
 
@@ -399,12 +399,24 @@
                 <span class="sim-status num" id="snakeActiveBonus">Bonus : Aucun</span>
               </div>
 
-              <div id="snakeJsView" class="snake-view">
+              <div class="snake-showcase" id="snakeShowcase">
+                <img src="assets/media/snake-showcase.png" alt="Vitrine du jeu Snake revisité sous Godot (score, vies, bouclier)" class="snake-showcase-img" loading="lazy" />
+                <div class="snake-showcase-bar">
+                  <span class="real-game-tag num">GODOT 4.7 · SNAKE REVISITÉ</span>
+                  <div class="fsm-actions">
+                    <button type="button" class="btn btn-primary btn-sm btn-attention" id="snakeGodotPlayBtn">▶ Lancer le vrai jeu Snake</button>
+                    <button type="button" class="btn btn-outline btn-sm" id="snakeLaunchDemoBtn">Mini-démo JS</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="snakeJsView" class="snake-view hidden">
                 <canvas id="snakeCanvas" tabindex="0" width="560" height="200" aria-label="Mini jeu Snake jouable au clavier dès appui sur Flèches, ZQSD ou Espace"></canvas>
                 <div class="sim-footer-bar">
                   <div class="snake-buttons">
                     <button type="button" class="btn btn-outline btn-sm btn-attention" id="snakeStartBtn">Jouer ou relancer</button>
                     <button type="button" class="btn btn-outline btn-sm" id="snakePauseBtn">Pause (P)</button>
+                    <button type="button" class="btn btn-outline btn-sm" id="snakeBackShowcaseBtn">◀ Vitrine</button>
                   </div>
 
                   <div class="snake-mobile-pad" aria-label="Contrôles directionnels du Snake">
@@ -427,7 +439,77 @@
             </div>
           </article>
 
-          <!-- PROJET 5 : LA DERNIÈRE BOUGIE (GDD + FSM + AUDIO 3 PHASES) -->
+          <!-- PROJET 5 : VALDORIA : ECHOES OF BETRAYAL (CONCEPT & GDD REMASTERED) -->
+          <article class="project-card" data-categories="gamedev">
+            <div class="project-top-strip">
+              <div class="project-head-group">
+                <h3>Valdoria : Echoes of Betrayal</h3>
+                <ul class="project-brief">
+                  <li><strong>Problème :</strong> Concevoir un action-aventure souls-like narratif qui subvertit le trope du guide spirituel avec une forte lisibilité audio/visuelle.</li>
+                  <li><strong>Solution :</strong> Système de combat à Endurance unique, 4 Postures liées au Masque d’Atherion (<em>Rhinocéros, Léopard Noir, Aigle Martial, Spectre</em>), Œil du Stratège, Runes Résonnantes diégétiques et 5 Barons + combat final adaptatif.</li>
+                  <li><strong>Rôle :</strong> Game Design Document complet (Édition Remasterisée), narration en 3 actes et direction artistique/systémique.</li>
+                </ul>
+              </div>
+              <div class="project-action-group">
+                <button type="button" class="btn btn-primary btn-sm btn-attention" id="openValdoriaGddBtn">Lire le GDD complet (Valdoria)</button>
+                <dl class="project-specs num">
+                  <div><dt>Genre</dt><dd>Action-Aventure · Souls-like</dd></div>
+                  <div><dt>Systèmes</dt><dd>4 Postures &amp; Runes Résonnantes</dd></div>
+                  <div><dt>Statut</dt><dd>Projet en réflexion</dd></div>
+                </dl>
+              </div>
+            </div>
+
+            <div class="project-sim valdoria-showcase">
+              <div class="sim-header">
+                <span class="sim-status num">Concept &amp; GDD Édition Remasterisée</span>
+                <span class="sim-status num">Statut : Projet en réflexion</span>
+              </div>
+
+              <div class="valdoria-stage">
+                <video class="valdoria-video" autoplay loop muted playsinline controls poster="assets/media/valdoria/jabari.jpg">
+                  <source src="assets/media/valdoria/Valdoria.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas la lecture de vidéos.
+                </video>
+                <span class="valdoria-status-pill num">Projet en réflexion · Concept &amp; GDD</span>
+              </div>
+
+              <div class="valdoria-gallery" role="region" aria-label="Visuels conceptuels de Valdoria (projet en réflexion)">
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/jabari.jpg" alt="Jabari — Héros de Valdoria" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Jabari (Héros)</figcaption>
+                </figure>
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/zaria.jpg" alt="Zaria — Héroïne de Valdoria" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Zaria (Héroïne)</figcaption>
+                </figure>
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/viktor.jpg?v=20261119j" alt="Viktor, le Maréchal d'Acier" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Viktor · Boss 1</figcaption>
+                </figure>
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/lyra.jpg?v=20261119i" alt="Iyalodé-Lyra, la Reine des Ombres" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Iyalodé-Lyra · Boss 2</figcaption>
+                </figure>
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/kalthia.jpg?v=20261119i" alt="Mère Kalthia, la Zélatrice d’Or" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Mère Kalthia · Boss 3</figcaption>
+                </figure>
+                <figure class="valdoria-art-card">
+                  <img src="assets/media/valdoria/malakor.jpg?v=20261119i" alt="Malakor, le Geôlier des Âmes" loading="lazy" />
+                  <span class="valdoria-art-badge num">Projet en réflexion</span>
+                  <figcaption>Malakor · Boss 4</figcaption>
+                </figure>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJET 6 : LA DERNIÈRE BOUGIE (GDD + FSM + AUDIO 3 PHASES) -->
           <article class="project-card" data-categories="gamedev 3d">
             <div class="project-top-strip">
               <div class="project-head-group">
@@ -560,7 +642,7 @@
             <div><dt>Spécialités</dt><dd>ESP32, KiCad, Godot, Game Design, Blender 3D</dd></div>
           </dl>
           <div class="datasheet-counters num">
-            <span><strong>5</strong> Projets interactifs</span>
+            <span><strong>6</strong> Projets interactifs &amp; concepts</span>
             <span><strong>3</strong> Modèles 3D .glb</span>
             <span><strong>3</strong> Démos jouables</span>
           </div>
@@ -749,6 +831,94 @@
     </div>
   </div>
 
+  <!-- MODALE GDD : VALDORIA : ECHOES OF BETRAYAL (REMASTERED) -->
+  <div class="modal-backdrop hidden" id="valdoriaGddModal" role="dialog" aria-modal="true" aria-labelledby="valdoriaGddTitle">
+    <div class="modal-dialog modal-dialog--wide">
+      <div class="modal-header">
+        <h3 id="valdoriaGddTitle">GDD Remasterisé : Valdoria — Echoes of Betrayal</h3>
+        <button type="button" class="modal-close" id="closeValdoriaGddBtn" aria-label="Fermer le GDD de Valdoria">Fermer</button>
+      </div>
+      <div class="modal-body gdd-content">
+        <div class="gdd-section">
+          <h4>1. Vision et Identité Ludonarrative</h4>
+          <p><strong>Le Concept :</strong> <em>Valdoria : Echoes of Betrayal</em> est un jeu d’action-aventure tendant vers le Souls-like, basé sur l’observation, la posture et une très forte composante audio. Le jeu subvertit le trope du « guide spirituel ».</p>
+          <ul>
+            <li><strong>Jabari ou Zaria (Héros au choix) :</strong> Anciens gardes d’élite fidèles au précédent Roi, se réveillant dans les ruines après le coup d’État. Design terreux et organique (cuir, bronze).</li>
+            <li><strong>L’Allié Énigmatique :</strong> Athérion, le puissant Mage de la Cour, feint de vous guider pour abattre les Barons rebelles tout en masquant ses véritables intentions.</li>
+            <li><strong>Le Masque d’Atherion :</strong> Masque entier en ivoire poli ou bronze gravé de runes africaines (inspiration Nsibidi / Adinkra), catalyseur de la magie du mage.</li>
+            <li><strong>L’Évolution Corrompue :</strong> Plus le joueur utilise la magie du guide, plus l’armure s’illumine de runes bleues et plus le monde passe des tons chauds (or, sang) au gris et bleu électrique.</li>
+          </ul>
+        </div>
+
+        <div class="gdd-section">
+          <h4>1-B. L’Arc du Héros — La Dette du Survivant</h4>
+          <blockquote class="gdd-quote">« Un garde qui a survécu sans le vouloir, qui suit un maître qu’il croit loyal, et qui découvre trop tard que sa fidélité était une arme dans les mains de quelqu’un d’autre. »</blockquote>
+          <ul>
+            <li><strong>Couche 1 — Le Devoir :</strong> Survivant seul dans les cendres après l’invasion de Kassa, le héros reprend les armes par devoir humain.</li>
+            <li><strong>Couche 2 — La Question sans réponse :</strong> « Pourquoi encore en vie ? » Atherion comble ce vide en exploitant son humanité.</li>
+            <li><strong>Couche 3 — La Réparation :</strong> Mort de Lyra, dernières paroles de Kassa, fausses cartes militaires… Devant le Masque, la motivation devient réparer ce qui peut encore l’être.</li>
+          </ul>
+          <table class="gdd-table">
+            <thead>
+              <tr><th>Acte</th><th>Zones</th><th>État intérieur</th><th>Ce qu’Atherion donne</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Acte 1 — Le Survivant</strong></td><td>Zone 1 → Boss Viktor</td><td>Désorienté, suit les ordres</td><td>Une direction, un sens à sa survie</td></tr>
+              <tr><td><strong>Acte 2 — Le Doute</strong></td><td>Zone 2 → Boss Kassa</td><td>Les certitudes se fissurent</td><td>Des victoires de plus en plus coûteuses</td></tr>
+              <tr><td><strong>Acte 3 — Le Choix</strong></td><td>Château Noir → Final</td><td>Tout est clair</td><td>Le Masque en main : une seconde pour choisir</td></tr>
+            </tbody>
+          </table>
+          <ul>
+            <li><strong>Fin 1 — La Soumission :</strong> Le héros remet le masque par épuisement ; l’ordre absolu fige le monde dans un hiver éternel de cristal.</li>
+            <li><strong>Fin 2 — La Révolte :</strong> Le héros rejette et brise le masque, pose son épée dans le sable et marche libre vers un horizon inconnu.</li>
+          </ul>
+        </div>
+
+        <div class="gdd-section">
+          <h4>2. Le Système de Combat (Le Flow)</h4>
+          <p>Repose sur trois piliers : <strong>Endurance unique, Postures et Œil du Stratège</strong>.</p>
+          <ul>
+            <li><strong>Arsenal fixe (3 armes à la volée) :</strong> <em>Épée Courbe Royale</em> (combos rythmés), <em>Chaînes d’Entraves</em> (contrôle de zone à mi-distance), <em>Éclats de Miroir</em> (dagues jumelles d’ombre rapides avec lancer à munitions infinies).</li>
+            <li><strong>Jauge d’Endurance unique :</strong> Toute action et toute magie puise dans l’endurance ; tomber à zéro déclenche une Vulnérabilité (stagger) punitive.</li>
+            <li><strong>4 Postures (Double-État du Masque, transition 0.2 s) :</strong> <strong>Rhinocéros</strong> (garde &amp; résistance), <strong>Léopard Noir</strong> (esquives rapides), <strong>Aigle Martial</strong> (analyse &amp; Œil du Stratège), <strong>Spectre</strong> (invisibilité &amp; clones de fumée après Lyra, seule magie hors du contrôle d’Atherion).</li>
+            <li><strong>L’Œil du Stratège :</strong> Maintenir l’Aigle Martial charge une Jauge d’Analyse, ralentit le temps et révèle un Point Critique qui brise les animations ennemies (le sur-usage sature l’UI de murmures runiques).</li>
+          </ul>
+        </div>
+
+        <div class="gdd-section">
+          <h4>3. Accessibilité, Runes Résonnantes &amp; Progression</h4>
+          <ul>
+            <li><strong>Pacing :</strong> Zone 1 débloque Rhinocéros, Léopard Noir et Aigle Martial ; Zone 2 approfondit la maîtrise audio ; Post-Boss 2 (Lyra) débloque Spectre.</li>
+            <li><strong>Runes Résonnantes (accessibilité audio/visuelle diégétique) :</strong> Les runes sur l’armure agissent comme un radar spatial 3D (directionnalité par côté, flash blanc/cyan pour les timings de parade, textures visuelles lourdes ou grésillantes). Désactivable en Mode Puriste.</li>
+            <li><strong>Économie &amp; Arbre des Postures :</strong> Les <em>Éclats de Mémoire</em> débloquent de nouveaux combos (ex. <em>Charge Sismique du Rhinocéros</em>, <em>Griffure Éclair du Léopard Noir</em>).</li>
+          </ul>
+        </div>
+
+        <div class="gdd-section">
+          <h4>4. Le Bestiaire &amp; les 5 Boss (Design Remasterisé)</h4>
+          <ul>
+            <li><strong>Boss 1 — Viktor, le Maréchal d’Acier :</strong> Surchauffe de l’armure ; attendre la vapeur pour activer l’Œil du Stratège sur ses défauts de cuirasse.</li>
+            <li><strong>Boss 2 — Iyalodé-Lyra, la Reine des Ombres :</strong> Arène de miroirs et brume corrompue inversant les commandes pendant 5 s ; confère la Posture du Spectre.</li>
+            <li><strong>Boss 3 — Mère Kalthia, la Zélatrice d’Or :</strong> Piliers de lumière solaire surchauffant l’armure ; utiliser la furtivité du Spectre pour sauter d’ombre en ombre.</li>
+            <li><strong>Boss 4 — Malakor, le Geôlier des Âmes :</strong> Gravité altérée triplant le coût des esquives + ombre du héros imitant ses attaques avec 2 s de retard ; privilégier la Posture Rhinocéros.</li>
+            <li><strong>Boss 5 — Mansa-Kassa, l’Usurpateur de Sang :</strong> Frappes brise-garde et vagues de soldats-fantômes ; coopération organique avec le jumeau IA (rempart Rhinocéros + Chaîne d’Entrave) pour placer un contre Aigle Martial.</li>
+          </ul>
+        </div>
+
+        <div class="gdd-section">
+          <h4>5. Climax : Atherion, le Mage Traître (Protocole Miroir)</h4>
+          <p>Combat final en 3 phases (<em>Spectres résiduels</em>, <em>Maître de Cristal</em>, <em>L’Éclatement</em>) piloté par une <strong>IA à Triggers Comportementaux</strong> qui oblige le joueur à alterner les 4 postures :</p>
+          <ul>
+            <li><strong>Trigger Spam Esquive :</strong> &gt; 3 esquives Léopard Noir en 4 s → piège de zone électrique inesquivable.</li>
+            <li><strong>Trigger Spam Défense :</strong> Garde Rhinocéros &gt; 5 s sans attaquer → « Sunder » brise-garde destructeur.</li>
+            <li><strong>Trigger Spam Ombre :</strong> Dissimulation Spectre prolongée → inversion du contraste de la salle (aveuglement blanc).</li>
+          </ul>
+          <p><em>Bruit final : celui d’une cathédrale de verre qui s’effondre. Le premier chant d’oiseau de l’aventure retentit.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODALE CV A4 IMPRIMABLE -->
   <div class="modal-backdrop hidden" id="cvModal" role="dialog" aria-modal="true" aria-labelledby="cvModalTitle">
     <div class="modal-dialog modal-dialog--cv">
@@ -924,6 +1094,24 @@
     </div>
   </div>
 
+  <!-- FENÊTRE D'AGRANDISSEMENT D'IMAGES (LIGHTBOX) -->
+  <div class="modal-backdrop hidden" id="imageLightboxModal" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="modal-dialog modal-dialog--lightbox">
+      <div class="modal-bar">
+        <span class="modal-title num" id="lightboxTitle">Aperçu image</span>
+        <div class="game-window-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="lightboxPrevBtn" aria-label="Image précédente">◀ Préc.</button>
+          <button type="button" class="btn btn-outline btn-sm" id="lightboxNextBtn" aria-label="Image suivante">Suiv. ▶</button>
+          <button type="button" class="modal-close game-window-close" id="closeLightboxBtn" aria-label="Fermer l’aperçu">✕</button>
+        </div>
+      </div>
+      <div class="lightbox-stage">
+        <span class="valdoria-status-pill num hidden" id="lightboxBadge">Projet en réflexion</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="" />
+      </div>
+    </div>
+  </div>
+
   <!-- JOURNAL DES MISSIONS (GAMIFICATION) -->
   <div class="modal-backdrop hidden" id="questModal" role="dialog" aria-modal="true" aria-labelledby="questModalTitle">
     <div class="modal-dialog modal-dialog--cmd">
@@ -967,6 +1155,6 @@
 
   <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="app.js?v=20261119d"></script>
+  <script src="app.js?v=20261119k"></script>
 </body>
 </html>
