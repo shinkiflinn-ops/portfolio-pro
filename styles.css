@@ -2884,13 +2884,13 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-sidebar {
-  background: #1a1512;
-  color: #f4eee6;
+  background: #0b1326;
+  color: #eef4ff;
   padding: 22px 18px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-right: 2px solid #d98a2b;
+  border-right: 2px solid #5c83be;
 }
 
 .cv-side-block h2 {
@@ -2898,8 +2898,8 @@ body.is-clock-centered .hyrule-umbra-clock {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #f0b35e;
-  border-bottom: 1px solid rgba(240, 179, 94, 0.45);
+  color: #cfe2ff;
+  border-bottom: 1px solid rgba(207, 226, 255, 0.35);
   padding-bottom: 4px;
   margin: 0 0 8px 0;
 }
@@ -2912,7 +2912,7 @@ body.is-clock-centered .hyrule-umbra-clock {
   flex-direction: column;
   gap: 6px;
   font-size: 12.4px;
-  color: #ede6dc;
+  color: #dce8fa;
 }
 
 .cv-side-links li {
@@ -2925,7 +2925,7 @@ body.is-clock-centered .hyrule-umbra-clock {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #f5c469;
+  color: #bcd7ff;
   text-decoration: none;
   font-weight: 500;
 }
@@ -2938,7 +2938,7 @@ body.is-clock-centered .hyrule-umbra-clock {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: #f0b35e;
+  color: #cfe2ff;
 }
 
 .cv-side-bullets {
@@ -2960,7 +2960,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-main-head {
-  border-bottom: 3px solid #1a1512;
+  border-bottom: 3px solid #0b1326;
   padding-bottom: 10px;
 }
 
@@ -2970,14 +2970,14 @@ body.is-clock-centered .hyrule-umbra-clock {
   font-weight: 700;
   text-transform: none;
   letter-spacing: -0.01em;
-  color: #b86c19;
+  color: #1f447a;
   margin: 0 0 4px 0;
 }
 
 .cv-main-head .cv-role {
   font-size: 15.5px;
   font-weight: 600;
-  color: #1a1512;
+  color: #0b1326;
   margin: 0;
 }
 
@@ -2985,15 +2985,15 @@ body.is-clock-centered .hyrule-umbra-clock {
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;
-  color: #1a1512;
-  border-bottom: 1.5px solid #c9822c;
+  color: #0b1326;
+  border-bottom: 1.5px solid #4d74ae;
   padding-bottom: 3px;
   margin: 0 0 8px 0;
 }
 
 .cv-main-sec p {
   font-size: 13px;
-  color: #24201c;
+  color: #1e293b;
   margin: 0;
 }
 
@@ -3010,7 +3010,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 }
 
 .cv-badge {
-  background: #9c560d;
+  background: #1f447a;
   color: #ffffff;
   font-size: 11px;
   padding: 2px 8px;
