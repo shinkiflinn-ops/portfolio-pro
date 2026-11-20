@@ -402,7 +402,7 @@
   }
 
   const missionsDone = new Set();
-  const TOTAL_MISSIONS = 5;
+  const TOTAL_MISSIONS = 6;
 
   function getQuestRank(count) {
     if (count >= TOTAL_MISSIONS) return 'Maître d’Hyrule';
@@ -3198,7 +3198,13 @@
     };
 
     bindOpen('openGddModalBtn', gddModal);
-    bindOpen('openValdoriaGddBtn', valdoriaGddModal);
+    const valdoriaBtn = document.getElementById('openValdoriaGddBtn');
+    if (valdoriaBtn) {
+      valdoriaBtn.addEventListener('click', () => {
+        openModal(valdoriaGddModal);
+        completeMission('valdoria', 'Univers Valdoria (GDD Remasterisé)');
+      });
+    }
     bindOpen('openCvBtn', cvModal);
     bindOpen('heroCvBtn', cvModal);
     bindOpen('footerCvBtn', cvModal);
@@ -3590,7 +3596,15 @@
   function initClockPreloader() {
     const preloader = document.getElementById('clockPreloader');
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const minDuration = reduced ? 200 : 4000;
+    let seenBefore = false;
+    try {
+      seenBefore = window.sessionStorage.getItem('jma_preloader_seen') === '1';
+      window.sessionStorage.setItem('jma_preloader_seen', '1');
+    } catch {
+      seenBefore = false;
+    }
+    if (seenBefore && preloader) preloader.classList.add('is-fast');
+    const minDuration = reduced ? 180 : (seenBefore ? 450 : 4000);
     const startTime = performance.now();
     let done = false;
 
@@ -3913,20 +3927,20 @@
                 const card = entry.target;
                 if (card.dataset.summoning === '1') return;
                 if (entry.isIntersecting) {
-                  // Réaffichage fluide si on remonte depuis le bas ou si la carte est déjà bien visible dans le champ
+                  // Réaffichage rapide si on remonte depuis le bas ou si la carte est déjà bien visible dans le champ
                   if (card.dataset.summoned !== '1' && (entry.boundingClientRect.top < (window.innerHeight || 800) * 0.25 || entry.intersectionRatio >= 0.35)) {
                     card.dataset.summoned = '1';
                     card.classList.add('is-summoned');
-                    gsap.to(card, { opacity: 1, scale: 1, duration: 0.36, ease: 'power2.out', overwrite: 'auto' });
+                    gsap.to(card, { opacity: 1, scale: 1, duration: 0.22, ease: 'power2.out', overwrite: 'auto' });
                   }
                 } else if (card.dataset.summoned === '1') {
                   card.dataset.summoned = '0';
                   card.classList.remove('is-summoned');
-                  gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.28, ease: 'power2.in', overwrite: 'auto' });
+                  gsap.to(card, { opacity: 0, scale: 0.95, duration: 0.24, ease: 'power2.in', overwrite: 'auto' });
                 }
               });
             },
-            { threshold: [0.02, 0.36] }
+            { threshold: [0.01, 0.35], rootMargin: '60px 0px 60px 0px' }
           );
           zones.forEach(({ card }) => cardVisObserver.observe(card));
         }
@@ -4009,14 +4023,28 @@
 
     let mouseX = 0;
     let mouseY = 0;
+    let pointerClientX = -9999;
+    let pointerClientY = -9999;
+    let leoHovering = false;
+    let leoFlashUntil = 0;
     window.addEventListener(
       'mousemove',
       (e) => {
+        pointerClientX = e.clientX;
+        pointerClientY = e.clientY;
         mouseX = (e.clientX / Math.max(1, w) - 0.5) * 2;
         mouseY = (e.clientY / Math.max(1, h) - 0.5) * 2;
       },
       { passive: true }
     );
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('button, a, input, canvas, .modal-dialog')) return;
+      if (leoHovering) {
+        leoFlashUntil = performance.now() + 1200;
+        playSfx('score');
+        showToast('✦ Constellation du Lion · Étoile Regulus (α Leonis)');
+      }
+    });
 
     // Couleur uniforme synchronisée avec la palette active
     const spriteCache = new Map();
@@ -4234,10 +4262,15 @@
         });
 
         // Lignes lumineuses de la constellation
+        const leoHit = leoProjected.some((p) => Math.hypot(pointerClientX - p.sx, pointerClientY - p.sy) < 34);
+        leoHovering = leoHit;
+        const leoFlash = now < leoFlashUntil ? 1 : 0;
+        const leoBoost = leoFlash ? 1.35 : (leoHit ? 1.2 : 1);
+
         ctx.save();
         ctx.strokeStyle = pal.accent || '#d4e5ff';
-        ctx.globalAlpha = 0.68;
-        ctx.lineWidth = 1.65;
+        ctx.globalAlpha = Math.min(1, 0.68 * leoBoost);
+        ctx.lineWidth = leoFlash ? 2.2 : (leoHit ? 2.0 : 1.65);
         ctx.beginPath();
         LEO_EDGES.forEach(([aIdx, bIdx]) => {
           const a = leoProjected[aIdx];
@@ -4401,7 +4434,10 @@
 
     const valdoriaImgs = Array.from(document.querySelectorAll('.valdoria-art-card img'));
     valdoriaImgs.forEach((im, idx) => {
-      im.addEventListener('click', () => openLightbox(valdoriaImgs, idx));
+      im.addEventListener('click', () => {
+        openLightbox(valdoriaImgs, idx);
+        completeMission('valdoria', 'Univers Valdoria (GDD / Galerie)');
+      });
     });
 
     const singleImgs = Array.from(document.querySelectorAll('.rover-real-photo, .snake-showcase-img'));

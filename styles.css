@@ -3171,6 +3171,10 @@ body.is-loading footer {
   animation: clockLoaderWait 4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.clock-preloader.is-fast .clock-preloader-bar span {
+  animation-duration: 450ms;
+}
+
 /* =========================================================
    APPARITION PROGRESSIVE AU DÉFILEMENT
    ========================================================= */

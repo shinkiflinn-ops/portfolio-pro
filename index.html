@@ -37,7 +37,7 @@
     @keyframes preloaderSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes clockLoaderWait { 0% { transform: scaleX(0.05); } 60% { transform: scaleX(0.75); } 100% { transform: scaleX(0.92); } }
   </style>
-  <link rel="stylesheet" href="styles.css?v=20261120b" />
+  <link rel="stylesheet" href="styles.css?v=20261120c" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" async></script>
@@ -96,7 +96,7 @@
         <button type="button" class="btn btn-outline btn-sm" id="soundToggleBtn" aria-pressed="false">Son : Off</button>
         <button type="button" class="btn btn-outline btn-sm" id="nextTrackBtn" title="Changer de piste Zelda">Piste ⏭</button>
         <button type="button" class="btn btn-outline btn-sm" id="debugToggleBtn" aria-pressed="false" title="Afficher le HUD technique (F3)">F3 HUD</button>
-        <button type="button" class="quest-hud num" id="questCounterBadge" title="Ouvrir le journal des missions">Missions : 0/5 · 0 XP</button>
+        <button type="button" class="quest-hud num" id="questCounterBadge" title="Ouvrir le journal des missions">Missions : 0/6 · 0 XP</button>
         <button type="button" class="btn btn-outline btn-sm" id="openCvBtn">Aperçu CV</button>
         <button type="button" class="btn btn-outline btn-sm" id="openCmdBtn" title="Palette rapide (Ctrl + K)">Commandes</button>
       </div>
@@ -1121,14 +1121,15 @@
       </div>
       <div class="quest-panel">
         <div class="quest-xp-row num">
-          <span id="questXpText">0 / 500 XP</span>
+          <span id="questXpText">0 / 600 XP</span>
           <div class="quest-xp-bar"><span id="questXpFill"></span></div>
         </div>
         <ul class="quest-list" id="questList">
           <li><button type="button" class="quest-item" data-quest="rover" data-target="#projets"><span>Piloter le Robot ESP32 (clavier ou GPS)</span><strong class="num">+100 XP</strong></button></li>
           <li><button type="button" class="quest-item" data-quest="home" data-target="#projets"><span>Tester la Maison intelligente Blynk</span><strong class="num">+100 XP</strong></button></li>
-          <li><button type="button" class="quest-item" data-quest="bougie" data-target="#heroArena"><span>Jouer à La Dernière Bougie</span><strong class="num">+100 XP</strong></button></li>
           <li><button type="button" class="quest-item" data-quest="runner" data-target="#runnerJsArena"><span>Lancer Ninja Run (Godot) ou Snake</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="valdoria" data-target="#openValdoriaGddBtn"><span>Explorer Valdoria (GDD ou galerie)</span><strong class="num">+100 XP</strong></button></li>
+          <li><button type="button" class="quest-item" data-quest="bougie" data-target="#heroArena"><span>Jouer à La Dernière Bougie</span><strong class="num">+100 XP</strong></button></li>
           <li><button type="button" class="quest-item" data-quest="lab3d" data-target="#lab3d"><span>Inspecter un modèle 3D dans l’Atelier</span><strong class="num">+100 XP</strong></button></li>
         </ul>
       </div>
@@ -1155,6 +1156,6 @@
 
   <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="app.js?v=20261119k"></script>
+  <script src="app.js?v=20261120c"></script>
 </body>
 </html>
