@@ -2115,14 +2115,19 @@ input[type="range"] {
   .cv-sheet--two-col {
     display: grid !important;
     grid-template-columns: 33% 67% !important;
+    align-items: stretch !important;
     width: 100% !important;
-    min-height: 280mm;
+    min-height: 285mm !important;
+    background: linear-gradient(90deg, #0b1326 0 33%, #ffffff 33% 100%) !important;
     padding: 0 !important;
     font-size: 12.2px !important;
     line-height: 1.38 !important;
   }
 
   .cv-sidebar {
+    height: 100% !important;
+    min-height: 285mm !important;
+    align-self: stretch !important;
     padding: 14px 13px !important;
     gap: 11px !important;
   }
@@ -2873,8 +2878,9 @@ body.is-clock-centered .hyrule-umbra-clock {
 .cv-sheet--two-col {
   display: grid;
   grid-template-columns: 34% 66%;
+  align-items: stretch;
   padding: 0;
-  background: #ffffff;
+  background: linear-gradient(90deg, #0b1326 0 34%, #ffffff 34% 100%);
   color: #16222c;
   font-family: var(--font-body);
   font-size: 13.5px;
@@ -2886,6 +2892,8 @@ body.is-clock-centered .hyrule-umbra-clock {
 .cv-sidebar {
   background: #0b1326;
   color: #eef4ff;
+  height: 100%;
+  align-self: stretch;
   padding: 22px 18px;
   display: flex;
   flex-direction: column;
@@ -3038,6 +3046,7 @@ body.is-clock-centered .hyrule-umbra-clock {
 @media (max-width: 48rem) {
   .cv-sheet--two-col {
     grid-template-columns: 1fr;
+    background: #ffffff;
   }
 }
 
