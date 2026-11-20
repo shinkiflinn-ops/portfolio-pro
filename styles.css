@@ -2060,7 +2060,7 @@ input[type="range"] {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 6mm;
+    margin: 0;
   }
 
   * {
@@ -2077,12 +2077,17 @@ input[type="range"] {
     padding: 0 !important;
   }
 
+  body > :not(#cvModal),
   .clock-preloader,
   .navbar,
   main,
   footer,
   #debugHud,
   #gddModal,
+  #valdoriaGddModal,
+  #imageLightboxModal,
+  #gameWindowModal,
+  #questModal,
   #cmdModal,
   #toast,
   .no-print {
@@ -2117,7 +2122,7 @@ input[type="range"] {
     grid-template-columns: 33% 67% !important;
     align-items: stretch !important;
     width: 100% !important;
-    min-height: 285mm !important;
+    min-height: 297mm !important;
     background: linear-gradient(90deg, #0b1326 0 33%, #ffffff 33% 100%) !important;
     padding: 0 !important;
     font-size: 12.2px !important;
@@ -2126,9 +2131,9 @@ input[type="range"] {
 
   .cv-sidebar {
     height: 100% !important;
-    min-height: 285mm !important;
+    min-height: 297mm !important;
     align-self: stretch !important;
-    padding: 14px 13px !important;
+    padding: 14mm 5mm 12mm 6mm !important;
     gap: 11px !important;
   }
 
@@ -2142,7 +2147,7 @@ input[type="range"] {
   }
 
   .cv-main {
-    padding: 16px 18px !important;
+    padding: 14mm 8mm 12mm 8mm !important;
     gap: 9px !important;
   }
 
