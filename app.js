@@ -340,6 +340,10 @@
       if (!target) return;
       if (target.id === 'lightboxPrevBtn' || target.id === 'lightboxNextBtn') return;
       if (target.disabled || target.getAttribute('aria-disabled') === 'true') return;
+      if (target.matches('.modal-close, [data-close], [data-dismiss], [id^="close"], [id^="exit"], [id^="quit"]')) return;
+      if (target.getAttribute('aria-expanded') === 'true') return;
+      const label = `${target.getAttribute('aria-label') || ''} ${target.textContent || ''}`.trim();
+      if (/^(?:✕|×|fermer|quitter|sortir|échap|close|exit)\b/i.test(label)) return;
       playBotwClick();
     }, true);
   }
