@@ -944,15 +944,15 @@ body.has-gsap-summon #projets .project-card:not(.is-summoned) {
 }
 
 /* FENÊTRE DE JEU GODOT (AVEC CROIX POUR QUITTER) */
-.modal-dialog--game {
-  width: min(760px, 86vw);
+.modal-dialog.modal-dialog--game {
+  width: min(680px, 84vw);
   max-width: 94vw;
   background: var(--color-paper);
   border: var(--rule-hair) solid var(--color-accent);
   transition: width 240ms var(--ease-out), max-width 240ms var(--ease-out);
 }
 
-.modal-dialog--game.is-expanded {
+.modal-dialog.modal-dialog--game.is-expanded {
   width: 94vw;
   max-width: 94vw;
 }
